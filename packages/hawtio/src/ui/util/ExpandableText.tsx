@@ -304,5 +304,6 @@ export const ExpandableText: React.FunctionComponent<{ children: React.ReactNode
       </ExpandableSection>
     )
   }
-  return children
+
+  return <React.Fragment>{children}</React.Fragment>
 }

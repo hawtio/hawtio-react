@@ -14,7 +14,7 @@ import {
 } from '@patternfly/react-core'
 import { Modal, ModalVariant } from '@patternfly/react-core/deprecated'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom-v5-compat'
 import { preferencesService } from './preferences-service'
 
 export const HomePreferences: React.FunctionComponent = () => {
