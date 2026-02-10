@@ -1046,7 +1046,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:^16.3.2"
     "@testing-library/user-event": "npm:^14.6.1"
-    "@thumbmarkjs/thumbmarkjs": "npm:^1.6.4"
+    "@thumbmarkjs/thumbmarkjs": "npm:^1.7.0"
     "@types/dagre": "npm:^0.7.53"
     "@types/jest": "npm:^30.0.0"
     "@types/node": "npm:^25.2.0"
@@ -2444,10 +2444,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@thumbmarkjs/thumbmarkjs@npm:^1.6.4":
-  version: 1.6.4
-  resolution: "@thumbmarkjs/thumbmarkjs@npm:1.6.4"
-  checksum: 10/e509604e77fd46d2b5917b2d5ce8251a61fc26115de67e12f3fc0c12ed64b32d4404a05f3a96458f8bfd432f2bdfec3832356f3487944412900204522e4ee10a
+"@thumbmarkjs/thumbmarkjs@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@thumbmarkjs/thumbmarkjs@npm:1.7.0"
+  checksum: 10/a011f9ee7797233455d80bce02d696052a082b5e581d8cffdbbbfd10c0c10a23b71183c96668cff9afa98f14445a10b8ebb98001c6f6b423510f6ed47a5dd329
   languageName: node
   linkType: hard
 
