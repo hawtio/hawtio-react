@@ -74,7 +74,7 @@
     "reactflow": "^11.11.4",
     "superstruct": "^2.0.2",
     "victory": "^37.3.6",
-    "xml-formatter": "^3.6.7"
+    "xml-formatter": "^3.7.0"
   },
   "devDependencies": {
     "@patternfly/react-charts": "^8.4.0",
