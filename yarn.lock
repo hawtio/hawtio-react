@@ -981,7 +981,7 @@ __metadata:
     "@types/jest": "npm:^30.0.0"
     "@types/node": "npm:^25.5.0"
     axios: "npm:^1.13.6"
-    commit-and-tag-version: "npm:^12.6.1"
+    commit-and-tag-version: "npm:^12.7.1"
     concurrently: "npm:^9.2.1"
     express: "npm:^5.2.1"
     jest: "npm:^30.3.0"
@@ -1053,7 +1053,7 @@ __metadata:
     "@types/react": "npm:^18.3.27"
     "@types/react-dom": "npm:^18.3.7"
     "@types/react-router-dom": "npm:^5.3.3"
-    commit-and-tag-version: "npm:^12.6.1"
+    commit-and-tag-version: "npm:^12.7.1"
     dagre: "npm:^0.8.5"
     dompurify: "npm:^3.3.3"
     eventemitter3: "npm:^5.0.4"
@@ -5196,9 +5196,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commit-and-tag-version@npm:^12.6.1":
-  version: 12.6.1
-  resolution: "commit-and-tag-version@npm:12.6.1"
+"commit-and-tag-version@npm:^12.7.1":
+  version: 12.7.1
+  resolution: "commit-and-tag-version@npm:12.7.1"
   dependencies:
     chalk: "npm:^2.4.2"
     conventional-changelog: "npm:4.0.0"
@@ -5208,7 +5208,7 @@ __metadata:
     detect-indent: "npm:^6.1.0"
     detect-newline: "npm:^3.1.0"
     dotgitignore: "npm:^2.1.0"
-    fast-xml-parser: "npm:^5.2.5"
+    fast-xml-parser: "npm:^5.5.6"
     figures: "npm:^3.2.0"
     find-up: "npm:^5.0.0"
     git-semver-tags: "npm:^5.0.1"
@@ -5217,7 +5217,7 @@ __metadata:
     yargs: "npm:^17.7.2"
   bin:
     commit-and-tag-version: bin/cli.js
-  checksum: 10/a7fc46f4e9b50a9071986ea7743839af7a73609bcecbb73ba3a2de15dd2d89f10174a05e8e1af2ffa1a435acf11093589d338e73408def6705278a6f8d7c91b3
+  checksum: 10/6458ba7468afb684bc50717f97a240efc3c827b06e19531e0b924e74794bc9dcda6f02a88bce40ecba7806e195ca7dc046a8856da3f0895b85d1bb96d18d2fc8
   languageName: node
   linkType: hard
 
@@ -7266,7 +7266,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^5.2.5":
+"fast-xml-parser@npm:^5.5.6":
   version: 5.5.6
   resolution: "fast-xml-parser@npm:5.5.6"
   dependencies:
