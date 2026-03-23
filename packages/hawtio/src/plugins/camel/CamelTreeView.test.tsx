@@ -12,13 +12,15 @@ const routesXmlPath = path.resolve(__dirname, 'testdata', 'camel-sample-app-rout
 const sampleRoutesXml = fs.readFileSync(routesXmlPath, { encoding: 'utf8', flag: 'r' })
 
 /**
- * Mock out useNavigate() and useLocation() to allow the tests to work
+ * Mock out the useHistory() to allow the tests to work
  */
-const mockedUsedNavigate = jest.fn()
-jest.mock('react-router-dom-v5-compat', () => ({
+
+const mockedUsedRedirect = jest.fn()
+const mockedUseLocation = jest.fn()
+jest.mock('react-router-dom', () => ({
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  ...(jest.requireActual('react-router-dom-v5-compat') as any),
-  useNavigate: () => mockedUsedNavigate,
+  ...(jest.requireActual('react-router-dom') as any),
+  useHistory: () => mockedUsedRedirect,
   useLocation: () => mockedUseLocation,
 }))
 

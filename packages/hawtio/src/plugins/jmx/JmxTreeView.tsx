@@ -1,7 +1,7 @@
 import { MBeanNode, MBeanTree, PluginTreeViewToolbar } from '@hawtiosrc/plugins/shared'
 import { TreeView, TreeViewDataItem } from '@patternfly/react-core'
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom-v5-compat'
+import { useHistory } from 'react-router-dom' // includes NavLink
 import './JmxTreeView.css'
 import { MBeanTreeContext, pluginPathWithNodeId } from './context'
 
@@ -29,7 +29,7 @@ export const JmxTreeView: React.FunctionComponent = () => {
   const { tree, selectedNode, setSelectedNode } = useContext(MBeanTreeContext)
   const [expanded, setExpanded] = useState(ExpansionValue.Default)
   const [filteredTree, setFilteredTree] = useState(tree.getTree())
-  const navigate = useNavigate()
+  const navigate = useHistory()
 
   /**
    * Listen for changes to the tree that may occur as a result
@@ -60,7 +60,7 @@ export const JmxTreeView: React.FunctionComponent = () => {
   const onSelect = (event: React.MouseEvent<Element, MouseEvent>, item: TreeViewDataItem) => {
     const node = item as MBeanNode
     setSelectedNode(node)
-    navigate(pluginPathWithNodeId(node))
+    navigate.push(pluginPathWithNodeId(node))
   }
 
   const setAllExpanded = (value: boolean) => {

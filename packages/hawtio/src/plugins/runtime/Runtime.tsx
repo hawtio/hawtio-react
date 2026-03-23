@@ -1,10 +1,12 @@
 import { Nav, NavItem, NavList, PageGroup, PageSection, Title } from '@patternfly/react-core'
 import React from 'react'
-import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom-v5-compat'
+import { NavLink, Redirect, Route, Switch, useLocation } from 'react-router-dom' // includes NavLink
 import { Metrics } from './Metrics'
 import './Runtime.css'
 import { SysProps } from './SysProps'
 import { Threads } from './Threads'
+import { pluginPath } from './globals'
+import { hawtio } from '@hawtiosrc/core'
 
 type NavItem = {
   id: string
@@ -30,8 +32,8 @@ export const Runtime: React.FunctionComponent = () => {
           <Nav aria-label='Runtime Nav' variant='horizontal-subnav'>
             <NavList>
               {navItems.map(({ id, title }) => (
-                <NavItem key={id} isActive={pathname === `/runtime/${id}`}>
-                  <NavLink to={{ pathname: id, search }}>{title}</NavLink>
+                <NavItem key={id} isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, id)}>
+                  <NavLink to={{ pathname: hawtio.fullPath(pluginPath, id), search }}>{title}</NavLink>
                 </NavItem>
               ))}
             </NavList>
@@ -39,12 +41,16 @@ export const Runtime: React.FunctionComponent = () => {
         </PageSection>
       </PageGroup>
       <PageSection padding={{ default: 'noPadding' }} hasBodyWrapper={false}>
-        <Routes>
+        <Switch>
           {navItems.map(({ id, component }) => (
-            <Route key={id} path={id} element={component} />
+            <Route key={id} path={hawtio.fullPath(pluginPath, id)}>
+              {component}
+            </Route>
           ))}
-          <Route path='/' element={<Navigate to={{ pathname: 'sysprops', search }} />} />
-        </Routes>
+          <Route path={hawtio.fullPath(pluginPath)}>
+            <Redirect to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search }} />
+          </Route>
+        </Switch>
       </PageSection>
     </React.Fragment>
   )

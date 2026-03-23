@@ -1,9 +1,9 @@
-import { EVENT_REFRESH, eventService } from '@hawtiosrc/core'
+import { EVENT_REFRESH, eventService, hawtio } from '@hawtiosrc/core'
 import { PluginNodeSelectionContext } from '@hawtiosrc/plugins'
 import { MBeanNode, MBeanTree, workspace } from '@hawtiosrc/plugins/shared'
 import { type TreeViewDataItem } from '@patternfly/react-core'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat'
+import { useHistory, useLocation } from 'react-router-dom' // includes NavLink
 import * as camelService from './camel-service'
 import { jmxDomain, pluginName, pluginPath } from './globals'
 
@@ -15,7 +15,7 @@ export function useCamelTree() {
   const [loaded, setLoaded] = useState(false)
   const { selectedNode, setSelectedNode } = useContext(PluginNodeSelectionContext)
   const { pathname, search } = useLocation()
-  const navigate = useNavigate()
+  const navigate = useHistory()
 
   /*
    * Need to preserve the selected node between re-renders since the
@@ -89,13 +89,13 @@ export function useCamelTree() {
 
       // On population of tree, ensure the url path is returned to the base plugin path.
       // If the location is already in the Camel plugin, skip navigation.
-      if (!pathname.startsWith(pluginPath)) {
-        navigate(`${pluginPath}${search}`)
+      if (!pathname.startsWith(hawtio.fullPath(pluginPath))) {
+        navigate.push(`${hawtio.fullPath(pluginPath)}${search}`)
       }
     } else {
       setTree(wkspTree)
       // No camel contexts so redirect to the JMX view and select the first tree node
-      navigate(`/jmx${search}`)
+      navigate.push(`${hawtio.fullPath('jmx')}${search}`)
       eventService.notify({
         type: 'warning',
         message: 'No Camel domain detected in target. Redirecting to back to jmx.',

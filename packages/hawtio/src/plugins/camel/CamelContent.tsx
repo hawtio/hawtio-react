@@ -1,10 +1,10 @@
-import { eventService } from '@hawtiosrc/core'
+import { eventService, hawtio } from '@hawtiosrc/core'
 import { AttributeValues, Attributes, Chart, JmxContentMBeans, MBeanNode, Operations } from '@hawtiosrc/plugins/shared'
 import { Content, EmptyState, Nav, NavItem, NavList, PageGroup, PageSection, Title } from '@patternfly/react-core'
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import Jolokia, { JolokiaErrorResponse, JolokiaFetchErrorResponse, JolokiaSuccessResponse } from 'jolokia.js'
 import React, { useContext, useEffect, useState } from 'react'
-import { NavLink, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom-v5-compat'
+import { NavLink, Redirect, Route, Switch, useLocation, useHistory } from 'react-router-dom' // includes NavLink
 import './CamelContent.css'
 import * as camelService from './camel-service'
 import { CamelContext } from './context'
@@ -27,6 +27,7 @@ import { CamelRoutes } from './routes/CamelRoutes'
 import { Source } from './routes/Source'
 import { Trace } from './trace'
 import { TypeConverters } from './type-converters'
+import { NODE_ID_ROOT, NODE_ID_TEMPLATE, ROOT } from '@hawtiosrc/RouteConstants'
 
 type NavItem = {
   id: string
@@ -118,15 +119,24 @@ export const CamelContent: React.FunctionComponent = () => {
     <Nav aria-label='Camel Nav' variant='horizontal-subnav'>
       <NavList>
         {navItems.map(nav => (
-          <NavItem key={nav.id} isActive={pathname === `${pluginPath}/${nav.id}`}>
-            <NavLink to={{ pathname: nav.id, search }}>{nav.title}</NavLink>
+          <NavItem
+            key={nav.id}
+            isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, NODE_ID_TEMPLATE, nav.id)}
+          >
+            <NavLink to={{ pathname: hawtio.fullPath(pluginPath, NODE_ID_TEMPLATE, nav.id), search }}>
+              {nav.title}
+            </NavLink>
           </NavItem>
         ))}
       </NavList>
     </Nav>
   )
 
-  const camelNavRoutes = navItems.map(nav => <Route key={nav.id} path={nav.id} element={nav.component} />)
+  const camelNavRoutes = navItems.map(nav => (
+    <Route key={nav.id} path={hawtio.fullPath(pluginPath, NODE_ID_TEMPLATE, nav.id)}>
+      {nav.component}
+    </Route>
+  ))
 
   return (
     <PageGroup id='camel-content'>
@@ -148,10 +158,15 @@ export const CamelContent: React.FunctionComponent = () => {
         aria-label='camel-content-main'
       >
         {navItems.length > 0 && (
-          <Routes>
+          <Switch>
             {camelNavRoutes}
-            <Route key='root' path='/' element={<Navigate to={{ pathname: navItems[0]?.id ?? '', search }} />} />
-          </Routes>
+            <Route key={NODE_ID_ROOT} exact path={hawtio.fullPath(pluginPath, NODE_ID_TEMPLATE)}>
+              <Redirect to={{ pathname: hawtio.fullPath(pluginPath, NODE_ID_TEMPLATE, navItems[0]?.id ?? ''), search }} />
+            </Route>
+            <Route key={ROOT} exact path={hawtio.fullPath(pluginPath)}>
+              <Redirect to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search }} />
+            </Route>
+          </Switch>
         )}
         {navItems.length === 0 && !selectedNode.objectName && <JmxContentMBeans />}
       </PageSection>
@@ -162,7 +177,7 @@ export const CamelContent: React.FunctionComponent = () => {
 const CamelContentContextToolbar: React.FunctionComponent = () => {
   const { selectedNode, setSelectedNode } = useContext(CamelContext)
   const [contextState, setContextState] = useState<ContextState | null>(null)
-  const navigate = useNavigate()
+  const navigate = useHistory()
   const { search } = useLocation()
 
   useEffect(() => {
@@ -208,8 +223,8 @@ const CamelContentContextToolbar: React.FunctionComponent = () => {
   const handleDeletedContext = () => {
     setSelectedNode(null)
 
-    // Navigate away from this context as it no longer exists
-    navigate(`/jmx${search}`)
+    // Redirect away from this context as it no longer exists
+    navigate.push(`${hawtio.fullPath('jmx')}${search}`)
 
     eventService.notify({
       type: 'warning',

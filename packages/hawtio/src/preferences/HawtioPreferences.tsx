@@ -1,11 +1,13 @@
 import { helpRegistry } from '@hawtiosrc/help/registry'
 import { Nav, NavItem, NavList, PageSection, Title } from '@patternfly/react-core'
 import React from 'react'
-import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom-v5-compat'
+import { NavLink, Redirect, Route, Switch, useLocation } from 'react-router-dom' // includes NavLink
 import help from './help.md'
 import { HomePreferences } from './HomePreferences'
 import { LogsPreferences } from './LogsPreferences'
 import { preferencesRegistry } from './registry'
+import { hawtio } from '@hawtiosrc/core'
+import { HOME, PREFERENCES } from '@hawtiosrc/RouteConstants'
 
 helpRegistry.add('preferences', 'Preferences', help, 2)
 preferencesRegistry.add('home', 'Home', HomePreferences, 1)
@@ -21,21 +23,29 @@ export const HawtioPreferences: React.FunctionComponent = () => {
       <PageSection type='tabs' hasBodyWrapper={false}>
         <Nav aria-label='Preferences Nav' variant='horizontal-subnav'>
           <NavList>
-            {preferencesRegistry.getPreferences().map(({ id, title }) => (
-              <NavItem key={id} isActive={pathname === `/preferences/${id}`}>
-                <NavLink to={{ pathname: id, search }}>{title}</NavLink>
+            {preferencesRegistry.getPreferences().map(prefs => (
+              <NavItem
+                key={prefs.id}
+                isActive={hawtio.fullPath(pathname) === hawtio.fullPath(PREFERENCES, prefs.id)}
+              >
+                <NavLink to={{ pathname: hawtio.fullPath(PREFERENCES, prefs.id), search }}>{prefs.title}</NavLink>
               </NavItem>
             ))}
           </NavList>
         </Nav>
       </PageSection>
+
       <PageSection hasBodyWrapper={false}>
-        <Routes>
-          {preferencesRegistry.getPreferences().map(({ id, component }) => (
-            <Route key={id} path={id} element={React.createElement(component)} />
+        <Switch>
+          {preferencesRegistry.getPreferences().map(prefs => (
+            <Route key={prefs.id} path={hawtio.fullPath(PREFERENCES, prefs.id)}>
+              {React.createElement(prefs.component)}
+            </Route>
           ))}
-          <Route path='/' element={<Navigate to={{ pathname: 'home', search }} />} />
-        </Routes>
+          <Route exact path={hawtio.fullPath(PREFERENCES)}>
+            <Redirect to={{ pathname: hawtio.fullPath(PREFERENCES, HOME), search }} />
+          </Route>
+        </Switch>
       </PageSection>
     </React.Fragment>
   )

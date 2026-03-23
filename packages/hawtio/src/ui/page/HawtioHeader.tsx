@@ -7,6 +7,7 @@ import {
   isUniversalHeaderItem,
   UniversalHeaderItem,
   useHawtconfig,
+  hawtio,
 } from '@hawtiosrc/core'
 import { hawtioLogo, userAvatar } from '@hawtiosrc/img'
 import { preferencesService } from '@hawtiosrc/preferences/preferences-service'
@@ -34,9 +35,10 @@ import {
 } from '@patternfly/react-core'
 import { QuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/question-circle-icon'
 import React, { useContext, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom-v5-compat'
+import { Link, useLocation } from 'react-router-dom' // includes NavLink
 import './HawtioHeader.css'
 import { PageContext } from './context'
+import { LOGOUT, PREFERENCES } from '@hawtiosrc/RouteConstants'
 
 export const HawtioHeader: React.FunctionComponent<{ loginMethod: string }> = ({ loginMethod }) => {
   const { hawtconfig, hawtconfigLoaded } = useHawtconfig()
@@ -144,7 +146,7 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
 
   const helpItems = [
     <DropdownItem key='help'>
-      <Link to={{ pathname: '../help', search: location.search }}>Help</Link>{' '}
+      <Link to={{ pathname: hawtio.fullPath('help'), search: location.search }}>Help</Link>{' '}
     </DropdownItem>,
     <DropdownItem key='about' onClick={onAboutToggle}>
       About
@@ -152,10 +154,10 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
   ]
 
   const userItems = [
-    <DropdownItem key='preferences'>
-      <Link to={{ pathname: '../preferences', search: location.search }}>Preferences</Link>
+    <DropdownItem key={PREFERENCES}>
+      <Link to={{ pathname: hawtio.fullPath(PREFERENCES), search: location.search }}>Preferences</Link>
     </DropdownItem>,
-    <DropdownItem key='logout' onClick={logout}>
+    <DropdownItem key={LOGOUT} onClick={logout}>
       Log out
     </DropdownItem>,
   ]

@@ -1,8 +1,9 @@
-import { EVENT_REFRESH, eventService } from '@hawtiosrc/core'
+import { EVENT_REFRESH, eventService, hawtio } from '@hawtiosrc/core'
 import { PluginNodeSelectionContext } from '@hawtiosrc/plugins'
 import { MBeanNode, MBeanTree, workspace } from '@hawtiosrc/plugins/shared'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { To, useNavigate, useSearchParams } from 'react-router-dom-v5-compat'
+import { useHistory, useLocation } from 'react-router-dom' // includes NavLink
+import { LocationDescriptor } from 'history'
 import { log, PARAM_KEY_NODE_ID, pluginName, pluginPath } from './globals'
 
 /**
@@ -12,8 +13,9 @@ export function useMBeanTree() {
   const [tree, setTree] = useState(MBeanTree.createEmpty(pluginName))
   const [loaded, setLoaded] = useState(false)
   const { selectedNode, setSelectedNode } = useContext(PluginNodeSelectionContext)
-  const navigate = useNavigate()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useHistory()
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
 
   /*
    * Need to preserve the selected node between re-renders since the
@@ -39,7 +41,11 @@ export function useMBeanTree() {
         // Clear nid as it is invalid
         log.debug('Clear invalid nid:', nodeId)
         searchParams.delete(PARAM_KEY_NODE_ID)
-        setSearchParams(searchParams)
+        // Manually update the URL using history.replace
+        navigate.replace({
+          pathname: location.pathname,
+          search: searchParams.toString()
+        })
       }
     }
 
@@ -57,10 +63,10 @@ export function useMBeanTree() {
     if (newSelected) {
       setSelectedNode(newSelected)
       // Reset to base path with nid to sync URL with restored selection
-      navigate(pluginPathWithNodeId(newSelected, searchParams))
+      navigate.push(pluginPathWithNodeId(newSelected, searchParams))
     } else {
       // Node no longer exists - clear selection and go to base path
-      navigate(pluginPath)
+      navigate.push(pluginPath)
     }
   }
 
@@ -92,10 +98,10 @@ export function useMBeanTree() {
 export function pluginPathWithNodeId(
   node: MBeanNode,
   searchParams: URLSearchParams = new URLSearchParams(window.location.search),
-): Partial<To> {
+): LocationDescriptor {
   searchParams.set(PARAM_KEY_NODE_ID, node.id)
   const query = `?${searchParams.toString()}`
-  return { pathname: pluginPath, search: query }
+  return { pathname: hawtio.fullPath(pluginPath), search: query }
 }
 
 type MBeanTreeContext = {

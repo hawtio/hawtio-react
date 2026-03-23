@@ -17,7 +17,7 @@ import {
 import { Modal, ModalVariant } from '@patternfly/react-core/deprecated'
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom-v5-compat'
+import { useHistory } from 'react-router-dom' // includes NavLink
 import { RESET } from './connections'
 import { useConnections } from './context'
 import { log } from './globals'
@@ -47,7 +47,7 @@ const ValidatedHelperText: React.FunctionComponent<{
 }
 type ValidatedType = 'default' | 'error' | 'success' | 'warning' | undefined
 const JolokiaForm: React.FunctionComponent = () => {
-  const navigate = useNavigate()
+  const navigate = useHistory()
 
   const jolokiaStoredOptions = jolokiaService.loadJolokiaStoredOptions()
   const [updateRate, setUpdateRate] = useState(jolokiaService.loadUpdateRate())
@@ -122,7 +122,7 @@ const JolokiaForm: React.FunctionComponent = () => {
     jolokiaService.saveAutoRefresh(autoRefresh)
 
     // Page reload will apply currently stored preferences into Jolokia
-    navigate(0)
+    navigate.go(0)
   }
 
   return (

@@ -14,7 +14,7 @@ import { HawtioNotification } from '@hawtiosrc/ui/notification'
 import { HawtioLoadingPage } from '@hawtiosrc/ui/page'
 import { Alert, Button, ListItem, ListVariant, LoginFooterItem, LoginPage } from '@patternfly/react-core'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom-v5-compat'
+import { useHistory } from 'react-router-dom' // includes NavLink
 import { HawtioLoginForm } from './HawtioLoginForm'
 import { log } from './globals'
 
@@ -22,7 +22,7 @@ import { log } from './globals'
  * One of two _main_ components to be displayed in `<Hawtio>` component. It is displayed when user is not logged in.
  */
 export const HawtioLogin: React.FunctionComponent = () => {
-  const navigate = useNavigate()
+  const navigate = useHistory()
 
   let loginFailedInitialMessage = ''
   if (sessionStorage.getItem('logout.reason')) {
@@ -39,7 +39,7 @@ export const HawtioLogin: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (isLogin) {
-      navigate('/')
+      navigate.push('/')
     } else if (isLoginError) {
       setLoginError(loginErrorMessage)
     }

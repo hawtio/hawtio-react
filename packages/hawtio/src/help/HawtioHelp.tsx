@@ -2,11 +2,12 @@ import { hawtio, usePlugins } from '@hawtiosrc/core'
 import { CardBody, Content, Nav, NavItem, NavList, PageGroup, PageSection, Title } from '@patternfly/react-core'
 import React, { useMemo } from 'react'
 import Markdown from 'react-markdown'
-import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom-v5-compat'
+import { NavLink, Redirect, Route, Switch, useLocation } from 'react-router-dom' // includes NavLink
 import help from './help.md'
 import { helpRegistry } from './registry'
+import { HELP, INDEX, HOME } from '@hawtiosrc/RouteConstants'
 
-helpRegistry.add('home', 'Home', help, 1)
+helpRegistry.add(HOME, 'Home', help, 1)
 
 export const HawtioHelp: React.FunctionComponent = () => {
   const { pathname, search } = useLocation()
@@ -32,30 +33,30 @@ export const HawtioHelp: React.FunctionComponent = () => {
         <Nav aria-label='Help Nav' variant='horizontal-subnav'>
           <NavList>
             {helps.map(help => (
-              <NavItem key={help.id} isActive={pathname === `/help/${help.id}`}>
-                <NavLink to={{ pathname: help.id, search }}>{help.title}</NavLink>
+              <NavItem key={help.id} isActive={pathname === hawtio.fullPath(HELP, help.id)}>
+                <NavLink to={{ pathname: hawtio.fullPath(HELP, help.id), search }}>{help.title}</NavLink>
               </NavItem>
             ))}
           </NavList>
         </Nav>
       </PageSection>
       <PageSection hasBodyWrapper={false}>
-        <Routes>
+        <Switch>
           {helpRegistry.getHelps().map(({ id, content }) => (
             <Route
               key={id}
-              path={id}
-              element={
-                <CardBody>
-                  <Content>
-                    <Markdown>{content}</Markdown>
-                  </Content>
-                </CardBody>
-              }
-            />
+              path={hawtio.fullPath(HELP, id)}>
+              <CardBody>
+                <Content>
+                  <Markdown>{content}</Markdown>
+                </Content>
+              </CardBody>
+            </Route>
           ))}
-          <Route path='/' element={<Navigate to={{ pathname: 'home', search }} />} />
-        </Routes>
+          <Route path={INDEX}>
+            <Redirect to={{ pathname: hawtio.fullPath(HELP, HOME), search }} />
+          </Route>
+        </Switch>
       </PageSection>
     </PageGroup>
   )

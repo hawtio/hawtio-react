@@ -2,13 +2,13 @@ import { humanizeSeconds } from '@hawtiosrc/util/dates'
 import { LoginForm, LoginFormProps } from '@patternfly/react-core'
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon'
 import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat'
+import { useHistory, useLocation } from 'react-router-dom' // includes NavLink
 import { log } from './globals'
 import { loginService } from './login-service'
 import { FormAuthenticationMethod } from '@hawtiosrc/core'
 
 export const HawtioLoginForm: React.FunctionComponent<{ method: FormAuthenticationMethod }> = ({ method }) => {
-  const navigate = useNavigate()
+  const navigate = useHistory()
   const { search } = useLocation()
 
   let loginFailedInitialMessage = ''
@@ -62,9 +62,9 @@ export const HawtioLoginForm: React.FunctionComponent<{ method: FormAuthenticati
     loginService.login(username, password, rememberMe, method as FormAuthenticationMethod).then(result => {
       switch (result.type) {
         case 'success':
-          navigate({ pathname: '/', search })
+          navigate.push({ pathname: '/', search })
           // Reload page to force initialising Jolokia service
-          navigate(0)
+          navigate.go(0)
           break
         case 'failure':
           setLoginFailed(true)

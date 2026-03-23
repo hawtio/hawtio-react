@@ -1,11 +1,13 @@
 import { Nav, NavItem, NavList, PageSection, Title } from '@patternfly/react-core'
 import React, { useEffect, useState } from 'react'
-import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom-v5-compat'
+import { NavLink, Redirect, Route, Switch, useLocation } from 'react-router-dom' // includes NavLink
 import { Health } from './Health'
 import { Info } from './Info'
 import { Loggers } from './Loggers'
 import { TraceView } from './TraceView'
 import { springbootService } from './springboot-service'
+import { hawtio } from '@hawtiosrc/core'
+import { pluginPath } from './globals'
 
 type NavItem = {
   id: string
@@ -58,20 +60,24 @@ export const SpringBoot: React.FunctionComponent = () => {
         <Nav aria-label='Spring Boot Nav' variant='horizontal-subnav'>
           <NavList>
             {navItems.map(({ id, title }) => (
-              <NavItem key={id} isActive={pathname === `/springboot/${id}`}>
-                <NavLink to={{ pathname: id, search }}>{title}</NavLink>
+              <NavItem key={id} isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, id)}>
+                <NavLink to={{ pathname: hawtio.fullPath(pluginPath, id), search }}>{title}</NavLink>
               </NavItem>
             ))}
           </NavList>
         </Nav>
       </PageSection>
       <PageSection aria-label='Spring Boot Content' padding={{ default: 'noPadding' }} hasBodyWrapper={false}>
-        <Routes>
+        <Switch>
           {navItems.map(({ id, component }) => (
-            <Route key={id} path={id} element={component} />
+            <Route key={id} path={hawtio.fullPath(pluginPath, id)}>
+              {component}
+            </Route>
           ))}
-          <Route path='/' element={<Navigate to={{ pathname: 'health', search }} />} />
-        </Routes>
+          <Route exact path={hawtio.fullPath(pluginPath)}>
+            <Redirect to={hawtio.fullPath(pluginPath, navItems[0]?.id ?? '')} />
+          </Route>
+        </Switch>
       </PageSection>
     </React.Fragment>
   )

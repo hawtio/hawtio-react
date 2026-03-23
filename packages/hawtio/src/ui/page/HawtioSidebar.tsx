@@ -1,13 +1,16 @@
 import { Nav, NavItem, NavList, PageSidebar, PageSidebarBody } from '@patternfly/react-core'
 import React, { useContext } from 'react'
-import { NavLink, useLocation } from 'react-router-dom-v5-compat'
+import { NavLink, useLocation } from 'react-router-dom' // includes NavLink
 import { PageContext } from './context'
+import { hawtio } from '@hawtiosrc/core'
 
 export const HawtioSidebar: React.FunctionComponent = () => {
   const { plugins } = useContext(PageContext)
   const { pathname, search } = useLocation()
 
   const pathMatch = (path: string, pluginPath: string) => {
+    pluginPath = hawtio.fullPath(pluginPath)
+
     if (!pluginPath.startsWith('/')) {
       pluginPath = '/' + pluginPath
     }
@@ -21,7 +24,7 @@ export const HawtioSidebar: React.FunctionComponent = () => {
           .filter(plugin => plugin.path != null)
           .map(plugin => (
             <NavItem key={plugin.id} isActive={pathMatch(pathname, plugin.path!)}>
-              <NavLink to={{ pathname: plugin.path!, search }}>{plugin.title}</NavLink>
+              <NavLink to={{ pathname: hawtio.fullPath(plugin.path!), search }}>{plugin.title}</NavLink>
             </NavItem>
           ))}
       </NavList>
