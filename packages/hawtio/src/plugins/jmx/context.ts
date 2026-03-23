@@ -1,4 +1,4 @@
-import { EVENT_REFRESH, eventService } from '@hawtiosrc/core'
+import { EVENT_REFRESH, eventService, hawtio } from '@hawtiosrc/core'
 import { PluginNodeSelectionContext } from '@hawtiosrc/plugins'
 import { MBeanNode, MBeanTree, workspace } from '@hawtiosrc/plugins/shared'
 import { createContext, startTransition, useContext, useEffect, useState } from 'react'
@@ -57,7 +57,8 @@ export function useMBeanTree() {
   // another effect synchronizes the `nid` query parameter and the global state for "selected node"
   useEffect(() => {
     const nid = searchParams.get('nid') ?? new URLSearchParams(window.location.search).get('nid')
-    if (selectedNode && (!nid || nid !== selectedNode.id)) {
+    const isAtPluginRoot = pathname.replace(/\/$/, '') === hawtio.fullPath(pluginPath).replace(/\/$/, '')
+    if (selectedNode && !isAtPluginRoot && (!nid || nid !== selectedNode.id)) {
       // because we may retrieve "nid" being out of sync with React Router state, we have to
       // navigate fully (not just setSearchParams())
       navigate(pluginPathWithNodeId(selectedNode, pluginPath, searchParams), { replace: true })
@@ -118,7 +119,7 @@ export function pluginPathWithNodeId(
   searchParams: URLSearchParams = new URLSearchParams(window.location.search),
 ): Partial<To> {
   searchParams.set(PARAM_KEY_NODE_ID, node.id)
-  return { pathname, search: searchParams.toString() }
+  return { pathname: hawtio.fullPath(pluginPath), search: searchParams.toString() }
 }
 
 /**

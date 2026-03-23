@@ -1,5 +1,5 @@
 import { useUser } from '@hawtiosrc/auth/hooks'
-import { useHawtconfig, usePlugins } from '@hawtiosrc/core'
+import { hawtio, useHawtconfig, usePlugins } from '@hawtiosrc/core'
 import { HawtioHelp } from '@hawtiosrc/help/ui'
 import { PluginNodeSelectionContext, usePluginNodeSelected } from '@hawtiosrc/plugins'
 import { preferencesService } from '@hawtiosrc/preferences/preferences-service'
@@ -15,6 +15,7 @@ import { HawtioLoadingPage } from './HawtioLoadingPage'
 import { HawtioSidebar } from './HawtioSidebar'
 import { PageContext, useHawtioLocation } from './context'
 import { log } from './globals'
+import { HELP, INDEX, INDEX_KEY, PREFERENCES, ROOT, WILDCARD } from '@hawtiosrc/RouteConstants'
 
 /**
  * One of the two _main_ components to be displayed in `<Hawtio>` component. It is displayed when user is logged in.
@@ -46,7 +47,7 @@ export const HawtioPage: React.FunctionComponent = () => {
   // otherwise "Cannot update a component (`BrowserRouter`) while rendering a different component" is thrown
   useEffect(() => {
     if (!isLogin && userLoaded) {
-      navigate({ pathname: '/login', search })
+      navigate({ pathname: 'login', search })
     }
   }, [isLogin, userLoaded, navigate, search])
 
@@ -59,10 +60,16 @@ export const HawtioPage: React.FunctionComponent = () => {
   // First plugin that has a path and a component to display will be the one displayed at "home" page
   const defaultPlugin = plugins.find(p => p && p.path && p.component)
   let defaultPage = defaultPlugin ? (
-    <Navigate to={{ pathname: defaultPlugin.path, search }} replace={true} />
+    <Navigate to={{ pathname: hawtio.fullPath(defaultPlugin.path!), search }} replace={true} />
   ) : (
     <HawtioHome />
   )
+
+  if (defaultPlugin) {
+    console.log('Displaying defaultPlugin of ', hawtio.fullPath(defaultPlugin.path!))
+  } else {
+    console.log('Displaying HawtioHome')
+  }
 
   // If a plugin that uses complex authentication flow involving redirects is active and in the process
   // of redirection, Hawtio will properly navigate
@@ -109,11 +116,11 @@ export const HawtioPage: React.FunctionComponent = () => {
               .map(plugin => (
                 <Route key={plugin.id} path={`${plugin.path}/*`} Component={plugin.component!} />
               ))}
-            <Route key='help' path='/help/*' Component={HawtioHelp} />
-            <Route key='preferences' path='/preferences/*' Component={HawtioPreferences} />
+            <Route key={HELP} path={`${HELP}/*`} Component={HawtioHelp} />
+            <Route key={PREFERENCES} path={`${PREFERENCES}/*`} Component={HawtioPreferences} />
             {/* This route removes old-school index.html displayed in the URL bar */}
-            <Route key='index' path='index.html' element={<Navigate to={{ pathname: '/', search }} replace={true} />} />
-            <Route key='root' path='' element={defaultPage} />
+            <Route key={INDEX_KEY} path="index.html" element={<Navigate to={{ pathname: hawtio.fullPath(INDEX), search }} replace={true} />} />
+            <Route key={ROOT} path={INDEX} element={defaultPage} />
           </Routes>
         </PluginNodeSelectionContext.Provider>
         <HawtioNotification />

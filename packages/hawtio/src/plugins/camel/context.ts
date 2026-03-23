@@ -1,4 +1,4 @@
-import { EVENT_REFRESH, eventService } from '@hawtiosrc/core'
+import { EVENT_REFRESH, eventService, hawtio } from '@hawtiosrc/core'
 import { PluginNodeSelectionContext } from '@hawtiosrc/plugins'
 import { MBeanNode, MBeanTree, workspace } from '@hawtiosrc/plugins/shared'
 import { createContext, startTransition, useCallback, useContext, useEffect, useRef, useState } from 'react'
@@ -43,7 +43,7 @@ export function useCamelTree() {
         type: 'warning',
         message: 'No Camel domain detected in target. Redirecting to back to jmx.',
       })
-      navigate({ pathname: '/jmx', search }, { replace: true })
+      navigate({ pathname: hawtio.fullPath('jmx'), search }, { replace: true })
       return null
     }
 
@@ -108,10 +108,14 @@ export function useCamelTree() {
   // synchronize the `nid` query parameter and the global state for "selected node"
   useEffect(() => {
     const nid = searchParams.get('nid') ?? new URLSearchParams(window.location.search).get('nid')
-    if (selectedNode && (!nid || nid !== selectedNode.id)) {
+    const isAtPluginRoot = pathname.replace(/\/$/, '') === hawtio.fullPath(pluginPath).replace(/\/$/, '')
+    if (selectedNode && !isAtPluginRoot && (!nid || nid !== selectedNode.id)) {
       // because we may retrieve "nid" being out of sync with React Router state, we have to
       // navigate fully (not just setSearchParams())
-      navigate(pluginPathWithNodeId(selectedNode, pluginPath, searchParams), { replace: true })
+      const next = pluginPathWithNodeId(selectedNode, pluginPath, searchParams)
+      if (typeof next !== 'string' && next.search !== undefined) {
+        navigate({ search: next.search }, { replace: true })
+      }
       return
     }
     if (loaded) {
@@ -235,6 +239,7 @@ export function pluginPathWithNodeId(
   pathname: string,
   searchParams: URLSearchParams = new URLSearchParams(window.location.search),
 ): Partial<To> {
+  pathname = hawtio.fullPath(pathname)
   searchParams.set(PARAM_KEY_NODE_ID, node.id)
   const query = `?${searchParams.toString()}`
   // encodeURIComponent encodes more characters than encodeURI, but we want some characters back

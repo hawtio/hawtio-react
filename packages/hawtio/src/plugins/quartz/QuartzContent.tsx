@@ -19,6 +19,8 @@ import { pluginPath } from './globals'
 import { Jobs } from './jobs'
 import { Scheduler } from './scheduler/Scheduler'
 import { Triggers } from './triggers'
+import { hawtio } from '@hawtiosrc/core'
+import { ROOT } from '@hawtiosrc/RouteConstants'
 
 export const QuartzContent: React.FunctionComponent = () => {
   const { tree, selectedNode } = useContext(QuartzContext)
@@ -60,8 +62,8 @@ export const QuartzContent: React.FunctionComponent = () => {
     <Nav aria-label='Quartz Nav' variant='horizontal-subnav'>
       <NavList>
         {navItems.map(nav => (
-          <NavItem key={nav.id} isActive={pathname === `${pluginPath}/${nav.id}`}>
-            <NavLink to={{ pathname: `${pluginPath}/${nav.id}`, search }}>{nav.title}</NavLink>
+          <NavItem key={nav.id} isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, nav.id)}>
+            <NavLink to={{ pathname: hawtio.fullPath(pluginPath, nav.id), search }}>{nav.title}</NavLink>
           </NavItem>
         ))}
       </NavList>
@@ -90,9 +92,9 @@ export const QuartzContent: React.FunctionComponent = () => {
         <Routes>
           {routes}
           <Route
-            key='root'
-            path=''
-            element={<Navigate to={{ pathname: navItems[0]?.id ?? '', search }} replace={true} />}
+            key={ROOT}
+            path='/'
+            element={<Navigate to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search }} replace={true} />}
           />
         </Routes>
       </PageSection>

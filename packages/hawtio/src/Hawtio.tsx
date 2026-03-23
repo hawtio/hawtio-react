@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { Route, Routes } from 'react-router'
 import { hawtio } from './core'
 import { HawtioLogin } from './ui/login'
 import { HawtioPage } from './ui/page'
+import { INDEX, LOGIN, WILDCARD } from './RouteConstants'
+import { HawtioRouter } from './HawtioRouter'
 
 export type HawtioProps = {
   basepath?: string
@@ -34,11 +36,12 @@ export const Hawtio: React.FunctionComponent<HawtioProps> = props => {
   }, [])
 
   return (
-    <BrowserRouter basename={hawtio.getBasePath()}>
+    <HawtioRouter initialEntries={[hawtio.fullPath(INDEX)]}>
       <Routes>
-        <Route path='/login' element={<HawtioLogin />} />
-        <Route path='*' element={<HawtioPage />} />
+        <Route path={hawtio.fullPath(LOGIN)} element={<HawtioLogin />} />
+        <Route path={hawtio.fullPath(INDEX)} element={<HawtioPage />} />
+        <Route path={hawtio.fullPath(WILDCARD)} element={<HawtioPage />} />
       </Routes>
-    </BrowserRouter>
+    </HawtioRouter>
   )
 }

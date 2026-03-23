@@ -5,7 +5,8 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { log } from './globals'
 import { loginService } from './login-service'
-import { FormAuthenticationMethod } from '@hawtiosrc/core'
+import { FormAuthenticationMethod, hawtio } from '@hawtiosrc/core'
+import { INDEX } from '@hawtiosrc/RouteConstants'
 
 export const HawtioLoginForm: React.FunctionComponent<{ method: FormAuthenticationMethod }> = ({ method }) => {
   const navigate = useNavigate()
@@ -62,7 +63,7 @@ export const HawtioLoginForm: React.FunctionComponent<{ method: FormAuthenticati
     loginService.login(username, password, rememberMe, method as FormAuthenticationMethod).then(result => {
       switch (result.type) {
         case 'success':
-          navigate({ pathname: '/', search })
+          navigate({ pathname: hawtio.fullPath(INDEX), search })
           // Reload page to force initialising Jolokia service
           navigate(0)
           break

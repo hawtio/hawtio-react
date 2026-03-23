@@ -24,7 +24,8 @@ export function joinPaths(...paths: string[]): string {
       tmp.push(path)
     }
   })
-  return tmp.join('/')
+
+  return tmp.join('/').replaceAll('//', '/')
 }
 
 /**

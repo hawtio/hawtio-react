@@ -6,6 +6,7 @@ import { Info } from './Info'
 import { Loggers } from './Loggers'
 import { TraceView } from './TraceView'
 import { springbootService } from './springboot-service'
+import { hawtio } from '@hawtiosrc/core'
 import { pluginPath } from './globals'
 
 type NavItem = {
@@ -59,8 +60,8 @@ export const SpringBoot: React.FunctionComponent = () => {
         <Nav aria-label='Spring Boot Nav' variant='horizontal-subnav'>
           <NavList>
             {navItems.map(({ id, title }) => (
-              <NavItem key={id} isActive={pathname === `${pluginPath}/${id}`}>
-                <NavLink to={{ pathname: `${pluginPath}/${id}`, search }}>{title}</NavLink>
+              <NavItem key={id} isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, id)}>
+                <NavLink to={{ pathname: hawtio.fullPath(pluginPath, id), search }}>{title}</NavLink>
               </NavItem>
             ))}
           </NavList>
@@ -76,7 +77,7 @@ export const SpringBoot: React.FunctionComponent = () => {
           {navItems.map(({ id, component }) => (
             <Route key={id} path={id} element={component} />
           ))}
-          <Route path='' element={<Navigate to={{ pathname: 'health', search }} replace={true} />} />
+          <Route path='/' element={<Navigate to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search }} replace={true} />} />
         </Routes>
       </PageSection>
     </React.Fragment>

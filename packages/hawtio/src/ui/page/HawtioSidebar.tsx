@@ -2,6 +2,7 @@ import { Nav, NavExpandable, NavItem, NavList, PageSidebar, PageSidebarBody } fr
 import React, { useContext } from 'react'
 import { NavLink } from 'react-router'
 import { PageContext, useHawtioLocation } from './context'
+import { hawtio } from '@hawtiosrc/core'
 
 const pathMatch = (path: string, pluginPath: string) => {
   while (pluginPath.startsWith('/')) {
@@ -44,7 +45,7 @@ export const HawtioSidebar: React.FunctionComponent = () => {
         {pluginGroups['.'] &&
           pluginGroups['.'].map(plugin => (
             <NavItem key={plugin.id} isActive={pathMatch(pathname, plugin.path!)}>
-              <NavLink to={{ pathname: plugin.path!, search }}>{plugin.title}</NavLink>
+              <NavLink to={{ pathname: hawtio.fullPath(plugin.path!), search }}>{plugin.title}</NavLink>
             </NavItem>
           ))}
         {pluginGroupNames
@@ -69,7 +70,7 @@ export const HawtioSidebar: React.FunctionComponent = () => {
                   key={plugin.id}
                   isActive={pathMatch(pathname, plugin.path!)}
                 >
-                  <NavLink to={{ pathname: plugin.path!, search }}>{plugin.title}</NavLink>
+                  <NavLink to={{ pathname: hawtio.fullPath(plugin.path!), search }}>{plugin.title}</NavLink>
                 </NavItem>
               ))}
             </NavExpandable>

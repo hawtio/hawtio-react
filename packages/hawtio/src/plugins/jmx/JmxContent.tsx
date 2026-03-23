@@ -15,6 +15,8 @@ import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import React from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router'
 import { pluginPathWithNodeId, useMBeanTreeContext } from './context'
+import { hawtio } from '@hawtiosrc/core'
+import { ROOT } from '@hawtiosrc/RouteConstants'
 
 export const JmxContent: React.FunctionComponent = () => {
   const { selectedNode } = useMBeanTreeContext()
@@ -57,15 +59,15 @@ export const JmxContent: React.FunctionComponent = () => {
     <Nav aria-label='MBean Nav' variant='horizontal-subnav'>
       <NavList>
         {navItems.map(nav => (
-          <NavItem key={nav.id} isActive={pathname === `${pluginPath}/${nav.id}`}>
-            <NavLink to={{ pathname: `${pluginPath}/${nav.id}`, search: searchWithNid }}>{nav.title}</NavLink>
+          <NavItem key={nav.id} isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, nav.id)}>
+            <NavLink to={{ pathname: hawtio.fullPath(pluginPath, nav.id), search: searchWithNid }}>{nav.title}</NavLink>
           </NavItem>
         ))}
       </NavList>
     </Nav>
   )
 
-  const mbeanRoutes = navItems.map(nav => <Route key={nav.id} path={nav.id} Component={nav.component} />)
+  const mbeanRoutes = navItems.map(nav => <Route key={nav.id} path={`${nav.id}`} Component={nav.component} />)
 
   return (
     <PageGroup id='jmx-content'>
@@ -86,9 +88,9 @@ export const JmxContent: React.FunctionComponent = () => {
         <Routes>
           {mbeanRoutes}
           <Route
-            key='root'
+            key={ROOT}
             path=''
-            element={<Navigate to={{ pathname: navItems[0]?.id ?? '', search: searchWithNid }} replace={true} />}
+            element={<Navigate to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search: searchWithNid }} replace={true} />}
           />
         </Routes>
       </PageSection>

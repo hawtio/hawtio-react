@@ -5,6 +5,7 @@ import { Metrics } from './Metrics'
 import { SysProps } from './SysProps'
 import { Threads } from './Threads'
 import { pluginPath } from './globals'
+import { hawtio } from '@hawtiosrc/core'
 
 type NavItem = {
   id: string
@@ -29,8 +30,8 @@ export const Runtime: React.FunctionComponent = () => {
         <Nav aria-label='Runtime Nav' variant='horizontal-subnav'>
           <NavList>
             {navItems.map(({ id, title }) => (
-              <NavItem key={id} isActive={pathname === `${pluginPath}/${id}`}>
-                <NavLink to={{ pathname: `${pluginPath}/${id}`, search }}>{title}</NavLink>
+              <NavItem key={id} isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, id)}>
+                <NavLink to={{ pathname: hawtio.fullPath(pluginPath, id), search }}>{title}</NavLink>
               </NavItem>
             ))}
           </NavList>
@@ -41,7 +42,7 @@ export const Runtime: React.FunctionComponent = () => {
           {navItems.map(({ id, component }) => (
             <Route key={id} path={id} element={component} />
           ))}
-          <Route path='' element={<Navigate to={{ pathname: 'sysprops', search }} replace={true} />} />
+          <Route path='/' element={<Navigate to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search }} replace={true} />} />
         </Routes>
       </PageSection>
     </React.Fragment>

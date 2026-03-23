@@ -8,6 +8,8 @@ import { Discover } from './discover/Discover'
 import { pluginPath } from './globals'
 import { ConnectLogin } from './login/ConnectLogin'
 import { Remote } from './remote/Remote'
+import { hawtio } from '@hawtiosrc/core'
+import { INDEX, LOGIN, ROOT } from '@hawtiosrc/RouteConstants'
 
 export const Connect: React.FunctionComponent = () => {
   const { connections, dispatch } = useConnections()
@@ -22,8 +24,8 @@ export const Connect: React.FunctionComponent = () => {
     <Nav aria-label='Connect Nav' variant='horizontal-subnav'>
       <NavList>
         {navItems.map(({ id, title }) => (
-          <NavItem key={id} isActive={pathname === `${pluginPath}/${id}`}>
-            <NavLink to={{ pathname: `${pluginPath}/${id}`, search }}>{title}</NavLink>
+          <NavItem key={id} isActive={hawtio.fullPath(pathname) === hawtio.fullPath(pluginPath, id)}>
+            <NavLink to={{ pathname: hawtio.fullPath(pluginPath, id), search }}>{title}</NavLink>
           </NavItem>
         ))}
       </NavList>
@@ -73,11 +75,11 @@ export const Connect: React.FunctionComponent = () => {
         <Routes>
           {routes}
           {/* connect/login should be hidden to nav */}
-          <Route key='login' path='login' element={<ConnectLogin />} />
+          <Route key={LOGIN} path={LOGIN} element={<ConnectLogin />} />
           <Route
-            key='root'
-            path=''
-            element={<Navigate to={{ pathname: navItems[0]?.id ?? '', search }} replace={true} />}
+            key={ROOT}
+            path={INDEX}
+            element={<Navigate to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search }} replace={true} />}
           />
         </Routes>
       </PageSection>

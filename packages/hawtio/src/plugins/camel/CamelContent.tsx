@@ -1,4 +1,4 @@
-import { eventService } from '@hawtiosrc/core'
+import { eventService, hawtio } from '@hawtiosrc/core'
 import { AttributeValues, Attributes, Chart, JmxContentMBeans, MBeanNode, Operations } from '@hawtiosrc/plugins/shared'
 import {
   Content,
@@ -38,6 +38,7 @@ import { Source } from './routes/Source'
 import { Trace } from './trace'
 import { TypeConverters } from './type-converters'
 import { pluginPathWithNodeId } from '@hawtiosrc/plugins/jmx/context'
+import { ROOT } from '@hawtiosrc/RouteConstants'
 
 type NavItem = {
   id: string
@@ -131,15 +132,17 @@ export const CamelContent: React.FunctionComponent = () => {
     <Nav aria-label='Camel Nav' variant='horizontal-subnav'>
       <NavList>
         {navItems.map(nav => (
-          <NavItem key={nav.id} isActive={pathname === `${pluginPath}/${nav.id}`}>
-            <NavLink to={{ pathname: `${pluginPath}/${nav.id}`, search: searchWithNid }}>{nav.title}</NavLink>
+          <NavItem key={nav.id} isActive={pathname === hawtio.fullPath(pluginPath, nav.id)}>
+            <NavLink to={{ pathname: hawtio.fullPath(pluginPath, nav.id), search: searchWithNid }}>{nav.title}</NavLink>
           </NavItem>
         ))}
       </NavList>
     </Nav>
   )
 
-  const camelNavRoutes = navItems.map(nav => <Route key={nav.id} path={nav.id} element={nav.component} />)
+  const camelNavRoutes = navItems.map(nav => (
+    <Route key={nav.id} path={nav.id} element={nav.component} />
+  ))
 
   return (
     <PageGroup id='camel-content'>
@@ -172,9 +175,9 @@ export const CamelContent: React.FunctionComponent = () => {
           <Routes>
             {camelNavRoutes}
             <Route
-              key='root'
+              key={ROOT}
               path=''
-              element={<Navigate to={{ pathname: navItems[0]?.id ?? '', search: searchWithNid }} replace={true} />}
+              element={<Navigate to={{ pathname: hawtio.fullPath(pluginPath, navItems[0]?.id ?? ''), search: searchWithNid }} replace={true} />}
             />
           </Routes>
         )}
@@ -234,7 +237,7 @@ const CamelContentContextToolbar: React.FunctionComponent = () => {
     setSelectedNode(null)
 
     // Navigate away from this context as it no longer exists
-    navigate(`/jmx${search}`)
+    navigate(`${hawtio.fullPath('jmx')}${search}`)
 
     eventService.notify({
       type: 'warning',

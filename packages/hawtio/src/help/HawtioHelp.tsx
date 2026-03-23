@@ -5,10 +5,9 @@ import Markdown from 'react-markdown'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router'
 import help from './help.md'
 import { helpRegistry } from './registry'
+import { HELP, HOME } from '@hawtiosrc/RouteConstants'
 
-const pluginPath = '/help'
-
-helpRegistry.add('home', 'Home', help, 1)
+helpRegistry.add(HOME, 'Home', help, 1)
 
 export const HawtioHelp: React.FunctionComponent = () => {
   const { pathname, search } = useLocation()
@@ -34,8 +33,8 @@ export const HawtioHelp: React.FunctionComponent = () => {
         <Nav aria-label='Help Nav' variant='horizontal-subnav'>
           <NavList>
             {helps.map(help => (
-              <NavItem key={help.id} isActive={pathname === `${pluginPath}/${help.id}`}>
-                <NavLink to={{ pathname: `${pluginPath}/${help.id}`, search }}>{help.title}</NavLink>
+              <NavItem key={help.id} isActive={pathname === hawtio.fullPath(HELP, help.id)}>
+                <NavLink to={{ pathname: hawtio.fullPath(HELP, help.id), search }}>{help.title}</NavLink>
               </NavItem>
             ))}
           </NavList>
@@ -56,7 +55,7 @@ export const HawtioHelp: React.FunctionComponent = () => {
               }
             />
           ))}
-          <Route path='' element={<Navigate to={{ pathname: 'home', search }} replace={true} />} />
+          <Route path='' element={<Navigate to={{ pathname: hawtio.fullPath(HELP, HOME), search }} replace={true} />} />
         </Routes>
       </PageSection>
     </PageGroup>

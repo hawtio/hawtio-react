@@ -37,6 +37,7 @@ import React, { useContext, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
 import './HawtioHeader.css'
 import { PageContext, useHawtioLocation } from './context'
+import { HELP, LOGOUT, PREFERENCES } from '@hawtiosrc/RouteConstants'
 
 export const HawtioHeader: React.FunctionComponent<{ loginMethod: string }> = ({ loginMethod }) => {
   const { hawtconfig, hawtconfigLoaded } = useHawtconfig()
@@ -146,9 +147,9 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
 
   const helpItems = [
     <DropdownItem
-      key='help'
+      key={HELP}
       onClick={() => {
-        navigate({ pathname: '/help', search: location.search })
+        navigate({ pathname: hawtio.fullPath(HELP), search: location.search })
       }}
     >
       Help
@@ -167,14 +168,14 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
 
   const userItems = [
     <DropdownItem
-      key='preferences'
+      key={PREFERENCES}
       onClick={() => {
-        navigate({ pathname: '/preferences', search: location.search })
+        navigate({ pathname: hawtio.fullPath(PREFERENCES), search: location.search })
       }}
     >
       Preferences
     </DropdownItem>,
-    <DropdownItem key='logout' onClick={logout}>
+    <DropdownItem key={LOGOUT} onClick={logout}>
       Log out
     </DropdownItem>,
   ]
