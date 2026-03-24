@@ -11,7 +11,7 @@ const DEFAULT_PLUGIN_ENTRY = 'plugin'
 const HAWTIO_DISABLE_THEME_LISTENER = 'hawtio.disableThemeListener'
 
 export const PATTERNFLY_MAJOR_VERSION = process.env.PATTERNFLY_MAJOR_VERSION || '6'
-const PATTERNFLY_THEME_CLASS = `pf-v${PATTERNFLY_MAJOR_VERSION}-theme-dark`
+export const PATTERNFLY_THEME_CLASS = `pf-v${PATTERNFLY_MAJOR_VERSION}-theme-dark`
 
 /**
  * Components to be added to the header navbar

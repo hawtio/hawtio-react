@@ -7,6 +7,7 @@ import { SaveIcon } from '@patternfly/react-icons/dist/esm/icons/save-icon'
 import React, { useContext, useEffect, useState } from 'react'
 import { log } from '../globals'
 import { routesService } from './routes-service'
+import { useIsDarkTheme } from '@hawtiosrc/ui'
 
 import { loader } from '@monaco-editor/react'
 import * as monaco from 'monaco-editor'
@@ -15,6 +16,7 @@ loader.config({ monaco })
 
 export const Source: React.FunctionComponent = () => {
   const { selectedNode } = useContext(CamelContext)
+  const isDarkTheme = useIsDarkTheme()
   const [xmlSource, setXmlSource] = useState('')
   const [isUpdateEnabled, setIsUpdateEnabled] = useState(false)
   const [isWarningVisible, setIsWarningVisible] = useState(isUpdateEnabled)
@@ -83,6 +85,7 @@ export const Source: React.FunctionComponent = () => {
       )}
 
       <CodeEditor
+        isDarkTheme={isDarkTheme}
         isReadOnly={!isUpdateEnabled}
         customControls={saveButton}
         code={xmlSource}
