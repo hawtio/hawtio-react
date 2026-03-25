@@ -76,8 +76,20 @@ export const Source: React.FunctionComponent = () => {
     />
   )
 
+  /*
+   * If consumers want to avoid the hardcoded 75vh value
+   * of the height then this can override in CSS:
+   *
+   * #camel-source-editor {
+   *   --hawtio-code-editor-height: 100%;
+   * }
+   */
+  const editorHeight = () => {
+    return 'var(--hawtio-source-code-editor-height, 75vh)'
+  }
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', margin: '1rem' }}>
+    <div id='camel-source-editor' style={{ display: 'flex', flexDirection: 'column', gap: '1rem', margin: '1rem' }}>
       {isUpdateEnabled && isWarningVisible && (
         <Alert isInline isPlain variant='warning' title='The source update of the route is enabled' />
       )}
@@ -88,7 +100,7 @@ export const Source: React.FunctionComponent = () => {
         code={xmlSource}
         language={Language.xml}
         isLanguageLabelVisible
-        height='75vh'
+        height={editorHeight()}
         onCodeChange={onCodeChange}
       />
     </div>
