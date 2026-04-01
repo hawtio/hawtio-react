@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.12.4](https://github.com/hawtio/hawtio-react/compare/v1.12.3...v1.12.4) (2026-04-01)
+
+
+### Bug Fixes
+
+* **auth:** Ensure that Keycloak auth method is correctly augmented (fixes [#1974](https://github.com/hawtio/hawtio-react/issues/1974)) ([16e824b](https://github.com/hawtio/hawtio-react/commit/16e824b3728ecd554071683c7c14b746f6e80281))
+* **auth:** Provide some information after failed OIDC login (fixes [#1853](https://github.com/hawtio/hawtio-react/issues/1853)) ([c73b9e7](https://github.com/hawtio/hawtio-react/commit/c73b9e7ad4f2c3135a51b95f5dd88fb4379d7bd4))
+
 ## [1.12.3](https://github.com/hawtio/hawtio-react/compare/v1.12.2...v1.12.3) (2026-02-19)
 
 
