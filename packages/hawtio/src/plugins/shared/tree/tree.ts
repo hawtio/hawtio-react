@@ -45,7 +45,7 @@ export class MBeanTree {
         const resultsInSubtree = MBeanTree.filter(parentNode.children || [], filter)
 
         if (resultsInSubtree.length !== 0) {
-          const parentNodeCloned = Object.assign({}, parentNode)
+          const parentNodeCloned = Object.assign(Object.create(Object.getPrototypeOf(parentNode)), parentNode)
           parentNodeCloned.children = resultsInSubtree
 
           results = results.concat(parentNodeCloned)
