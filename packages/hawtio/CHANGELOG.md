@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.12.5](https://github.com/hawtio/hawtio-react/compare/v1.12.4...v1.12.5) (2026-04-14)
+
+
+### Bug Fixes
+
+* **ui:** Filter MBeanNodes with proper object cloning (fixes [#2041](https://github.com/hawtio/hawtio-react/issues/2041)) ([7639732](https://github.com/hawtio/hawtio-react/commit/7639732acda4f5449e8ce6e2c5ea4e0730b18105))
+
 ## [1.12.4](https://github.com/hawtio/hawtio-react/compare/v1.12.3...v1.12.4) (2026-04-01)
 
 
