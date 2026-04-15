@@ -24,21 +24,33 @@ describe('MBeanNode', () => {
       attr: {
         CamelId: {
           rw: false,
+          r: true,
+          w: false,
+          is: false,
           type: 'java.lang.String',
           desc: 'Camel ID',
         },
         CamelVersion: {
           rw: false,
+          r: true,
+          w: false,
+          is: false,
           type: 'java.lang.String',
           desc: 'Camel Version',
         },
         ExchangesTotal: {
           rw: false,
+          r: true,
+          w: false,
+          is: false,
           type: 'long',
           desc: 'Total number of exchanges',
         },
         Redeliveries: {
           rw: false,
+          r: true,
+          w: false,
+          is: false,
           type: 'long',
           desc: 'Number of redeliveries (internal only)',
         },

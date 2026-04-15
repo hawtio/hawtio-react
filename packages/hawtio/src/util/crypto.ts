@@ -21,8 +21,9 @@ export function toBase64(data: Uint8Array): string {
   return window.btoa(String.fromCharCode(...Array.from(data)))
 }
 
-export function toByteArray(data: string): Uint8Array {
-  return new Uint8Array(Array.from(window.atob(data)).map(c => c.charCodeAt(0)))
+export function toByteArray(data: string): Uint8Array<ArrayBuffer> {
+  const bytes = Array.from(window.atob(data)).map(c => c.charCodeAt(0))
+  return new Uint8Array(new ArrayBuffer(bytes.length)).map((_, i) => bytes[i]!)
 }
 
 export async function encrypt(key: CryptoKey, data: string): Promise<string> {

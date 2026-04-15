@@ -236,7 +236,7 @@ const OperationFormContents: React.FunctionComponent<{ isExpanded: boolean }> = 
           isReadOnly
           className={isFailed ? 'jmx-operation-error' : ''}
         >
-          {result}
+          {result ?? ''}
         </ClipboardCopy>
       )}
     </React.Fragment>
