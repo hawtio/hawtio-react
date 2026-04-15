@@ -46,6 +46,9 @@
   "scripts": {
     "build": "tsup --clean",
     "build:watch": "tsup --watch",
+    "build:check": "yarn typecheck && yarn build",
+    "typecheck": "tsc --build",
+    "typecheck:watch": "tsc --build --watch",
     "generate:camel-icons": "node ./scripts/generate-camel-svg-index.js",
     "test": "jest",
     "test:watch": "jest --watch --silent=false",

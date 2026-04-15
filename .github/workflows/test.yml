@@ -47,6 +47,6 @@ jobs:
       - name: Install
         run: yarn install
       - name: Build
-        run: yarn build:all
+        run: yarn build:all:check
       - name: Test
         run: yarn test:all

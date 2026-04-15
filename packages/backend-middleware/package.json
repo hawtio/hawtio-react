@@ -27,10 +27,13 @@
   ],
   "scripts": {
     "start": "yarn build && node example.mjs",
-    "build": "concurrently \"npm:build:*(!watch)\"",
+    "build": "concurrently \"npm:build:*(!watch|check)\"",
+    "build:check": "yarn build",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "build:watch": "tsc -p tsconfig.json -w",
+    "typecheck": "tsc --build",
+    "typecheck:watch": "tsc --build --watch",
     "test": "jest",
     "release": "commit-and-tag-version --path . --tag-prefix backend-middleware-v --releaseCommitMessageFormat \"chore(release): ${npm_package_name} v{{currentTag}}\"",
     "prepack": "yarn build"
