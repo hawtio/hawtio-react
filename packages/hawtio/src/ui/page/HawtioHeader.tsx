@@ -51,7 +51,7 @@ export const HawtioHeader: React.FunctionComponent<{ loginMethod: string }> = ({
   const isBrandShown = hawtconfig.appearance?.showBrand ?? true
 
   return (
-    <Masthead id='hawtio-header'>
+    <Masthead id='hawtio-header' display={{ default: 'inline' }}>
       <MastheadMain>
         {sideBarShown && (
           <MastheadToggle>
@@ -81,6 +81,7 @@ type HawtioBrandProps = {
 const HawtioBrand: React.FunctionComponent<HawtioBrandProps> = props => {
   const location = useLocation()
   const appLogo = props.hawtconfig.branding?.appLogoUrl ?? hawtioLogo
+  const appLogoDarkMode = props.hawtconfig.branding?.appLogoDarkModeUrl ?? hawtioLogo
   const appName = props.hawtconfig.branding?.appName ?? DEFAULT_APP_NAME
   const showAppName = props.hawtconfig.branding?.showAppName ?? false
 
@@ -89,7 +90,12 @@ const HawtioBrand: React.FunctionComponent<HawtioBrandProps> = props => {
       id='hawtio-header-brand'
       component={props => <Link to={{ pathname: '/', search: location.search }} {...props} />}
     >
-      <Brand src={appLogo} alt={appName} />
+      <div className='show-light'>
+        <Brand src={appLogo} alt={appName} />
+      </div>
+      <div className='show-dark'>
+        <Brand src={appLogoDarkMode} alt={appName} />
+      </div>
       {showAppName && (
         <Title headingLevel='h1' size='xl'>
           {appName}

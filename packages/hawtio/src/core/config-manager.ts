@@ -58,6 +58,7 @@ export type BrandingConfig = {
   appName?: string
   showAppName?: boolean
   appLogoUrl?: string
+  appLogoDarkModeUrl?: string
   css?: string
   favicon?: string
 }
