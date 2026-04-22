@@ -30,11 +30,3 @@
   text-decoration: none;
   color: unset;
 }
-
-.show-dark,
-:where(.pf-v6-theme-dark) .show-light {
-  display: none;
-}
-:where(.pf-v6-theme-dark) .show-dark {
-  display: revert;
-}

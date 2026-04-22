@@ -3,6 +3,7 @@ import {
   DEFAULT_APP_NAME,
   eventService,
   Hawtconfig,
+  hawtio,
   isUniversalHeaderItem,
   UniversalHeaderItem,
   useHawtconfig,
@@ -17,6 +18,7 @@ import {
   DropdownItem,
   DropdownList,
   Masthead,
+  MastheadBrand,
   MastheadContent,
   MastheadLogo,
   MastheadMain,
@@ -80,28 +82,30 @@ type HawtioBrandProps = {
 
 const HawtioBrand: React.FunctionComponent<HawtioBrandProps> = props => {
   const location = useLocation()
-  const appLogo = props.hawtconfig.branding?.appLogoUrl ?? hawtioLogo
+  let appLogo = props.hawtconfig.branding?.appLogoUrl ?? hawtioLogo
   const appLogoDarkMode = props.hawtconfig.branding?.appLogoDarkModeUrl ?? hawtioLogo
   const appName = props.hawtconfig.branding?.appName ?? DEFAULT_APP_NAME
   const showAppName = props.hawtconfig.branding?.showAppName ?? false
 
+  const darkMode = hawtio.windowTheme() === 'dark'
+  if (darkMode) {
+    appLogo = appLogoDarkMode
+  }
+
   return (
-    <MastheadLogo
-      id='hawtio-header-brand'
-      component={props => <Link to={{ pathname: '/', search: location.search }} {...props} />}
-    >
-      <div className='show-light'>
+    <MastheadBrand style={{ alignItems: 'center' }}>
+      <MastheadLogo
+        id='hawtio-header-brand'
+        component={props => <Link to={{ pathname: '/', search: location.search }} {...props} />}
+      >
         <Brand src={appLogo} alt={appName} />
-      </div>
-      <div className='show-dark'>
-        <Brand src={appLogoDarkMode} alt={appName} />
-      </div>
+      </MastheadLogo>
       {showAppName && (
         <Title headingLevel='h1' size='xl'>
           {appName}
         </Title>
       )}
-    </MastheadLogo>
+    </MastheadBrand>
   )
 }
 

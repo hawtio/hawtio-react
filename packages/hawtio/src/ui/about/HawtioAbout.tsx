@@ -4,6 +4,7 @@ import { AboutModal, Content } from '@patternfly/react-core'
 import React from 'react'
 import { useAbout } from './context'
 import { log } from './globals'
+import { hawtio } from '@hawtiosrc/core'
 import './HawtioAbout.css'
 
 export const HawtioAbout: React.FunctionComponent<{
@@ -16,7 +17,10 @@ export const HawtioAbout: React.FunctionComponent<{
     return null
   }
 
-  const imgSrc = about.imgSrc || imgLogo
+  let imgSrc = about.imgSrc || imgLogo
+  if (hawtio.windowTheme() === 'dark') {
+    imgSrc = about.imgDarkModeSrc || imgLogo
+  }
   const backgroundImgSrc = about.backgroundImgSrc
   const title = about.title || 'Hawtio Management Console'
   const copyright = about.copyright || '© Hawtio project'

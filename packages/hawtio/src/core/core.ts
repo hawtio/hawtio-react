@@ -587,7 +587,7 @@ export class HawtioCore implements IHawtio {
    * Detect what theme the browser has been set to and
    * return 'dark' | 'light'
    */
-  private windowTheme(): string {
+  windowTheme(): string {
     return this.themeList().matches ? 'dark' : 'light'
   }
 
