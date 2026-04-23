@@ -30,7 +30,7 @@ export async function proxy(uri: string, req: Request, res: Response) {
     }
     const res2 = await axios(axiosRequest)
     if (res2.headers['content-type']) {
-      res.header('content-type', res2.headers['content-type'])
+      res.header('content-type', res2.headers['content-type'] as string | undefined)
     }
     res.status(res2.status)
     res2.data.pipe(res).on('error', handleError)
