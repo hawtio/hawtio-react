@@ -47,7 +47,7 @@
     "@types/express": "^5",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.7.0",
-    "commit-and-tag-version": "^12.7.1",
+    "commit-and-tag-version": "^12.7.3",
     "concurrently": "^9.2.1",
     "jest": "^30.3.0",
     "ts-jest": "^29.4.9",
