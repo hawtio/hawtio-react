@@ -1,13 +1,12 @@
 import { useUser } from '@hawtiosrc/auth/hooks'
 import { useHawtconfig, usePlugins } from '@hawtiosrc/core'
 import { HawtioHelp } from '@hawtiosrc/help/ui'
-import { background } from '@hawtiosrc/img'
 import { PluginNodeSelectionContext, usePluginNodeSelected } from '@hawtiosrc/plugins'
 import { preferencesService } from '@hawtiosrc/preferences/preferences-service'
 import { HawtioPreferences } from '@hawtiosrc/preferences/ui'
 import { HawtioNotification } from '@hawtiosrc/ui/notification'
 import { SessionMonitor, sessionService } from '@hawtiosrc/ui/session'
-import { BackgroundImage, EmptyState, Page, PageSection } from '@patternfly/react-core'
+import { EmptyState, Page, PageSection } from '@patternfly/react-core'
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import React, { useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
@@ -63,9 +62,10 @@ export const HawtioPage: React.FunctionComponent = () => {
   const headerShown = hawtconfig.appearance?.showHeader ?? true
   const sideBarShown = hawtconfig.appearance?.showSideBar ?? true
 
+  // we no longer use <BackgroundImage> on the page - as some actual content pages may be transparent and some don't
+
   return (
     <PageContext.Provider value={{ username, plugins }}>
-      <BackgroundImage src={background} />
       <Page
         id='hawtio-main-page'
         mainContainerId='hawtio-main-container'

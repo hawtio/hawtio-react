@@ -1,10 +1,10 @@
 {
   "branding": {
     "appName": "Hawtio Management Console",
-    "showAppName": false,
+    "showAppName": true,
     "appLogoUrl": "hawtio-logo.svg",
     "appLogoDarkModeUrl": "hawtio-logo-darkmode.svg",
-    "css": "",
+    "css": "branding-example.css",
     "favicon": "favicon.ico"
   },
   "appearance": {
@@ -27,6 +27,7 @@
     "imgSrc": "hawtio-logo.svg",
     "imgDarkModeSrc": "hawtio-logo-darkmode.svg",
     "backgroundImgSrc": "pf-background.svg",
+    "backgroundDarkModeImgSrc": "pf-background-darkmode.svg",
     "productInfo": [
       { "name": "ABC", "value": "1.2.3" },
       { "name": "XYZ", "value": "7.8.9" }

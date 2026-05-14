@@ -8,7 +8,7 @@
 /*
  * When the theme is dark override the diagram variables
  */
-:where(.pf-v5-theme-dark):root {
+:where(.pf-v6-theme-dark):root {
   --hawtio-diagram-node--BackgroundColor: #656565;
 }
 
@@ -90,7 +90,7 @@
  * Attribution logo box's text colour does not change on dark theme
  * update so change it to a subtle dark colour when the theme is updated
  */
-:where(.pf-v5-theme-dark) .react-flow__attribution a {
+:where(.pf-v6-theme-dark) .react-flow__attribution a {
   color: var(--pf-t--global--dark--background--color--200) !important;
 }
 

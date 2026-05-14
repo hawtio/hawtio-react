@@ -1,4 +1,4 @@
-import imgLogo from '@hawtiosrc/img/hawtio-logo.svg'
+import imgLogoB64 from '@hawtiosrc/img/hawtio-logo.svg'
 import { stringSorter } from '@hawtiosrc/util/strings'
 import { AboutModal, Content } from '@patternfly/react-core'
 import React from 'react'
@@ -6,6 +6,8 @@ import { useAbout } from './context'
 import { log } from './globals'
 import { hawtio } from '@hawtiosrc/core'
 import './HawtioAbout.css'
+
+const imgLogo = `data:image/svg+xml;base64,${imgLogoB64}`
 
 export const HawtioAbout: React.FunctionComponent<{
   isOpen: boolean
@@ -18,10 +20,11 @@ export const HawtioAbout: React.FunctionComponent<{
   }
 
   let imgSrc = about.imgSrc || imgLogo
+  let backgroundImgSrc = about.backgroundImgSrc
   if (hawtio.windowTheme() === 'dark') {
     imgSrc = about.imgDarkModeSrc || imgLogo
+    backgroundImgSrc = about.backgroundDarkModeImgSrc || backgroundImgSrc
   }
-  const backgroundImgSrc = about.backgroundImgSrc
   const title = about.title || 'Hawtio Management Console'
   const copyright = about.copyright || '© Hawtio project'
 
