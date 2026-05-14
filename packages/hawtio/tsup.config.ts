@@ -33,7 +33,10 @@ export default defineConfig(() => {
     format: 'cjs',
     splitting: true,
     loader: {
-      '.svg': 'dataurl',
+      // for SVG see:
+      //  - https://github.com/hawtio/hawtio-react/issues/2088
+      //  - https://github.com/evanw/esbuild/issues/4045
+      '.svg': 'base64',
       '.jpg': 'dataurl',
       '.png': 'dataurl',
       '.md': 'text',

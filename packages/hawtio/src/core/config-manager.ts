@@ -114,6 +114,7 @@ export type AboutConfig = {
   imgSrc?: string
   imgDarkModeSrc?: string
   backgroundImgSrc?: string
+  backgroundDarkModeImgSrc?: string
   productInfo?: AboutProductInfo[]
   copyright?: string
 }
