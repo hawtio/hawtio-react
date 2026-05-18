@@ -203,6 +203,9 @@ jobs:
             "main")
               hawtio_branch="main"
               ;;
+            "2.2.x")
+              hawtio_branch="main"
+              ;;
             *)
               hawtio_branch="4.x"
               ;;
