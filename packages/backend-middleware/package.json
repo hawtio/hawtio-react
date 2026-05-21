@@ -46,7 +46,7 @@
   "devDependencies": {
     "@types/express": "^5",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.7.0",
+    "@types/node": "^25.9.1",
     "commit-and-tag-version": "^12.7.3",
     "concurrently": "^9.2.1",
     "jest": "^30.4.2",
