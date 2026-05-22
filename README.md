@@ -22,6 +22,7 @@ This project reimplements the following Hawtio JS components in one project:
 This project uses [tsup](https://tsup.egoist.dev/) and [Webpack](https://webpack.js.org/) for building packages.
 
 See also [Developing Hawtio React](./docs/developing.md) for the project styling, guidelines, and more details on development.
+See [`Architecture`](docs/architecture.md) for high level overview of Hawtio concepts and building blocks.
 
 ### Prerequisites
 
@@ -147,3 +148,7 @@ should then be available to use in the host browser.
 When making a PR E2E tests from hawtio/hawtio will be run against your frontend.
 If you want to specify a different branch to run the tests from you can add
 `` `branch: [remote:]branch` `` to the PR description, ie. `branch: e2e-test-fix` or in your own fork `branch: jdoe:my-branch`.
+
+## For AI Assistants
+
+See [`docs/architecture.md`](docs/architecture.md) for foundational concepts and terminology.
