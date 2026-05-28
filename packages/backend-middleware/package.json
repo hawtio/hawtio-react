@@ -50,7 +50,7 @@
     "commit-and-tag-version": "^12.7.3",
     "concurrently": "^9.2.1",
     "jest": "^30.4.2",
-    "ts-jest": "^29.4.10",
+    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
