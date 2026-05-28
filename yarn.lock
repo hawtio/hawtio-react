@@ -4198,7 +4198,7 @@ __metadata:
     source-map-loader: "npm:^5.0.0"
     style-loader: "npm:^4.0.0"
     swc-loader: "npm:^0.2.7"
-    webpack: "npm:^5.107.0"
+    webpack: "npm:^5.107.2"
     webpack-cli: "npm:^7.0.3"
     webpack-dev-server: "npm:^5.2.4"
   languageName: unknown
@@ -6466,13 +6466,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.21.4":
-  version: 5.21.6
-  resolution: "enhanced-resolve@npm:5.21.6"
+"enhanced-resolve@npm:^5.22.0":
+  version: 5.22.0
+  resolution: "enhanced-resolve@npm:5.22.0"
   dependencies:
     graceful-fs: "npm:^4.2.4"
     tapable: "npm:^2.3.3"
-  checksum: 10/7599496622b1718727409bc1944e19ad72492add909a3f9d905bbc9d81bade42b8bece156bfbe30ee8d1bbc8b24abc9d8bf194f4d46173a6adc919e95766753a
+  checksum: 10/faf794fe6edbad45beee2f50418be98507de7d961e7d8c65e0e3d3fcf30fc39ca467e55f4b02ed0a9a65a58d0ca7b17cc3f5c11f574c36acc47a53b16c6f0825
   languageName: node
   linkType: hard
 
@@ -15164,16 +15164,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-sources@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "webpack-sources@npm:3.4.1"
-  checksum: 10/bb6f3fe34b260dd935c8d9b58cc1dd557227e71870661ec12342fa84c49340cc8634b4a0fc4e828e2276e8973cdbca4963dda7dae07b98511ffa1e6a75e4de00
+"webpack-sources@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "webpack-sources@npm:3.5.0"
+  checksum: 10/e5af4245dbe52bb1520c7c373d73042fe091e273ff94269b877725a7873481e544ba4e71722df13e278f88069de900052764d98b99f9910be634826ec2f6e67d
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.107.0":
-  version: 5.107.0
-  resolution: "webpack@npm:5.107.0"
+"webpack@npm:^5.107.2":
+  version: 5.107.2
+  resolution: "webpack@npm:5.107.2"
   dependencies:
     "@types/estree": "npm:^1.0.8"
     "@types/json-schema": "npm:^7.0.15"
@@ -15184,7 +15184,7 @@ __metadata:
     acorn-import-phases: "npm:^1.0.3"
     browserslist: "npm:^4.28.1"
     chrome-trace-event: "npm:^1.0.2"
-    enhanced-resolve: "npm:^5.21.4"
+    enhanced-resolve: "npm:^5.22.0"
     es-module-lexer: "npm:^2.1.0"
     eslint-scope: "npm:5.1.1"
     events: "npm:^3.2.0"
@@ -15197,13 +15197,13 @@ __metadata:
     tapable: "npm:^2.3.0"
     terser-webpack-plugin: "npm:^5.5.0"
     watchpack: "npm:^2.5.1"
-    webpack-sources: "npm:^3.4.1"
+    webpack-sources: "npm:^3.5.0"
   peerDependenciesMeta:
     webpack-cli:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 10/d5ed403764927a09f6e9618e0ae84b6c8c47c9ead9b01afbfb70134a348a3f27aa93d55ff579ad96db2022dde39d38965f36a4b751d2b86754414a6e96fdb403
+  checksum: 10/c02488e699902ca308c735ccc6a22e276e54f4c13d46cb8558a35deda1a347d6c0b263a9b75797c6d84cedcd672213e8442a10afc71cb951b432284c2460e7bd
   languageName: node
   linkType: hard
 
