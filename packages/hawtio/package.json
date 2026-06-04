@@ -104,7 +104,7 @@
     "monaco-editor": "^0.52.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.30.3",
+    "react-router-dom": "^6.30.4",
     "replace": "^1.2.2",
     "timezone-mock": "^1.4.2",
     "ts-jest": "^29.4.11",
