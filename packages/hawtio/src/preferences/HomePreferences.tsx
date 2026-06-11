@@ -9,7 +9,12 @@ import {
   FormHelperText,
   FormSection,
   HelperText,
-  HelperTextItem, MenuToggle, MenuToggleElement, Select, SelectList, SelectOption,
+  HelperTextItem,
+  MenuToggle,
+  MenuToggleElement,
+  Select,
+  SelectList,
+  SelectOption,
   Switch,
 } from '@patternfly/react-core'
 import { Modal, ModalVariant } from '@patternfly/react-core/deprecated'
@@ -88,19 +93,25 @@ const UIForm: React.FunctionComponent = () => {
       </FormGroup>
       <FormGroup label='UI Theme' fieldId='ui-form-vertical-nav-switch'>
         <Select
-            selected={theme}
-            isOpen={themeLabelOpen}
-            toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
-                <MenuToggle ref={toggleRef} onClick={() => setThemeLabelOpen(!themeLabelOpen)}>
-                  {themeName(theme)}
-                </MenuToggle>
-            )}
-            onSelect={selectTheme}
-          >
+          selected={theme}
+          isOpen={themeLabelOpen}
+          toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+            <MenuToggle ref={toggleRef} onClick={() => setThemeLabelOpen(!themeLabelOpen)}>
+              {themeName(theme)}
+            </MenuToggle>
+          )}
+          onSelect={selectTheme}
+        >
           <SelectList>
-            <SelectOption key='theme-browser' value={uiTheme.BROWSER}>Default Browser theme</SelectOption>
-            <SelectOption key='theme-light' value={uiTheme.LIGHT}>Light theme</SelectOption>
-            <SelectOption key='theme-dark' value={uiTheme.DARK}>Dark theme</SelectOption>
+            <SelectOption key='theme-browser' value={uiTheme.BROWSER}>
+              Default Browser theme
+            </SelectOption>
+            <SelectOption key='theme-light' value={uiTheme.LIGHT}>
+              Light theme
+            </SelectOption>
+            <SelectOption key='theme-dark' value={uiTheme.DARK}>
+              Dark theme
+            </SelectOption>
           </SelectList>
         </Select>
       </FormGroup>

@@ -13,7 +13,11 @@ const HAWTIO_DISABLE_THEME_LISTENER = 'hawtio.disableThemeListener'
 export const PATTERNFLY_MAJOR_VERSION = process.env.PATTERNFLY_MAJOR_VERSION || '6'
 export const PATTERNFLY_THEME_CLASS = `pf-v${PATTERNFLY_MAJOR_VERSION}-theme-dark`
 
-export enum uiTheme { BROWSER, LIGHT, DARK }
+export enum uiTheme {
+  BROWSER,
+  LIGHT,
+  DARK,
+}
 
 /**
  * Components to be added to the header navbar

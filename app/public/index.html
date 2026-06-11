@@ -5,7 +5,7 @@
     <meta name="description" content="Hawtio React dev console" />
 
     <script>
-      (() => {
+      ;(() => {
         if (localStorage && window.matchMedia) {
           const saved = localStorage.getItem('hawtio.theme')
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -16,7 +16,7 @@
             document.documentElement.classList.remove('pf-v6-theme-dark')
           }
         }
-      })();
+      })()
     </script>
 
     <!-- Hawtio branding styles placeholder -->

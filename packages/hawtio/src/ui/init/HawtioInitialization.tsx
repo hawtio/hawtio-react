@@ -65,13 +65,13 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
               </span>
             ))}
           </h4>
-          { errors.length > 0 && (
+          {errors.length > 0 && (
             <ul>
               {errors.map((v: string, idx: number) => (
-                  <li key={idx} className='ready'>
-                    <span>{icon(TaskState.error)}</span>
-                    {v}
-                  </li>
+                <li key={idx} className='ready'>
+                  <span>{icon(TaskState.error)}</span>
+                  {v}
+                </li>
               ))}
             </ul>
           )}
