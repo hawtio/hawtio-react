@@ -23,6 +23,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   test:
     permissions:
@@ -45,9 +48,12 @@ jobs:
         if: ${{ github.event_name == 'pull_request_target' }}
         with:
           ref: 'refs/pull/${{ github.event.number }}/merge'
+          persist-credentials: false
       - name: Checkout code
         uses: actions/checkout@v6
         if: ${{ github.event_name == 'push' }}
+        with:
+          persist-credentials: false
       - name: Docker Setup QEMU
         uses: docker/setup-qemu-action@v4.0.0
       - name: Set up Node
@@ -120,6 +126,7 @@ jobs:
           repository: ${{ steps.get-images.outputs.repo }}
           ref: ${{ steps.get-images.outputs.branch }}
           path: hawtio
+          persist-credentials: false
       - name: Set up Java
         if: ${{ steps.get-images.outputs.repo != ''}}
         uses: actions/setup-java@v5
