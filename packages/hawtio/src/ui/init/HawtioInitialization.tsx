@@ -35,6 +35,7 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
 
   const items: { item: string; ready: TaskState }[] = []
   const plugins: { item: string; ready: TaskState }[] = []
+  const errors: string[] = []
   const dots: TaskState[] = []
   let finish = false
 
@@ -47,6 +48,9 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
     } else {
       items.push({ item: item, ready: tasks[item] ? tasks[item]!.ready : TaskState.started })
       dots.push(tasks[item] ? tasks[item]!.ready : TaskState.started)
+    }
+    if (!verbose && tasks[item]?.ready == TaskState.error) {
+      errors.push(item)
     }
   }
 
@@ -61,6 +65,16 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
               </span>
             ))}
           </h4>
+          { errors.length > 0 && (
+            <ul>
+              {errors.map((v: string, idx: number) => (
+                  <li key={idx} className='ready'>
+                    <span>{icon(TaskState.error)}</span>
+                    {v}
+                  </li>
+              ))}
+            </ul>
+          )}
         </div>
       </>
     )

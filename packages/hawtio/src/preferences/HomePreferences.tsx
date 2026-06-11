@@ -1,4 +1,4 @@
-import { useHawtconfig } from '@hawtiosrc/core'
+import { hawtio, uiTheme, useHawtconfig } from '@hawtiosrc/core'
 import { HawtioLoadingPage } from '@hawtiosrc/ui'
 import {
   Alert,
@@ -9,7 +9,7 @@ import {
   FormHelperText,
   FormSection,
   HelperText,
-  HelperTextItem,
+  HelperTextItem, MenuToggle, MenuToggleElement, Select, SelectList, SelectOption,
   Switch,
 } from '@patternfly/react-core'
 import { Modal, ModalVariant } from '@patternfly/react-core/deprecated'
@@ -40,23 +40,71 @@ export const HomePreferences: React.FunctionComponent = () => {
   )
 }
 
+function themeName(theme: uiTheme): string {
+  switch (theme) {
+    case uiTheme.BROWSER:
+      return 'Default Browser theme'
+    case uiTheme.DARK:
+      return 'Dark theme'
+    default:
+      return 'Light theme'
+  }
+}
+
 const UIForm: React.FunctionComponent = () => {
   const [showVerticalNav, setShowVerticalNav] = useState(preferencesService.isShowVerticalNavByDefault())
+  const [theme, setTheme] = useState<uiTheme>(hawtio.currentTheme())
+  const [themeLabelOpen, setThemeLabelOpen] = useState(false)
 
   const handleShowVerticalNavChange = (value: boolean) => {
     setShowVerticalNav(value)
     preferencesService.saveShowVerticalNavByDefault(value)
   }
 
+  const selectTheme = (_event?: React.MouseEvent<Element, MouseEvent>, value?: uiTheme) => {
+    if (value === uiTheme.BROWSER) {
+      // get back to browser default
+      hawtio.updateFromTheme()
+      localStorage.removeItem('hawtio.theme')
+    } else {
+      // override the theme
+      const mode = value === uiTheme.DARK ? 'dark' : 'light'
+      hawtio.updateFromPreferences(mode)
+      localStorage.setItem('hawtio.theme', mode)
+    }
+    setTheme(value as typeof theme)
+    setThemeLabelOpen(!themeLabelOpen)
+  }
+
   return (
-    <FormGroup label='Default vertical nav state' fieldId='ui-form-vertical-nav-switch'>
-      <Switch
-        data-testid='switch-vertical-nav-state'
-        label='Show vertical navigation'
-        isChecked={showVerticalNav}
-        onChange={(_event, value: boolean) => handleShowVerticalNavChange(value)}
-      />
-    </FormGroup>
+    <>
+      <FormGroup label='Default vertical nav state' fieldId='ui-form-vertical-nav-switch'>
+        <Switch
+          data-testid='switch-vertical-nav-state'
+          label='Show vertical navigation'
+          isChecked={showVerticalNav}
+          onChange={(_event, value: boolean) => handleShowVerticalNavChange(value)}
+        />
+      </FormGroup>
+      <FormGroup label='UI Theme' fieldId='ui-form-vertical-nav-switch'>
+        <Select
+            selected={theme}
+            isOpen={themeLabelOpen}
+            toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                <MenuToggle ref={toggleRef} onClick={() => setThemeLabelOpen(!themeLabelOpen)}>
+                  {themeName(theme)}
+                </MenuToggle>
+            )}
+            onSelect={selectTheme}
+          >
+          <SelectList>
+            <SelectOption key='theme-browser' value={uiTheme.BROWSER}>Default Browser theme</SelectOption>
+            <SelectOption key='theme-light' value={uiTheme.LIGHT}>Light theme</SelectOption>
+            <SelectOption key='theme-dark' value={uiTheme.DARK}>Dark theme</SelectOption>
+          </SelectList>
+        </Select>
+      </FormGroup>
+    </>
   )
 }
 

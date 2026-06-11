@@ -13,6 +13,8 @@ const HAWTIO_DISABLE_THEME_LISTENER = 'hawtio.disableThemeListener'
 export const PATTERNFLY_MAJOR_VERSION = process.env.PATTERNFLY_MAJOR_VERSION || '6'
 export const PATTERNFLY_THEME_CLASS = `pf-v${PATTERNFLY_MAJOR_VERSION}-theme-dark`
 
+export enum uiTheme { BROWSER, LIGHT, DARK }
+
 /**
  * Components to be added to the header navbar
  * Can define either a single component type or
@@ -215,7 +217,13 @@ export class HawtioCore implements IHawtio {
    * The Window Theme Listener callback function
    */
   private windowThemeListener = () => {
-    this.updateFromTheme()
+    const saved = localStorage.getItem('hawtio.theme')
+    if (!saved) {
+      // update from browser/inspector settings only if not explicitly overridden in preferences
+      this.updateFromTheme()
+    } else {
+      this.updateFromPreferences(saved)
+    }
   }
 
   /**
@@ -380,7 +388,7 @@ export class HawtioCore implements IHawtio {
     }
 
     // Initial update when application is loaded
-    this.updateFromTheme()
+    this.windowThemeListener()
 
     // Subsequent attempts to change the theme
     this.themeList().addEventListener('change', this.windowThemeListener)
@@ -592,11 +600,27 @@ export class HawtioCore implements IHawtio {
   }
 
   /**
+   * Return preferred UI mode (can be set in browser or overridden in Hawtio preferences)
+   */
+  currentTheme(): uiTheme {
+    const saved = localStorage.getItem('hawtio.theme')
+    if (saved) {
+      return saved === 'dark' ? uiTheme.DARK : uiTheme.LIGHT
+    } else {
+      return uiTheme.BROWSER
+    }
+  }
+
+  /**
    * Update the document root with the PatternFly dark class
    * see https://www.patternfly.org/developer-resources/dark-theme-handbook
    */
-  private updateFromTheme() {
-    if (this.windowTheme() === 'dark') {
+  updateFromTheme() {
+    this.updateFromPreferences(this.windowTheme())
+  }
+
+  updateFromPreferences(mode: string) {
+    if (mode === 'dark') {
       log.debug(`Adding patternfly theme class: ${PATTERNFLY_THEME_CLASS} to document element`)
       document.documentElement.classList.add(PATTERNFLY_THEME_CLASS)
     } else {

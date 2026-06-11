@@ -18,7 +18,7 @@ export const Hawtio: React.FunctionComponent<HawtioProps> = props => {
 
   /*
    * Initialise a window theme listener to update the application theme
-   * depending on the browser's chosen / default theme.
+   * depending on the browser's chosen / default theme or Hawtio preferences.
    *
    * Note: Will be ignored if a hawtio.disableThemeListener flag is set
    * to true in localStorage.
