@@ -1,3 +1,7 @@
 #hawtio-main-page > div.pf-v6-c-page__main-container {
   margin-right: 0;
 }
+
+:where(.pf-v6-theme-dark):root {
+  --pf-v6-chart-axis--tick-label--Fill: white;
+}
