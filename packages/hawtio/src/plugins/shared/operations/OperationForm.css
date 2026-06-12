@@ -1,5 +1,7 @@
 .jmx-operation-error .pf-v6-c-clipboard-copy__expandable-content {
-  background-color: #ffe6e6;
+  background-color: var(--pf-t--global--background--color--primary--default);
+  color: var(--pf-t--global--text--color--regular);
+  border: var(--pf-v6-c-alert--BorderWidth, 2px) solid var(--pf-t--global--border--color--status--danger--default);
 }
 
 .operation-datatype {
