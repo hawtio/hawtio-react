@@ -1049,7 +1049,7 @@ __metadata:
     reactflow: "npm:^11.11.4"
     replace: "npm:^1.2.2"
     superstruct: "npm:^2.0.2"
-    timezone-mock: "npm:^1.4.2"
+    timezone-mock: "npm:^1.4.3"
     ts-jest: "npm:^29.4.11"
     ts-node: "npm:^10.9.2"
     tsup: "npm:^8.5.1"
@@ -13833,10 +13833,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"timezone-mock@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "timezone-mock@npm:1.4.2"
-  checksum: 10/177e60f1966376d0700e65b23e6e769bd01689ebf9e34e8673c0ff96599af6a37f13a7f10ab05bb6392e8b93d543ae2b5d7f0deecb5912add042234350749cd2
+"timezone-mock@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "timezone-mock@npm:1.4.3"
+  checksum: 10/025ef0bb8d24e0223d1480aebe9d16413a07c0f42f0a09b08b37a70c3657652ccaf65b4937cd626964aedb5c7b2adea535c4ded1bf691826e5854262e2115488
   languageName: node
   linkType: hard
 
