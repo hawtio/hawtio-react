@@ -46,13 +46,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         if: ${{ github.event_name == 'pull_request_target' }}
         with:
           ref: 'refs/pull/${{ github.event.number }}/merge'
           persist-credentials: false
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         if: ${{ github.event_name == 'push' }}
         with:
           persist-credentials: false
@@ -124,7 +124,7 @@ jobs:
           fi
       - name: Checkout Hawtio
         if: ${{ steps.get-images.outputs.repo != ''}}
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ${{ steps.get-images.outputs.repo }}
           ref: ${{ steps.get-images.outputs.branch }}
