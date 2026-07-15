@@ -1033,7 +1033,7 @@ __metadata:
     eventemitter3: "npm:^5.0.4"
     jest: "npm:^30.4.2"
     jest-environment-jsdom: "npm:^30.4.1"
-    jest-fetch-mock: "npm:^4.1.0"
+    jest-fetch-mock: "npm:^4.2.0"
     jolokia.js: "npm:^2.6.0"
     js-logger: "npm:^1.6.1"
     jwt-decode: "npm:^4.0.0"
@@ -9174,12 +9174,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-fetch-mock@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "jest-fetch-mock@npm:4.1.0"
+"jest-fetch-mock@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "jest-fetch-mock@npm:4.2.0"
   dependencies:
     cross-fetch: "npm:^3.1.8"
-  checksum: 10/d1f554f127534beddc7780f6e7441c6ef3649cae2c0e681c00156ed79ec85d930d868b92db63517650c945ca4810939216c7bce7e2a422a1ff5f8a9c6e7e0f1d
+  checksum: 10/a59d8d2af35ae9045a1554160579ab9126823b0db5072366a010fa1de04d9c77e0763e021721c260c63bebc6d231c07f9315832c9d85170f30bbfdc18c922690
   languageName: node
   linkType: hard
 
