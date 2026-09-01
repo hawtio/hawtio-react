@@ -98,11 +98,10 @@ export function useMBeanTree() {
           startTransition(() => {
             setSelectedNode(treeNode)
           })
-          navigate({ pathname: pluginPath, search: searchParams.toString() }, { replace: true })
         }
       }
     }
-  }, [tree, selectedNode, setSelectedNode, navigate, searchParams])
+  }, [tree, selectedNode, setSelectedNode])
 
   return { tree, loaded, selectedNode, setSelectedNode }
 }
