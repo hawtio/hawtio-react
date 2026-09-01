@@ -104,6 +104,7 @@ module.exports = (_, args) => {
           // https://github.com/microsoft/monaco-editor/issues/1509
           languages: ['xml', 'json', 'html'],
           globalAPI: true,
+          monacoEditorPath: path.resolve(__dirname, '../node_modules/monaco-editor'),
         }),
       ],
       output: {
