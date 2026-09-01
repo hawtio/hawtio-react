@@ -48,7 +48,7 @@
     "@types/node": "^26.2.0",
     "commit-and-tag-version": "^13.1.2",
     "concurrently": "^10.0.5",
-    "jest": "^30.4.2",
+    "jest": "^30.5.0",
     "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
