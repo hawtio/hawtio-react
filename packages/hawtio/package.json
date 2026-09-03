@@ -53,7 +53,7 @@
     "test": "jest",
     "test:watch": "jest --watch --silent=false",
     "test:coverage": "jest --coverage",
-    "replace-version": "replace __PACKAGE_VERSION_PLACEHOLDER__ $npm_package_version ./dist/index.js",
+    "replace-version": "node ./scripts/replace-version.mjs",
     "release": "commit-and-tag-version --path .",
     "prepack": "yarn build && yarn replace-version"
   },
@@ -104,7 +104,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router": "^7.18.3",
-    "replace": "^1.2.2",
     "timezone-mock": "^1.4.3",
     "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
