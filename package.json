@@ -57,6 +57,9 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.69.0"
   },
+  "resolutions": {
+    "dompurify": "^3.4.10"
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog",
