@@ -26,13 +26,13 @@ Guidelines for AI coding agents working on this repository.
 
 Read these documents **only when the task requires it** — do not load them all upfront.
 
-| Document | When to read |
-| --- | --- |
-| [`README.md`](README.md) | Project overview, prerequisites, contributing guide |
+| Document                                       | When to read                                                                    |
+| ---------------------------------------------- | ------------------------------------------------------------------------------- |
+| [`README.md`](README.md)                       | Project overview, prerequisites, contributing guide                             |
 | [`docs/architecture.md`](docs/architecture.md) | Core concepts: Jolokia, JMX, plugin system, backend types, authentication flows |
-| [`docs/developing.md`](docs/developing.md) | Coding conventions, React component guidelines, dependency policy, commit style |
-| [`docs/e2e.md`](docs/e2e.md) | Running E2E tests locally against a live backend |
-| [`docs/releasing.md`](docs/releasing.md) | Release procedure and versioning policy |
+| [`docs/developing.md`](docs/developing.md)     | Coding conventions, React component guidelines, dependency policy, commit style |
+| [`docs/e2e.md`](docs/e2e.md)                   | Running E2E tests locally against a live backend                                |
+| [`docs/releasing.md`](docs/releasing.md)       | Release procedure and versioning policy                                         |
 
 ## Essential Commands
 
