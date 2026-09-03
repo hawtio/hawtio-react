@@ -45,10 +45,10 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
     "commit-and-tag-version": "^13.1.2",
     "concurrently": "^10.0.5",
-    "jest": "^30.5.0",
+    "jest": "^30.5.1",
     "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
