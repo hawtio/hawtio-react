@@ -6,15 +6,11 @@ on:
       - main
       - 2.2.x
       - 1.x
-    paths-ignore:
-      - '**.md'
   push:
     branches:
       - main
       - 2.2.x
       - 1.x
-    paths-ignore:
-      - '**.md'
 
 permissions:
   contents: read
