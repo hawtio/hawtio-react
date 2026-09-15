@@ -3,15 +3,14 @@ import { HawtioLoadingPage } from '@hawtiosrc/ui'
 import {
   Alert,
   Button,
-  CardBody,
   Form,
   FormGroup,
   FormHelperText,
-  FormSection,
   HelperText,
   HelperTextItem,
   MenuToggle,
   MenuToggleElement,
+  PageSection,
   Select,
   SelectList,
   SelectOption,
@@ -21,6 +20,7 @@ import { Modal, ModalVariant } from '@patternfly/react-core/deprecated'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { preferencesService } from './preferences-service'
+import { HawtioFormSection } from '@hawtiosrc/preferences/HawtioFormSection'
 
 export const HomePreferences: React.FunctionComponent = () => {
   const { hawtconfig, hawtconfigLoaded } = useHawtconfig()
@@ -30,18 +30,18 @@ export const HomePreferences: React.FunctionComponent = () => {
   const sideBarShown = hawtconfig.appearance?.showSideBar ?? true
 
   return (
-    <CardBody>
+    <PageSection hasBodyWrapper={false}>
       <Form isHorizontal>
         {sideBarShown && (
-          <FormSection title='UI' titleElement='h2'>
+          <HawtioFormSection title='UI'>
             <UIForm />
-          </FormSection>
+          </HawtioFormSection>
         )}
-        <FormSection title='Reset' titleElement='h2'>
+        <HawtioFormSection title='Reset'>
           <ResetForm />
-        </FormSection>
+        </HawtioFormSection>
       </Form>
-    </CardBody>
+    </PageSection>
   )
 }
 

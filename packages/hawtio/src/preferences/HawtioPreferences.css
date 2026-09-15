@@ -1,0 +1,16 @@
+/* The problem with Patternfly grids for <Form> is that each <FormGroup> gets its own grid... */
+#hawtio-preferences-content .pf-v6-c-form {
+  --pf-v6-c-form--m-horizontal__group-label--md--GridColumnWidth: 20%;
+}
+#hawtio-preferences-content .pf-v6-c-form__group {
+  max-width: 80%;
+}
+#hawtio-preferences-content .pf-v6-c-form {
+  --pf-v6-c-form--m-horizontal__group-label--md--PaddingBlockStart: 0;
+}
+#hawtio-preferences-content .pf-v6-c-form__group-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}

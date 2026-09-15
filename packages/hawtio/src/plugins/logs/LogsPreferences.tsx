@@ -5,7 +5,6 @@ import {
   Form,
   FormGroup,
   FormHelperText,
-  FormSection,
   HelperText,
   HelperTextItem,
   TextInput,
@@ -13,6 +12,7 @@ import {
 import React, { useState } from 'react'
 import { LogsOptions, logsService } from './logs-service'
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon'
+import { HawtioFormSection } from '@hawtiosrc/preferences/HawtioFormSection'
 
 export const LogsPreferences: React.FunctionComponent = () => {
   const [options, setOptions] = useState(logsService.loadOptions())
@@ -75,10 +75,10 @@ export const LogsPreferences: React.FunctionComponent = () => {
   return (
     <CardBody>
       <Form isHorizontal>
-        <FormSection>
+        <HawtioFormSection title='Server Logs'>
           <FormGroup
             label='Sort ascending'
-            fieldId='logs-form-sort-ascending'
+            fieldId='logs-form-sort-ascending-input'
             labelHelp={<TooltipHelpIcon tooltip='Sort log entries by timestamp ascending' />}
           >
             <Checkbox
@@ -89,7 +89,7 @@ export const LogsPreferences: React.FunctionComponent = () => {
           </FormGroup>
           <FormGroup
             label='Auto scroll'
-            fieldId='logs-form-auto-scroll'
+            fieldId='logs-form-auto-scroll-input'
             labelHelp={<TooltipHelpIcon tooltip='Automatically scroll when new log entries are added' />}
           >
             <Checkbox
@@ -100,7 +100,7 @@ export const LogsPreferences: React.FunctionComponent = () => {
           </FormGroup>
           <FormGroup
             label='Log cache size'
-            fieldId='logs-form-log-cache-size'
+            fieldId='logs-form-log-cache-size-input'
             labelHelp={<TooltipHelpIcon tooltip='The number of log messages to keep in the browser' />}
           >
             <TextInput
@@ -123,7 +123,7 @@ export const LogsPreferences: React.FunctionComponent = () => {
           </FormGroup>
           <FormGroup
             label='Log batch size'
-            fieldId='logs-form-log-batch-size'
+            fieldId='logs-form-log-batch-size-input'
             labelHelp={
               <TooltipHelpIcon tooltip='The maximum number of log messages to retrieve when loading new log lines' />
             }
@@ -146,7 +146,7 @@ export const LogsPreferences: React.FunctionComponent = () => {
               </HelperText>
             </FormHelperText>
           </FormGroup>
-        </FormSection>
+        </HawtioFormSection>
       </Form>
     </CardBody>
   )
