@@ -1,9 +1,12 @@
-#hawtio-loading-page {
-  background-color: var(--pf-t--global--background--color--primary--default);
+#hawtio-loading-page .pf-v6-c-page__main-container {
+  /* <Page> on the loading screen */
+  --pf-v6-c-page__main-container--MaxHeight: 100%;
+  --pf-v6-c-page__main-container--MarginInlineStart: 0;
+  --pf-v6-c-page__main-container--MarginInlineEnd: 0;
 }
-
-#hawtio-loading-page > .pf-v6-c-page__main-container {
-  height: 100%;
-  width: 100%;
-  margin: 0px;
+#hawtio-loading-container h3 {
+  margin-block-start: 0;
+}
+#hawtio-loading-container .pf-v6-l-bullseye {
+  gap: 0.75rem;
 }

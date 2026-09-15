@@ -17,6 +17,7 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { HawtioLoginForm } from './HawtioLoginForm'
 import { log } from './globals'
+import './HawtioLogin.css'
 
 /**
  * One of two _main_ components to be displayed in `<Hawtio>` component. It is displayed when user is not logged in.

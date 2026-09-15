@@ -1,26 +1,27 @@
+/* Styling for the initialization component which does not use any Patternfly styles or variables */
 :root {
-  --hawtio-initialization-color-ready: black;
-  --hawtio-initialization-color-not-ready: #adafb6;
-  --hawtio-initialization-color-dot-finished: green;
-  --hawtio-initialization-color-dot-error: red;
-  --hawtio-initialization-color-dot-skipped: #dddfe6;
+  --hawtio-initialization-color-ready: #151515;
+  --hawtio-initialization-color-not-ready: #c7c7c7;
+  --hawtio-initialization-color-dot-finished: #63993d;
+  --hawtio-initialization-color-dot-error: #b1380b;
+  --hawtio-initialization-color-dot-skipped: #e0e0e0;
 }
 :where(.pf-v6-theme-dark):root {
-  --hawtio-initialization-color-ready: white;
-  --hawtio-initialization-color-not-ready: #515255;
-  --hawtio-initialization-color-dot-finished: #0bdd0b;
-  --hawtio-initialization-color-dot-error: red;
-  --hawtio-initialization-color-dot-skipped: #737478;
+  --hawtio-initialization-color-ready: #ffffff;
+  --hawtio-initialization-color-not-ready: #707070;
+  --hawtio-initialization-color-dot-finished: #87bb62;
+  --hawtio-initialization-color-dot-error: #f0561d;
+  --hawtio-initialization-color-dot-skipped: #4d4d4d;
 }
 .hwt-loading {
-  padding: 0.2em 0.5em;
+  padding: 0.2rem 0.5rem;
 }
 .hwt-loading h4 {
   font-weight: bold;
-  margin: 0.3em 0;
+  margin: 0.3rem 0;
 }
 .hwt-loading h4.ready {
-  margin: 0.3em 0;
+  margin: 0.3rem 0;
   color: var(--hawtio-initialization-color-ready);
 }
 .hwt-loading h4.not-ready {
@@ -32,10 +33,10 @@
   margin: 0;
 }
 .hwt-loading li {
-  margin: 0.1em 0 0.1em 0.5em;
+  margin: 0.1rem 0 0.1rem 0.5rem;
 }
 .hwt-loading li span {
-  width: 2em;
+  width: 2rem;
   display: inline-block;
 }
 .hwt-loading li.not-ready {
@@ -46,7 +47,7 @@
 }
 
 .tick {
-  padding: 0 2px;
+  padding: 0 0.125rem;
 }
 .tick-skipped {
   color: var(--hawtio-initialization-color-dot-skipped);

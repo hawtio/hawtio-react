@@ -1,6 +1,6 @@
 import imgLogoB64 from '@hawtiosrc/img/hawtio-logo.svg'
 import { stringSorter } from '@hawtiosrc/util/strings'
-import { AboutModal, Content } from '@patternfly/react-core'
+import { AboutModal, Content, Flex } from '@patternfly/react-core'
 import React from 'react'
 import { useAbout } from './context'
 import { log } from './globals'
@@ -12,7 +12,7 @@ const imgLogo = `data:image/svg+xml;base64,${imgLogoB64}`
 const AboutProductInfo: React.FunctionComponent<{
   productInfo: AboutProductInfoType[]
 }> = ({ productInfo }) => (
-  <Content id='hawtio-about-product-info'>
+  <Flex id='hawtio-about-product-info' direction={{ default: 'column' }} flexWrap={{ default: 'nowrap' }}>
     <Content component='h3'>Component versions</Content>
     <Content component='dl'>
       {productInfo.map(({ name, value }, index) => (
@@ -22,7 +22,7 @@ const AboutProductInfo: React.FunctionComponent<{
         </React.Fragment>
       ))}
     </Content>
-  </Content>
+  </Flex>
 )
 
 const AboutDescription: React.FunctionComponent<{
@@ -30,9 +30,7 @@ const AboutDescription: React.FunctionComponent<{
 }> = ({ about }) => {
   if (about.description) {
     return (
-      <Content id='hawtio-about-description'>
-        <Content component='p'>{about.description}</Content>
-      </Content>
+      <Content component='p'>{about.description}</Content>
     )
   }
   return null
@@ -62,7 +60,7 @@ export const HawtioAbout: React.FunctionComponent<{
   log.debug('Product info:', productInfo)
 
   return (
-    <AboutModal
+    <AboutModal id='hawtio-about'
       isOpen={isOpen}
       onClose={onClose}
       productName={title}

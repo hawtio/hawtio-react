@@ -12,7 +12,6 @@ import React, { useEffect } from 'react'
 import { Navigate, Route, Routes, useNavigate } from 'react-router'
 import { HawtioHeader } from './HawtioHeader'
 import { HawtioLoadingPage } from './HawtioLoadingPage'
-import './HawtioPage.css'
 import { HawtioSidebar } from './HawtioSidebar'
 import { PageContext, useHawtioLocation } from './context'
 import { log } from './globals'
@@ -95,10 +94,11 @@ export const HawtioPage: React.FunctionComponent = () => {
         id='hawtio-main-page'
         mainContainerId='hawtio-main-container'
         masthead={headerShown && <HawtioHeader loginMethod={loginMethod} />}
-        sidebar={sideBarShown && <HawtioSidebar />}
-        isManagedSidebar={sideBarShown}
-        defaultManagedSidebarIsOpen={preferencesService.isShowVerticalNavByDefault()}
+        sidebar={<HawtioSidebar />}
+        isManagedSidebar={true}
+        defaultManagedSidebarIsOpen={sideBarShown && preferencesService.isShowVerticalNavByDefault()}
         onClick={keepAlive}
+        isContentFilled
       >
         {/* Top-level context provider for handling selected node shared between the plugins */}
         <PluginNodeSelectionContext.Provider value={{ selectedNode, setSelectedNode }}>

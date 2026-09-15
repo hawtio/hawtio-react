@@ -1,34 +1,10 @@
-#hawtio-header {
-  display: grid;
+#hawtio-header-brand.pf-v6-c-masthead__logo {
+  /* Max height of the logo image inside the MastheadBrand/MastheadLogo/Brand */
+  --pf-v6-c-masthead__logo--MaxHeight: 2rem
 }
 
-#hawtio-header .pf-v6-c-masthead__brand {
-  gap: 1rem;
-}
-
-#hawtio-header-brand {
-  align-items: center;
-  text-decoration: none;
-  color: var(--pf-t--global--background--color--200);
-}
-
-#hawtio-header-brand .pf-v6-c-brand {
-  max-height: 50px;
-}
-
-#hawtio-header-toolbar .pf-v6-c-toolbar__content-section {
-  justify-content: end;
-}
-
-#hawtio-header-user-dropdown-toggle {
-  display: flex;
-}
-
-#hawtio-header-user-dropdown-toggle .pf-v6-c-dropdown__toggle-text {
-  margin-left: 5px;
-}
-
-.pf-v6-c-menu__item a {
+.pf-v6-c-menu__item-text a {
+  /* No link styling for <Link> elements in menus */
   text-decoration: none;
   color: unset;
 }
