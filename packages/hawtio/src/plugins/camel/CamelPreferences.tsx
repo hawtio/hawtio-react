@@ -1,8 +1,8 @@
 import { TooltipHelpIcon } from '@hawtiosrc/ui/icons'
-import { CardBody, Checkbox, Form, FormGroup, FormSection, TextInput } from '@patternfly/react-core'
+import { CardBody, Checkbox, Form, FormGroup, TextInput } from '@patternfly/react-core'
 import React, { useState } from 'react'
-import './CamelPreferences.css'
 import { CamelOptions, camelPreferencesService } from './camel-preferences-service'
+import { HawtioFormSection } from '@hawtiosrc/preferences/HawtioFormSection'
 
 export const CamelPreferences: React.FunctionComponent = () => {
   const [options, setOptions] = useState(camelPreferencesService.loadOptions())
@@ -28,11 +28,11 @@ export const CamelPreferences: React.FunctionComponent = () => {
   return (
     <CardBody>
       <Form isHorizontal>
-        <FormSection title='Route diagram' titleElement='h2'>
+        <HawtioFormSection title='Route diagram'>
           <FormGroup
             hasNoPaddingTop
             label='Maximum label width'
-            fieldId='camel-form-maximum-label-width'
+            fieldId='camel-form-maximum-label-width-input'
             labelHelp={
               <TooltipHelpIcon tooltip='The maximum length of a label in Camel diagrams before it is clipped' />
             }
@@ -47,7 +47,7 @@ export const CamelPreferences: React.FunctionComponent = () => {
           <FormGroup
             hasNoPaddingTop
             label='Ignore ID for label'
-            fieldId='camel-form-ignore-id-for-label'
+            fieldId='camel-form-ignore-id-for-label-input'
             labelHelp={
               <TooltipHelpIcon tooltip='If enabled then we will ignore the ID value when viewing a pattern in a Camel diagram; otherwise we will use the ID value as the label (the tooltip will show the actual detail)' />
             }
@@ -61,7 +61,7 @@ export const CamelPreferences: React.FunctionComponent = () => {
           <FormGroup
             hasNoPaddingTop
             label='Show inflight counter'
-            fieldId='camel-show-inflight-counter'
+            fieldId='camel-show-inflight-counter-input'
             labelHelp={<TooltipHelpIcon tooltip='Whether to show inflight counter in route diagram' />}
           >
             <Checkbox
@@ -70,12 +70,12 @@ export const CamelPreferences: React.FunctionComponent = () => {
               onChange={updateCheckboxValueFor('showInflightCounter')}
             />
           </FormGroup>
-        </FormSection>
-        <FormSection title='Trace / debug' titleElement='h2'>
+        </HawtioFormSection>
+        <HawtioFormSection title='Trace / debug'>
           <FormGroup
             hasNoPaddingTop
             label='Include streams'
-            fieldId='camel-form-include-streams'
+            fieldId='camel-form-include-streams-input'
             labelHelp={
               <TooltipHelpIcon tooltip='Whether to include stream based message body when using the tracer and debugger' />
             }
@@ -89,7 +89,7 @@ export const CamelPreferences: React.FunctionComponent = () => {
           <FormGroup
             hasNoPaddingTop
             label='Maximum body length'
-            fieldId='camel-form-maximum-body-length'
+            fieldId='camel-form-maximum-body-length-input'
             labelHelp={
               <TooltipHelpIcon tooltip='The maximum length of the body before its clipped when using the tracer and debugger' />
             }
@@ -101,7 +101,7 @@ export const CamelPreferences: React.FunctionComponent = () => {
               onChange={updateNumberValueFor('maximumTraceOrDebugBodyLength')}
             />
           </FormGroup>
-        </FormSection>
+        </HawtioFormSection>
       </Form>
     </CardBody>
   )

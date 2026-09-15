@@ -2,6 +2,7 @@ import { JmxOptions, jmxPreferencesService } from '@hawtiosrc/plugins/shared/jmx
 import { TooltipHelpIcon } from '@hawtiosrc/ui/icons'
 import { CardBody, Checkbox, Form, FormGroup } from '@patternfly/react-core'
 import React, { useState } from 'react'
+import { HawtioFormSection } from '@hawtiosrc/preferences/HawtioFormSection'
 
 export const JmxPreferences: React.FunctionComponent = () => {
   const [options, setOptions] = useState(jmxPreferencesService.loadOptions())
@@ -14,17 +15,19 @@ export const JmxPreferences: React.FunctionComponent = () => {
   return (
     <CardBody>
       <Form isHorizontal>
-        <FormGroup
-          label='Serialize long to string'
-          fieldId='serialize-long-to-string'
-          labelHelp={<TooltipHelpIcon tooltip='Serialize long values in the JSON responses from Jolokia to string' />}
-        >
-          <Checkbox
-            id='serialize-long-to-string-input'
-            isChecked={options.serializeLong}
-            onChange={(_event, serializeLong) => updateOptions({ serializeLong })}
-          />
-        </FormGroup>
+        <HawtioFormSection title='Jolokia JMX Serialization'>
+          <FormGroup
+            label='Serialize long to string'
+            fieldId='serialize-long-to-string-input'
+            labelHelp={<TooltipHelpIcon tooltip='Serialize long values in the JSON responses from Jolokia to string' />}
+          >
+            <Checkbox
+              id='serialize-long-to-string-input'
+              isChecked={options.serializeLong}
+              onChange={(_event, serializeLong) => updateOptions({ serializeLong })}
+            />
+          </FormGroup>
+        </HawtioFormSection>
       </Form>
     </CardBody>
   )

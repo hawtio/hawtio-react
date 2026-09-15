@@ -2,18 +2,13 @@ import { ChildLogger, Logger } from '@hawtiosrc/core'
 import {
   Button,
   CardBody,
-  DataList,
-  DataListAction,
-  DataListCell,
-  DataListItem,
-  DataListItemCells,
-  DataListItemRow,
   Dropdown,
   DropdownItem,
   DropdownList,
+  Flex,
+  FlexItem,
   Form,
   FormGroup,
-  FormSection,
   MenuToggle,
   MenuToggleElement,
   Slider,
@@ -25,15 +20,16 @@ import { PlusIcon } from '@patternfly/react-icons/dist/esm/icons/plus-icon'
 import { TrashIcon } from '@patternfly/react-icons/dist/esm/icons/trash-icon'
 import React, { useContext, useState } from 'react'
 import { LogsContext, useChildLoggers } from './context'
+import { HawtioFormSection } from '@hawtiosrc/preferences/HawtioFormSection'
 
 const ChildLoggerList: React.FunctionComponent<{
   childLoggers: ChildLogger[]
 }> = ({ childLoggers }) => (
-  <DataList id='logs-child-logger-list' aria-label='logs child logger list' isCompact>
+  <>
     {childLoggers.map(childLogger => (
       <ChildLoggerItem key={childLogger.name} logger={childLogger} />
     ))}
-  </DataList>
+  </>
 )
 
 export const LogsPreferences: React.FunctionComponent = () => {
@@ -43,13 +39,13 @@ export const LogsPreferences: React.FunctionComponent = () => {
     <LogsContext.Provider value={{ childLoggers, availableChildLoggers, reloadChildLoggers }}>
       <CardBody>
         <Form isHorizontal>
-          <FormSection title='Global log settings' titleElement='h2'>
+          <HawtioFormSection title='Global log settings'>
             <GlobalForms />
-          </FormSection>
-          <FormSection title='Child loggers' titleElement='h2'>
+          </HawtioFormSection>
+          <HawtioFormSection title='Child loggers'>
             <ChildLoggerToolbar />
             <ChildLoggerList childLoggers={childLoggers} />
-          </FormSection>
+          </HawtioFormSection>
         </Form>
       </CardBody>
     </LogsContext.Provider>
@@ -157,34 +153,23 @@ const ChildLoggerItem: React.FunctionComponent<ChildLoggerItemProps> = props => 
   }
 
   return (
-    <DataListItem key={`logs-child-logger-${name}`} aria-labelledby={`logs child logger ${name}`}>
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={[
-            <DataListCell key={`logs-child-logger-name-${name}`} width={1}>
-              <b>{name}</b>
-            </DataListCell>,
-            <DataListCell key={`logs-child-logger-log-level-${name}`} width={2}>
-              <Slider
-                id={`logs-child-logger-actions-log-level-slider-${name}`}
-                value={LOG_LEVEL_OPTIONS.findIndex(level => level === logger.filterLevel.name)}
-                max={LOG_LEVEL_OPTIONS.length - 1}
-                customSteps={LOG_LEVEL_OPTIONS.map((level, index) => ({ value: index, label: level }))}
-                onChange={(_event, value: number) => onLogLevelChange(LOG_LEVEL_OPTIONS[value])}
-                onMouseUp={_event => onStopDragging()}
-                onTouchEnd={_event => onStopDragging()}
-              />
-            </DataListCell>,
-          ]}
-        />
-        <DataListAction
-          id={`logs-child-logger-actions-${name}`}
-          aria-label={`logs child logger actions ${name}`}
-          aria-labelledby={`${name} logs-child-logger-actions-${name}`}
-        >
-          <Button icon={<TrashIcon />} variant='secondary' onClick={deleteChildLogger}></Button>
-        </DataListAction>
-      </DataListItemRow>
-    </DataListItem>
+      <FormGroup label={name}>
+        <Flex direction={{ default: 'row' }} spaceItems={{ default: 'spaceItemsMd' }} alignItems={{ default: 'alignItemsCenter' }}>
+          <FlexItem flex={{ default: 'flex_1' }}>
+            <Slider
+              id={`logs-child-logger-actions-log-level-slider-${name}`}
+              value={LOG_LEVEL_OPTIONS.findIndex(level => level === logger.filterLevel.name)}
+              max={LOG_LEVEL_OPTIONS.length - 1}
+              customSteps={LOG_LEVEL_OPTIONS.map((level, index) => ({ value: index, label: level }))}
+              onChange={(_event, value: number) => onLogLevelChange(LOG_LEVEL_OPTIONS[value])}
+              onMouseUp={_event => onStopDragging()}
+              onTouchEnd={_event => onStopDragging()}
+            />
+          </FlexItem>
+          <FlexItem>
+            <Button icon={<TrashIcon />} variant='secondary' onClick={deleteChildLogger}></Button>
+          </FlexItem>
+        </Flex>
+      </FormGroup>
   )
 }

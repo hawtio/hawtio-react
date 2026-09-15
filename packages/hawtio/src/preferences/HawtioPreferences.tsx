@@ -7,6 +7,7 @@ import { HomePreferences } from './HomePreferences'
 import { LogsPreferences } from './LogsPreferences'
 import { preferencesRegistry } from './registry'
 import { pluginPath } from './globals'
+import './HawtioPreferences.css'
 
 helpRegistry.add('preferences', 'Preferences', help, 2)
 preferencesRegistry.add('home', 'Home', HomePreferences, 1)
@@ -30,7 +31,7 @@ export const HawtioPreferences: React.FunctionComponent = () => {
           </NavList>
         </Nav>
       </PageSection>
-      <PageSection hasBodyWrapper={false}>
+      <PageSection id='hawtio-preferences-content' hasBodyWrapper={false} hasOverflowScroll aria-label='hawtio-preferences'>
         <Routes>
           {preferencesRegistry.getPreferences().map(({ id, component }) => (
             <Route key={id} path={id} element={React.createElement(component)} />

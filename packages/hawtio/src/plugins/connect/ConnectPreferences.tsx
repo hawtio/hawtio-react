@@ -9,7 +9,6 @@ import {
   Form,
   FormGroup,
   FormHelperText,
-  FormSection,
   HelperText,
   HelperTextItem,
   TextInput,
@@ -21,6 +20,7 @@ import { useNavigate } from 'react-router'
 import { RESET } from './connections'
 import { useConnections } from './context'
 import { log } from './globals'
+import { HawtioFormSection } from '@hawtiosrc/preferences/HawtioFormSection'
 
 export const ConnectPreferences: React.FunctionComponent = () => (
   <CardBody>
@@ -126,10 +126,10 @@ const JolokiaForm: React.FunctionComponent = () => {
   }
 
   return (
-    <FormSection title='Jolokia' titleElement='h2'>
+    <HawtioFormSection title='Jolokia'>
       <FormGroup
         label='Update rate'
-        fieldId='jolokia-form-update-rate'
+        fieldId='jolokia-form-update-rate-input'
         labelHelp={<TooltipHelpIcon tooltip='The period between polls to jolokia to fetch JMX data' />}
       >
         <TextInput
@@ -143,7 +143,7 @@ const JolokiaForm: React.FunctionComponent = () => {
       </FormGroup>
       <FormGroup
         label='Max depth'
-        fieldId='jolokia-form-max-depth'
+        fieldId='jolokia-form-max-depth-input'
         labelHelp={
           <TooltipHelpIcon tooltip='The number of levels jolokia will marshal an object to json on the server side before returning' />
         }
@@ -159,7 +159,7 @@ const JolokiaForm: React.FunctionComponent = () => {
       </FormGroup>
       <FormGroup
         label='Max collection size'
-        fieldId='jolokia-form-max-collection-size'
+        fieldId='jolokia-form-max-collection-size-input'
         labelHelp={
           <TooltipHelpIcon tooltip='The maximum number of elements in an array that jolokia will marshal in a response' />
         }
@@ -175,7 +175,7 @@ const JolokiaForm: React.FunctionComponent = () => {
       </FormGroup>
       <FormGroup
         label='Auto refresh'
-        fieldId='jolokia-form-auto-refresh'
+        fieldId='jolokia-form-auto-refresh-input'
         labelHelp={
           <TooltipHelpIcon tooltip='Whether the page should refresh whenever it detects an update on a plugin' />
         }
@@ -196,7 +196,7 @@ const JolokiaForm: React.FunctionComponent = () => {
           </HelperText>
         </FormHelperText>
       </FormGroup>
-    </FormSection>
+    </HawtioFormSection>
   )
 }
 
@@ -209,10 +209,10 @@ const ConnectForm: React.FunctionComponent = () => {
   }
 
   return (
-    <FormSection title='Connect' titleElement='h2'>
+    <HawtioFormSection title='Connect'>
       <FormGroup
         label='Keep connection parameter'
-        fieldId='connect-form-use-connection-param'
+        fieldId='connect-form-use-connection-param-input'
         labelHelp={
           <TooltipHelpIcon tooltip='Whether to keep the connection (con) query parameter in the URL after connecting to a remote instance' />
         }
@@ -223,7 +223,7 @@ const ConnectForm: React.FunctionComponent = () => {
           onChange={(_event, useConnectionParam) => updateUseConnectionParam(useConnectionParam)}
         />
       </FormGroup>
-    </FormSection>
+    </HawtioFormSection>
   )
 }
 
@@ -269,7 +269,7 @@ const ResetForm: React.FunctionComponent = () => {
   }
 
   return (
-    <FormSection title='Reset' titleElement='h2'>
+    <HawtioFormSection title='Reset'>
       <FormGroup label='Clear saved connections' fieldId='reset-form-clear'>
         <Button data-testid='clear-btn' variant='danger' onClick={confirmClear}>
           Clear
@@ -282,6 +282,6 @@ const ResetForm: React.FunctionComponent = () => {
         </FormHelperText>
       </FormGroup>
       {isClearSuccess && <Alert variant='success' isInline title='Connections cleared successfully!' />}
-    </FormSection>
+    </HawtioFormSection>
   )
 }
