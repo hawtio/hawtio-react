@@ -1,7 +1,21 @@
-#hawtio-about-description.pf-v6-c-content {
-  margin-bottom: 1.5rem;
+/* Ensure scrollable table of component versions in Hawtio About */
+
+#hawtio-about {
+  min-height: 0;
+}
+#hawtio-about>div.pf-v6-c-about-modal-box__body {
+  min-height: 0;
+}
+#hawtio-about>div.pf-v6-c-about-modal-box__body>div.pf-v6-c-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-#hawtio-about-product-info > h3 {
-  margin-bottom: 1rem;
+#hawtio-about-product-info {
+  flex: 1 0;
+  min-height: 0;
+}
+#hawtio-about-product-info > dl {
+  overflow: auto;
 }

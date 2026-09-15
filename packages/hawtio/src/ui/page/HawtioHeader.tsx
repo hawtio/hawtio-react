@@ -85,7 +85,6 @@ const HawtioBrand: React.FunctionComponent<HawtioBrandProps> = props => {
   let appLogo = props.hawtconfig.branding?.appLogoUrl ?? hawtioLogo
   const appLogoDarkMode = props.hawtconfig.branding?.appLogoDarkModeUrl ?? hawtioLogo
   const appName = props.hawtconfig.branding?.appName ?? DEFAULT_APP_NAME
-  const showAppName = props.hawtconfig.branding?.showAppName ?? false
 
   const darkMode = hawtio.windowTheme() === 'dark'
   if (darkMode) {
@@ -93,18 +92,13 @@ const HawtioBrand: React.FunctionComponent<HawtioBrandProps> = props => {
   }
 
   return (
-    <MastheadBrand style={{ alignItems: 'center' }}>
+    <MastheadBrand>
       <MastheadLogo
         id='hawtio-header-brand'
         component={props => <Link to={{ pathname: '/', search: location.search }} {...props} />}
       >
         <Brand src={appLogo} alt={appName} />
       </MastheadLogo>
-      {showAppName && (
-        <Title headingLevel='h1' size='xl'>
-          {appName}
-        </Title>
-      )}
     </MastheadBrand>
   )
 }
@@ -118,6 +112,9 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
   const location = useHawtioLocation()
 
   const isPublic = username === PUBLIC_USER
+
+  const showAppName = hawtconfig.branding?.showAppName ?? false
+  const appName = hawtconfig.branding?.appName ?? DEFAULT_APP_NAME
 
   const [helpOpen, setHelpOpen] = useState(false)
   const [userOpen, setUserOpen] = useState(false)
@@ -189,7 +186,7 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
       components.push(
         ...plugin.headerItems
           .filter(
-            headerItem => isUniversalHeaderItem(headerItem) && (headerItem as UniversalHeaderItem).universal === true,
+            headerItem => isUniversalHeaderItem(headerItem) && (headerItem as UniversalHeaderItem).universal,
           )
           .map(headerItem => (headerItem as UniversalHeaderItem).component),
       )
@@ -202,15 +199,23 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
   const headerComponents: React.ComponentType<any>[] = collectHeaderItems()
 
   return (
-    <Toolbar id='hawtio-header-toolbar' isFullHeight>
-      <ToolbarContent>
-        <ToolbarGroup>
+    <Toolbar id='hawtio-header-toolbar' inset={{ default: 'insetNone' }}>
+      <ToolbarContent alignItems='center'>
+        {showAppName && (
+          <ToolbarGroup align={{ default: 'alignStart' }} alignItems='center' visibility={{ default: 'hidden', lg: 'visible' }} >
+              <Title headingLevel='h1' size='xl'>
+                {appName}
+              </Title>
+          </ToolbarGroup>
+        )}
+        <ToolbarGroup align={{ default: 'alignEnd' }}>
           {headerComponents.map((component, index) => (
             <ToolbarItem key={`hawtio-header-toolbar-plugin-item-${index}`}>
               {React.createElement(component)}
             </ToolbarItem>
           ))}
         </ToolbarGroup>
+        {/* the following groups will be pushed right by the previous one. these should not contain "alignEnd" */}
         <ToolbarGroup>
           <ToolbarItem>
             <Dropdown

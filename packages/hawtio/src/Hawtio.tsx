@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { hawtio } from './core'
-import './Hawtio.css'
 import { HawtioLogin } from './ui/login'
 import { HawtioPage } from './ui/page'
 
