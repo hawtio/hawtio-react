@@ -3,7 +3,6 @@ import { Card, CardBody, Panel, ContentVariants, Content } from '@patternfly/rea
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
 
 import { PluginNodeSelectionContext } from '@hawtiosrc/plugins/context'
-import './JmxContentMBeans.css'
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/esm/icons/info-circle-icon'
 
 export const JmxContentMBeans: React.FunctionComponent = () => {

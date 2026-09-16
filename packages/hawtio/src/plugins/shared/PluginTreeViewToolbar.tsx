@@ -20,8 +20,8 @@ export const PluginTreeViewToolbar = (props: ToolbarProps) => {
   }
 
   return (
-    <Toolbar style={{ padding: 0 }}>
-      <ToolbarContent style={{ padding: 0 }}>
+    <Toolbar>
+      <ToolbarContent>
         <ToolbarGroup variant='filter-group'>
           <ToolbarItem>
             <TreeViewSearch
@@ -31,7 +31,7 @@ export const PluginTreeViewToolbar = (props: ToolbarProps) => {
               aria-label='Search input example'
             />
           </ToolbarItem>
-          <ToolbarItem variant='expand-all' style={{ paddingRight: '0.5rem' }}>
+          <ToolbarItem variant='expand-all'>
             <Button size='sm' variant='control' aria-label='Expand Collapse' onClick={() => toggleExpanded(true)}>
               Expand all
             </Button>

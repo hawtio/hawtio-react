@@ -1,0 +1,173 @@
+/* Styling from https://split.js.org/ */
+
+.jmx-split {
+  display: flex;
+  flex-direction: row;
+  /* We can safely use 100% here, because #hawtio-main-page.pf-v6-c-page element has `heigh: 100dvh` */
+  height: 100%;
+  /* explicit stretch for documentation and clear height propagation */
+  align-items: stretch;
+}
+
+.gutter {
+  background-color: var(--pf-t--global--background--color--primary--hover);
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  /* 5x30 PNG image with dots - straight from https://split.js.org/ */
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  cursor: col-resize;
+}
+
+/*
+ * Styling for entire pages that use split tree+content panels.
+ * This is very complex and most of the customizations here is only to allow top-level/branding customization
+ * to just define how dense/sparse is the tree using vertical and horizontal paddings.
+ * Additionally this customization is designed to be shared by all plugins that use split tree/content view (Jmx,
+ * Camel, Quartz, ...).
+ */
+
+/* The right margin of the tree and the left margin of the content are the same as the padding of the main Page */
+.jmx-split > div:first-child {
+  /* left panel contains the tree and contains <TreeView> (<div class="pf-v6-c-tree-view pf-m-guides">) */
+  margin-inline-end: var(--pf-v6-c-page__main-container--BorderInlineEndWidth);
+}
+.jmx-split > div:last-child {
+  /* right panel is the content and contains <PageGroup> (<div class="pf-v6-c-page__main-group">) */
+  margin-inline-start: var(--pf-v6-c-page__main-container--BorderInlineStartWidth);
+  /* to fix horizontal scrolling of the content and resizing when <Drawer> is opened */
+  overflow: hidden;
+}
+
+.jmx-split>div>div.pf-v6-c-tree-view, .jmx-split>div>div.pf-v6-c-page__main-group {
+  /*
+   * Both the tree and the content should use the flex layout.
+   * Tree contains: toolbar, divider and the rest is the tree itself (should have "flex-grow: 1")
+   * Content contains: title, optional navigation and the rest is the content (table, diagram, list, ..., also "flex-grow: 1")
+   * inside <PageGroup>.
+   * Note for the content <PageGroup> already uses "display: flex; flex-direction: column"
+   */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.jmx-split>div>div.pf-v6-c-tree-view>ul.pf-v6-c-tree-view__list,
+.jmx-split>div>div.pf-v6-c-page__main-group>section.pf-v6-c-page__main-section:last-child {
+  /*
+   * Both the tree and the actual content should grow fully to occupy the remaining space and use auto scrolls
+   * For the content, if we use last section as <PageSection hasOverflowScroll> these properties are not needed.
+   *
+   * A hint - if a subroute (like /camel/source) has nested PageSections to get standard padding, it's better to
+   * add hasBodyWrapper={false} and/or isFilled (adds .pf-m-fill class with flex-grow:1),
+   * so the height is correctly propagated.
+   */
+  overflow: auto;
+  flex-grow: 1;
+}
+
+/* Styling for Tree nodes (Let's assume 1rem is 16px (as Patternfly does) and never use px units */
+
+.jmx-split div.pf-v6-c-tree-view {
+  /* Top level div.pf-v6-c-tree-view of the TreeView defines most of the variables */
+
+  /*
+   * With just these two variables we can change the density of the tree:
+   *  - block: vertical/top/bottom
+   *  - inline: horizontal/left/right
+   * "public" variable names are used (from external CSS) and defaults are used if missing
+   */
+  --hawtio-tree-block-padding: var(--hawtio-v4-tree-block-padding, 0.25rem);
+  --hawtio-tree-inline-padding: var(--hawtio-v4-tree-inline-padding, 0.5rem);
+
+  /*
+   * top/bottom padding of the nodes - defaults to:
+   * var(--pf-t--global--spacer--control--vertical--plain)
+   *   var(--pf-t--global--spacer--sm)
+   *     var(--pf-t--global--spacer--200)
+   *       0.5rem
+   */
+  --pf-v6-c-tree-view__node--PaddingBlockStart: var(--hawtio-tree-block-padding);
+  --pf-v6-c-tree-view__node--PaddingBlockEnd: var(--hawtio-tree-block-padding);
+  /*
+   * less vertical space affects position of the horizontal guide.
+   * It defaults to 1.125rem. By default, height of the entire node's div is 2.5rem (1.5rem for the content
+   * and 2x0.5rem for top/bottom padding). And we need to position the horizontal guide in the middle.
+   */
+  --pf-v6-c-tree-view--m-guides__node--before--InsetBlockStart: calc(0.75rem + var(--hawtio-tree-block-padding) / 2);
+
+  /*
+   * node toggles are a bit special, because they use inset, padding and margin.
+   * then padding and margin cancel each other, but gives extra surface for clicking/touching the toggle.
+   * Additionally the toggle button is positioned absolutely and for proper positioning in the padded area,
+   * Patternfly uses the trick with `transform: translateX(-100%)`
+   * What's important is that the size and position of the toggle button is used for positioning the vertical guides
+   */
+  --pf-v6-c-tree-view__node-toggle--PaddingInlineStart: var(--hawtio-tree-inline-padding);
+  --pf-v6-c-tree-view__node-toggle--PaddingInlineEnd: var(--hawtio-tree-inline-padding);
+
+  /* icons have asymmetric padding (only right) */
+  --pf-v6-c-tree-view__node-icon--PaddingInlineStart: 0.125rem;
+  --pf-v6-c-tree-view__node-icon--PaddingInlineEnd: 0.125rem;
+
+  /*
+   * Patternfly creates a guide base decreased by hardcoded --pf-v6-c-tree-view--m-guides__list-node--guide-width--base,
+   * which breaks customization
+   */
+  --pf-v6-c-tree-view--m-guides--guide-left--base: calc(var(--pf-v6-c-tree-view__node-toggle--PaddingInlineStart) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) / 2);
+
+  /*
+   * Patternfly decreases the nested indentation by hardcoded --pf-t--global--spacer--md, which
+   * breaks customization
+   */
+  --pf-v6-c-tree-view__node--nested-indent--base: calc(var(--pf-v6-c-tree-view__node--indent--base));
+  /*
+   * The offset is constant and decreases nested guide positions.
+   * Whatever the customization, the offset exactly 1.5 the size of the icons (toggle and item icon). And precisely:
+   *  - left and right padding of item icon
+   *  - item icon
+   *  - right padding of toggle icon
+   *  - half of the toggle icon
+   */
+  --pf-v6-c-tree-view--m-guides--guide-left--base--offset: calc(var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd) * 2 + var(--pf-v6-c-tree-view__node-toggle--PaddingInlineStart) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) * 1.5);
+
+  /* When a node doesn't have toggle, the horizontal guide can be wider by the toggle size */
+  --pf-v6-c-tree-view--m-guides__node--before--Width: calc(var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) * 1.5 + var(--pf-v6-c-tree-view__node-icon--PaddingInlineStart));
+}
+
+.jmx-split .pf-v6-c-tree-view__node:has(button.pf-v6-c-tree-view__node-toggle) {
+  /* Horizontal guide which has a subtree toggle should be shorter */
+  --pf-v6-c-tree-view--m-guides__node--before--Width: calc(var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) / 2 + var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd));
+}
+
+.jmx-split span.pf-v6-c-tree-view__node-icon {
+  /* By default only padding-inline-end is defined. Better make it symmetrical */
+  padding-inline-start: var(--pf-v6-c-tree-view__node-icon--PaddingInlineStart);
+  padding-inline-end: var(--pf-v6-c-tree-view__node-icon--PaddingInlineEnd);
+  /* Copy min-width from toggle icon for easier calculation of guide positions */
+  min-width: var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth);
+}
+
+.jmx-split span.pf-v6-c-tree-view__node-icon>img {
+  /* Unify the positioning of img and svg icons */
+  vertical-align: center;
+}
+
+.jmx-split button.pf-v6-c-tree-view__node-text {
+  /* Never wrap tree labels */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.jmx-split .pf-v6-c-tree-view .pf-v6-c-toolbar__item.pf-m-expand-all {
+  /* same end padding as the start padding of the search input */
+  padding-inline-end: var(--pf-v6-c-tree-view__search--PaddingInlineStart);
+}
+.jmx-split .pf-v6-c-tree-view .pf-v6-c-toolbar__group.pf-m-filter-group {
+  /* alignment of items and buttons in tree search toolbar */
+  flex-grow: 1;
+  justify-content: space-between;
+}

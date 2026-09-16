@@ -14,7 +14,6 @@ import {
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import React, { useContext } from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router'
-import './QuartzContent.css'
 import { QuartzContext } from './context'
 import { pluginPath } from './globals'
 import { Jobs } from './jobs'

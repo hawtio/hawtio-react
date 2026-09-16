@@ -1,7 +1,6 @@
 import { TreeView, TreeViewDataItem } from '@patternfly/react-core'
 import React, { useContext } from 'react'
 import { MBeanNode } from '../shared'
-import './QuartzTreeView.css'
 import { QuartzContext } from './context'
 
 export const QuartzTreeView: React.FunctionComponent = () => {

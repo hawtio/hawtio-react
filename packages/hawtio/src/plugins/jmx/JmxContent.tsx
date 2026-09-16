@@ -14,7 +14,6 @@ import {
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import React from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router'
-import './JmxContent.css'
 import { pluginPathWithNodeId, useMBeanTreeContext } from './context'
 
 export const JmxContent: React.FunctionComponent = () => {
@@ -81,6 +80,7 @@ export const JmxContent: React.FunctionComponent = () => {
         id='jmx-content-main'
         padding={{ default: 'noPadding' }}
         aria-label='jmx-content-main'
+        hasOverflowScroll
         hasBodyWrapper={false}
       >
         <Routes>

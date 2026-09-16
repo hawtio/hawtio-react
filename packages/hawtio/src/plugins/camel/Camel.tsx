@@ -2,7 +2,7 @@ import { EmptyState, EmptyStateVariant, PageSection, Spinner } from '@patternfly
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import React from 'react'
 import Split from 'react-split'
-import './Camel.css'
+import './../shared/Jmx.css'
 import { CamelContent } from './CamelContent'
 import { CamelTreeView } from './CamelTreeView'
 import { CamelContext, useCamelTree } from './context'
@@ -37,7 +37,7 @@ export const Camel: React.FunctionComponent = () => {
   // can access the shared state (tree, selected node) using useMBeanTreeContext() hook
   return (
     <CamelContext.Provider value={{ tree, selectedNode, setSelectedNode }}>
-      <Split className='camel-split' sizes={[25, 75]} minSize={200} gutterSize={5}>
+      <Split className='jmx-split' sizes={[25, 75]} minSize={200} gutterSize={5}>
         <div>
           <CamelTreeView />
         </div>
