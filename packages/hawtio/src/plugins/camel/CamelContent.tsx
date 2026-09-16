@@ -1,11 +1,21 @@
 import { eventService } from '@hawtiosrc/core'
 import { AttributeValues, Attributes, Chart, JmxContentMBeans, MBeanNode, Operations } from '@hawtiosrc/plugins/shared'
-import { Content, EmptyState, Nav, NavItem, NavList, PageGroup, PageSection, Title } from '@patternfly/react-core'
+import {
+  Content,
+  EmptyState,
+  Flex,
+  FlexItem,
+  Nav,
+  NavItem,
+  NavList,
+  PageGroup,
+  PageSection,
+  Title
+} from '@patternfly/react-core'
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import Jolokia, { JolokiaErrorResponse, JolokiaFetchErrorResponse, JolokiaSuccessResponse } from 'jolokia.js'
 import React, { useContext, useEffect, useState } from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
-import './CamelContent.css'
 import * as camelService from './camel-service'
 import { CamelContext } from './context'
 import { Contexts } from './contexts'

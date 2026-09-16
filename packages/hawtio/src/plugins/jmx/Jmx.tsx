@@ -3,7 +3,7 @@ import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import React from 'react'
 import Split from 'react-split'
 import { MBeanTreeContext, useMBeanTree } from './context'
-import './Jmx.css'
+import './../shared/Jmx.css'
 import { JmxContent } from './JmxContent'
 import { JmxTreeView } from './JmxTreeView'
 
@@ -37,7 +37,9 @@ export const Jmx: React.FunctionComponent = () => {
   // can access the shared state (tree, selected node) using useMBeanTreeContext() hook
   return (
     <MBeanTreeContext.Provider value={{ tree, selectedNode, setSelectedNode }}>
+      {/* See https://split.js.org/ */}
       <Split className='jmx-split' sizes={[30, 70]} minSize={200} gutterSize={5}>
+        {/* split.js sets calculated widths for direct 2 divs: "width: calc(30% - 2.5px)" and "width: calc(70% - 2.5px)" */}
         <div>
           <JmxTreeView />
         </div>

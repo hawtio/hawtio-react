@@ -2,7 +2,6 @@ import { MBeanNode, MBeanTree, PluginTreeViewToolbar, workspace, ExpansionValue 
 import { TreeView, TreeViewDataItem } from '@patternfly/react-core'
 import React, { ChangeEvent, startTransition, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
-import './CamelTreeView.css'
 import { pluginPathWithNodeId, useCamelContext } from './context'
 import { pluginPath, jmxDomain } from './globals'
 

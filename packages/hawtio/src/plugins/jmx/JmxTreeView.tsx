@@ -2,7 +2,6 @@ import { ExpansionValue, MBeanNode, MBeanTree, PluginTreeViewToolbar, workspace 
 import { TreeView, TreeViewDataItem } from '@patternfly/react-core'
 import React, { ChangeEvent, startTransition, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
-import './JmxTreeView.css'
 import { pluginPathWithNodeId, useMBeanTreeContext } from './context'
 import { pluginPath } from '@hawtiosrc/plugins/jmx/globals'
 
@@ -134,6 +133,8 @@ export const JmxTreeView: React.FunctionComponent = () => {
   }
 
   return (
+    // https://github.com/patternfly/patternfly-react/issues/12241 seems not to be available in 6.6.2
+    // and we still have duplicated id in div and ul elements of TreeView
     <TreeView
       id='jmx-tree-view'
       data={filteredTree}
