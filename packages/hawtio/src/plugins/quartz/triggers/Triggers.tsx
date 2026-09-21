@@ -22,8 +22,8 @@ export const Triggers: React.FunctionComponent = () => {
   const [triggers, setTriggers] = useState<Trigger[]>([])
   const [isReading, setIsReading] = useState(true)
   const [reload, setReload] = useState(false)
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false)
-  const [isManualOpen, setIsManualOpen] = useState(false)
+  const [isUpdateOpen, setIsUpdateOpen] = useState<Record<string, boolean>>({})
+  const [isManualOpen, setIsManualOpen] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     if (!selectedNode || !selectedNode.objectName) {
@@ -85,16 +85,20 @@ export const Triggers: React.FunctionComponent = () => {
     )
   }
 
-  const handleUpdateToggle = () => {
-    setIsUpdateOpen(!isUpdateOpen)
+  const handleUpdateToggle = (row: Trigger) => {
+    setIsUpdateOpen(state => {
+      return { ...state, [row.name]: !state[row.name] }
+    })
   }
 
   const canTriggerJob = () => {
     return selectedNode.hasInvokeRights(QUARTZ_OPERATIONS.triggerJob)
   }
 
-  const handleManualToggle = () => {
-    setIsManualOpen(!isManualOpen)
+  const handleManualToggle = (row: Trigger) => {
+    setIsManualOpen(state => {
+      return { ...state, [row.name]: !state[row.name] }
+    })
   }
 
   const canPauseTrigger = () => {
@@ -205,22 +209,30 @@ export const Triggers: React.FunctionComponent = () => {
                   {
                     title: 'Update Trigger',
                     isDisabled: !canUpdateTrigger(),
-                    onClick: handleUpdateToggle,
+                    onClick: () => {
+                      handleUpdateToggle(row)
+                    },
                   },
                   {
                     title: 'Trigger Manually',
                     isDisabled: !canTriggerJob(),
-                    onClick: handleManualToggle,
+                    onClick: () => {
+                      handleManualToggle(row)
+                    },
                   },
                 ]}
               />
               <TriggersUpdateModal
-                isOpen={isUpdateOpen}
-                onClose={handleUpdateToggle}
+                isOpen={isUpdateOpen[row.name] ?? false}
+                onClose={() => handleUpdateToggle(row)}
                 input={row}
                 reload={triggerReload}
               />
-              <TriggersManualModal isOpen={isManualOpen} onClose={handleManualToggle} input={row} />
+              <TriggersManualModal
+                isOpen={isManualOpen[row.name] ?? false}
+                onClose={() => handleManualToggle(row)}
+                input={row}
+              />
             </>
           ),
         },
