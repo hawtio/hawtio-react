@@ -2,7 +2,6 @@ import { Alert, Content, Nav, NavItem, NavList, PageGroup, PageSection, Popover,
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon'
 import React from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router'
-import './Connect.css'
 import { ConnectContext, useConnections } from './context'
 import { Discover } from './discover/Discover'
 import { pluginPath } from './globals'
@@ -62,18 +61,15 @@ export const Connect: React.FunctionComponent = () => {
 
   return (
     <ConnectContext.Provider value={{ connections, dispatch }}>
-      <PageGroup>
-        <PageSection id='connect-header' hasBodyWrapper={false}>
-          <Title id='connect-header-title' headingLevel='h1'>
-            Connect
-            <ConnectHint />
-          </Title>
-          {!secure && insecureAlert}
-        </PageSection>
-        <PageSection type='tabs' hasBodyWrapper={false}>
-          {nav}
-        </PageSection>
-      </PageGroup>
+      <PageSection id='connect-header'>
+        <Title id='connect-header-title' headingLevel='h1'>
+          Connect <ConnectHint />
+        </Title>
+        {!secure && insecureAlert}
+      </PageSection>
+      <PageSection type='tabs'>
+        {nav}
+      </PageSection>
       <PageSection id='connect-main' hasBodyWrapper={false}>
         <Routes>
           {routes}

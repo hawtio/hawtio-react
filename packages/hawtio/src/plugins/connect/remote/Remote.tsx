@@ -18,6 +18,7 @@ import {
   Icon,
   MenuToggle,
   MenuToggleElement,
+  PageSection,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
@@ -41,7 +42,9 @@ export const Remote: React.FunctionComponent = () => {
 
   return (
     <React.Fragment>
-      <RemoteToolbar />
+      <PageSection hasBodyWrapper={false}>
+        <RemoteToolbar />
+      </PageSection>
       <DataList id='connect-connection-list' aria-label='connection list' isCompact>
         {Object.entries(connections).map(([id, connection]) => (
           <ConnectionItem key={id} id={id} connection={connection} />
@@ -62,11 +65,13 @@ const RemoteToolbar: React.FunctionComponent = () => {
   }
 
   const handleImportModalToggle = () => {
+    setIsDropdownOpen(false)
     setIsImportModalOpen(!isImportModalOpen)
   }
 
   const exportConnections = () => {
     connectService.export(connections)
+    setIsDropdownOpen(false)
   }
 
   const initialConnection = { ...INITIAL_CONNECTION }
@@ -75,7 +80,7 @@ const RemoteToolbar: React.FunctionComponent = () => {
     <Toolbar id='connect-toolbar'>
       <ToolbarContent>
         <ToolbarItem>
-          <Button icon={<PlusIcon />} variant='secondary' onClick={handleAddToggle}>
+          <Button icon={<PlusIcon />} size='sm' variant='secondary' onClick={handleAddToggle}>
             Add connection
           </Button>
         </ToolbarItem>
