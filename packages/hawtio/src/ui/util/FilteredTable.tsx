@@ -6,7 +6,6 @@ import {
   DropdownList,
   EmptyState,
   EmptyStateBody,
-  FormGroup,
   MenuToggle,
   MenuToggleElement,
   Pagination,
@@ -28,7 +27,6 @@ import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon'
 import { Table, Tbody, Td, Th, Thead, ThProps, Tr } from '@patternfly/react-table'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ExpandableText } from './ExpandableText'
-import './FilteredTable.css'
 
 interface Props<T> {
   extraToolbarLeft?: React.ReactNode
@@ -389,38 +387,36 @@ export function FilteredTable<T>({
       <PanelMain>
         <PanelMainBody>
           {sortedFilteredRows.length > 0 && (
-            <FormGroup>
-              <Table aria-label='Message Table' variant='compact' height='80vh' isStriped isStickyHeader>
-                <Thead>
-                  <Tr>
-                    {tableColumns.map((att, index) => (
-                      <Th
-                        key={'th-key' + index}
-                        data-testid={`${String(att.key || index)}-header`}
-                        sort={getSortParams(index)}
-                        width={att.percentageWidth}
-                      >
-                        {att.name}
-                      </Th>
-                    ))}
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {getRowPage().map((item, index) => {
-                    const values = getValuesForDisplay(item)
-                    return (
-                      <Tr key={'row' + index} data-testid={'row' + index} onClick={() => onClick?.(item)}>
-                        {tableColumns.map(({ renderer, hideValues, isAction }, column) => (
-                          <Td key={'col' + index + '-' + column} isActionCell={isAction}>
-                            {renderer ? renderer(item) : defaultCellRenderer(values, index, column, hideValues)}
-                          </Td>
-                        ))}
-                      </Tr>
-                    )
-                  })}
-                </Tbody>
-              </Table>
-            </FormGroup>
+            <Table aria-label='Message Table' variant='compact' isStriped isStickyHeader>
+              <Thead>
+                <Tr>
+                  {tableColumns.map((att, index) => (
+                    <Th
+                      key={'th-key' + index}
+                      data-testid={`${String(att.key || index)}-header`}
+                      sort={getSortParams(index)}
+                      width={att.percentageWidth}
+                    >
+                      {att.name}
+                    </Th>
+                  ))}
+                </Tr>
+              </Thead>
+              <Tbody>
+                {getRowPage().map((item, index) => {
+                  const values = getValuesForDisplay(item)
+                  return (
+                    <Tr key={'row' + index} data-testid={'row' + index} onClick={() => onClick?.(item)}>
+                      {tableColumns.map(({ renderer, hideValues, isAction }, column) => (
+                        <Td key={'col' + index + '-' + column} isActionCell={isAction}>
+                          {renderer ? renderer(item) : defaultCellRenderer(values, index, column, hideValues)}
+                        </Td>
+                      ))}
+                    </Tr>
+                  )
+                })}
+              </Tbody>
+            </Table>
           )}
           {sortedFilteredRows.length === 0 && (
             <Bullseye>
