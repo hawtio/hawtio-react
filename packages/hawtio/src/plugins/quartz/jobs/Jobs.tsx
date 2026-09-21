@@ -1,7 +1,6 @@
 import { HawtioLoadingCard } from '@hawtiosrc/plugins/shared'
 import { Button } from '@patternfly/react-core'
 import { Modal } from '@patternfly/react-core/deprecated'
-import './Jobs.css'
 
 import { FilteredTable } from '@hawtiosrc/ui'
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'

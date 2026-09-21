@@ -21,7 +21,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { QuartzContext } from '../context'
 import { log } from '../globals'
 import { QUARTZ_OPERATIONS, quartzService } from '../quartz-service'
-import './Scheduler.css'
 
 export const Scheduler: React.FunctionComponent = () => {
   const { selectedNode } = useContext(QuartzContext)
@@ -150,7 +149,7 @@ export const Scheduler: React.FunctionComponent = () => {
                 <PauseCircleIcon />
               </Icon>
             )}
-            Scheduler
+            {' '}Scheduler
           </CardTitle>
         </CardHeader>
         <CardBody>
@@ -210,7 +209,7 @@ export const Scheduler: React.FunctionComponent = () => {
                 <PauseCircleIcon />
               </Icon>
             )}
-            Sampled Statistics (Most Recent Samples)
+            {' '}Sampled Statistics (Most Recent Samples)
           </CardTitle>
         </CardHeader>
         <CardBody>
