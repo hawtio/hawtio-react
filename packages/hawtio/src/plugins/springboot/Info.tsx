@@ -1,7 +1,6 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
 import React, { useEffect, useState } from 'react'
 import { springbootService } from './springboot-service'
-import './Info.css'
 
 export const Info: React.FunctionComponent = () => {
   const [systemProperties, setSystemProperties] = useState<{ key: string; value: string }[]>([])
@@ -24,8 +23,8 @@ export const Info: React.FunctionComponent = () => {
         {systemProperties.map((prop, index) => {
           return (
             <Tr key={'row' + index} data-testid={'row' + index}>
-              <Td style={{ width: '20%' }}>{prop.key}</Td>
-              <Td style={{ flex: 3 }}>{prop.value}</Td>
+              <Td>{prop.key}</Td>
+              <Td>{prop.value}</Td>
             </Tr>
           )
         })}

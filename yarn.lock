@@ -2063,6 +2063,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@patternfly/patternfly@npm:^6.6.1":
+  version: 6.6.1
+  resolution: "@patternfly/patternfly@npm:6.6.1"
+  checksum: 10/c31de161b70d1215aef37b29476cff7e8ded606b872497c164461bbecfe6cbf73a65595661d18e0825c7791716387a3444ea8dca88651368f2fdd57984b93967
+  languageName: node
+  linkType: hard
+
 "@patternfly/react-charts@npm:^8.6.1":
   version: 8.6.1
   resolution: "@patternfly/react-charts@npm:8.6.1"
@@ -4477,6 +4484,7 @@ __metadata:
   dependencies:
     "@hawtio/backend-middleware": "workspace:*"
     "@hawtio/react": "workspace:*"
+    "@patternfly/patternfly": "npm:^6.6.1"
     "@patternfly/react-core": "npm:^6.6.2"
     "@swc/core": "npm:^1.16.2"
     body-parser: "npm:^2.3.0"
