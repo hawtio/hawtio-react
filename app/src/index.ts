@@ -19,6 +19,7 @@
 //  - if Patternfly rule is more dynamic (imported together with the component) we have to use more specific
 //    rule - usually prepended with "#id-of-hawtio-element"
 
+import '@patternfly/patternfly/patternfly-charts.css'
 import '@patternfly/react-core/dist/styles/base.css'
 import '@hawtio/react/dist/init.css'
 import '@hawtio/react/dist/index.css'

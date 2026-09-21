@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hawtio/react": "workspace:*",
+    "@patternfly/patternfly": "^6.6.1",
     "@patternfly/react-core": "^6.6.2",
     "monaco-editor": "~0.56.0",
     "react": "^18.3.1",

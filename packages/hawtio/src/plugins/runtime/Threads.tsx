@@ -1,5 +1,5 @@
 import { FilteredTable } from '@hawtiosrc/ui'
-import { Button, CodeBlock, CodeBlockCode, ToolbarGroup, ToolbarItem } from '@patternfly/react-core'
+import { Button, CodeBlock, CodeBlockCode, PageSection, ToolbarGroup, ToolbarItem } from '@patternfly/react-core'
 import { Modal } from '@patternfly/react-core/deprecated'
 import React, { useEffect, useState } from 'react'
 import { runtimeService } from './runtime-service'
@@ -102,7 +102,7 @@ export const Threads: React.FunctionComponent = () => {
   )
 
   return (
-    <React.Fragment>
+    <PageSection id='threads-table' isFilled hasBodyWrapper={false}>
       <ThreadsDumpModal isOpen={isThreadsDumpModalOpen} setIsOpen={setIsThreadsDumpModalOpen} />
       <ThreadInfoModal isOpen={isThreadDetailsOpen} thread={currentThread} setIsOpen={setIsThreadDetailsOpen} />
 
@@ -136,6 +136,6 @@ export const Threads: React.FunctionComponent = () => {
           />
         }
       />
-    </React.Fragment>
+    </PageSection>
   )
 }

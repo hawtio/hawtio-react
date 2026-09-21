@@ -1,8 +1,7 @@
-import { Nav, NavItem, NavList, PageGroup, PageSection, Title } from '@patternfly/react-core'
+import { Nav, NavItem, NavList, PageSection, Title } from '@patternfly/react-core'
 import React from 'react'
 import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router'
 import { Metrics } from './Metrics'
-import './Runtime.css'
 import { SysProps } from './SysProps'
 import { Threads } from './Threads'
 import { pluginPath } from './globals'
@@ -26,20 +25,18 @@ export const Runtime: React.FunctionComponent = () => {
       <PageSection hasBodyWrapper={false}>
         <Title headingLevel='h1'>Runtime</Title>
       </PageSection>
-      <PageGroup>
-        <PageSection type='tabs' hasBodyWrapper={false}>
-          <Nav aria-label='Runtime Nav' variant='horizontal-subnav'>
-            <NavList>
-              {navItems.map(({ id, title }) => (
-                <NavItem key={id} isActive={pathname === `${pluginPath}/${id}`}>
-                  <NavLink to={{ pathname: `${pluginPath}/${id}`, search }}>{title}</NavLink>
-                </NavItem>
-              ))}
-            </NavList>
-          </Nav>
-        </PageSection>
-      </PageGroup>
-      <PageSection padding={{ default: 'noPadding' }} hasBodyWrapper={false}>
+      <PageSection type='tabs' hasBodyWrapper={false}>
+        <Nav aria-label='Runtime Nav' variant='horizontal-subnav'>
+          <NavList>
+            {navItems.map(({ id, title }) => (
+              <NavItem key={id} isActive={pathname === `${pluginPath}/${id}`}>
+                <NavLink to={{ pathname: `${pluginPath}/${id}`, search }}>{title}</NavLink>
+              </NavItem>
+            ))}
+          </NavList>
+        </Nav>
+      </PageSection>
+      <PageSection hasBodyWrapper={false}>
         <Routes>
           {navItems.map(({ id, component }) => (
             <Route key={id} path={id} element={component} />

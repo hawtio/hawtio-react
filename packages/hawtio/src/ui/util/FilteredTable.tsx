@@ -396,6 +396,7 @@ export function FilteredTable<T>({
                       data-testid={`${String(att.key || index)}-header`}
                       sort={getSortParams(index)}
                       width={att.percentageWidth}
+                      aria-label={att.name ?? (att.isAction ? 'action' : '')}
                     >
                       {att.name}
                     </Th>

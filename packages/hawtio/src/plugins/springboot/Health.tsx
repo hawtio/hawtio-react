@@ -8,7 +8,6 @@ import { InfoCircleIcon } from '@patternfly/react-icons/dist/esm/icons/info-circ
 import { QuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/question-circle-icon'
 import { Table, Tbody, Td, Tr } from '@patternfly/react-table'
 import React, { useEffect, useState } from 'react'
-import './Health.css'
 import { springbootService } from './springboot-service'
 import { HealthComponent, HealthComponentDetail, HealthData } from './types'
 
@@ -19,7 +18,7 @@ const ComponentDetails: React.FunctionComponent<{
 }> = ({ componentDetails }) => {
   return (
     <Table variant='compact' borders={false}>
-      <Tbody style={{ fontSize: 'xx-small' }}>
+      <Tbody>
         {componentDetails.map((detail, index) => {
           return (
             <Tr key={'row' + detail.key + index}>
@@ -141,7 +140,7 @@ export const Health: React.FunctionComponent = () => {
               <CardHeader>
                 <Title headingLevel='h3'>{humanizeLabels(name)}</Title>
               </CardHeader>
-              <CardBody style={{ overflow: 'auto' }}>
+              <CardBody>
                 <Flex>
                   <FlexItem>
                     <HealthStatusIcon status={status} />
