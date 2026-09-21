@@ -1,10 +1,15 @@
 import { Connection, INITIAL_CONNECTION, connectService, jolokiaService, workspace } from '@hawtiosrc/plugins/shared'
 import { isBlank } from '@hawtiosrc/util/strings'
 import { log } from '../globals'
-import camelLogo from '../img/camel-logo.svg'
-import javaLogo from '../img/java-logo.svg'
-import jettyLogo from '../img/jetty-logo.svg'
-import tomcatLogo from '../img/tomcat-logo.svg'
+import camelLogoB64 from '../img/camel-logo.svg'
+import javaLogoB64 from '../img/java-logo.svg'
+import jettyLogoB64 from '../img/jetty-logo.svg'
+import tomcatLogoB64 from '../img/tomcat-logo.svg'
+
+const camelLogo = `data:image/svg+xml;base64,${camelLogoB64}`
+const javaLogo = `data:image/svg+xml;base64,${javaLogoB64}`
+const jettyLogo = `data:image/svg+xml;base64,${jettyLogoB64}`
+const tomcatLogo = `data:image/svg+xml;base64,${tomcatLogoB64}`
 
 /**
  * @see https://jolokia.org/reference/html/manual/jolokia_mbeans.html#mbean-discovery

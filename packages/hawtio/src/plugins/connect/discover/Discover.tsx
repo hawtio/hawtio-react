@@ -27,6 +27,7 @@ import {
   ToolbarContent,
   ToolbarGroup,
   ToolbarItem,
+  PageSection,
 } from '@patternfly/react-core'
 import React, { useContext, useEffect, useState } from 'react'
 import { ADD, UPDATE } from '../connections'
@@ -203,17 +204,19 @@ export const Discover: React.FunctionComponent = () => {
 
   return (
     <React.Fragment>
-      <Card style={{ marginBottom: '1rem' }}>{toolbar}</Card>
-      <Gallery hasGutter minWidths={{ default: '400px' }}>
-        {label === 'Agent' &&
-          filteredAgents.map((agent, index) => (
-            <AgentCard key={`agent-${index}-${agent.agent_id}`} agent={agent} connect={connect} />
-          ))}
-        {label === 'JVM' &&
-          filteredJvms.map((jvm, index) => (
-            <JvmCard key={`jvm-${index}-${jvm.id}`} jvm={jvm} connect={connect} refresh={refresh} />
-          ))}
-      </Gallery>
+      {toolbar}
+      <PageSection hasBodyWrapper={false} hasOverflowScroll aria-label='discovered-agents'>
+        <Gallery hasGutter minWidths={{ default: '25rem' }}>
+          {label === 'Agent' &&
+            filteredAgents.map((agent, index) => (
+              <AgentCard key={`agent-${index}-${agent.agent_id}`} agent={agent} connect={connect} />
+            ))}
+          {label === 'JVM' &&
+            filteredJvms.map((jvm, index) => (
+              <JvmCard key={`jvm-${index}-${jvm.id}`} jvm={jvm} connect={connect} refresh={refresh} />
+            ))}
+        </Gallery>
+      </PageSection>
     </React.Fragment>
   )
 }
@@ -239,7 +242,7 @@ export const AgentCard: React.FunctionComponent<{
         <img
           src={discoverService.productLogo(agent)}
           alt={agent.server_product}
-          style={{ maxWidth: '30px', paddingRight: '0.5rem' }}
+          style={{ maxWidth: '1.5rem' }}
         />
         <CardTitle style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</CardTitle>
       </CardHeader>
@@ -325,7 +328,7 @@ export const JvmCard: React.FunctionComponent<{
         <img
           src={discoverService.productLogoJvm(jvm)}
           alt={jvm.alias}
-          style={{ maxWidth: '30px', paddingRight: '0.5rem' }}
+          style={{ maxWidth: '1.5rem' }}
         />
         <CardTitle style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {jvm.alias}
