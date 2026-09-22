@@ -69,12 +69,14 @@ export const OperationForm: React.FunctionComponent<{
 
   const operationCells = [
     <DataListCell key={`operation-cell-name-${name}`} isFilled={false}>
-      <code className='operation-datatype'>{operation.readableReturnType}</code>
-      <b>{operation.readableName}</b>
-    </DataListCell>,
-    <DataListCell key={`operation-cell-desc-${name}`} isFilled={false}>
-      {operation.description}
-    </DataListCell>,
+      <div>
+        <code className='operation-datatype'>{operation.readableReturnType}</code>{' '}
+        <b>{operation.readableName}</b>
+      </div>
+      <div>
+        {operation.description}
+      </div>
+    </DataListCell>
   ]
   // Lock if it's not invocable
   if (!operation.canInvoke) {
@@ -227,7 +229,7 @@ const OperationExecuteResult: React.FunctionComponent<{
         isExpanded
         isCode
         isReadOnly
-        className={isFailed ? 'jmx-operation-error' : ''}
+        className={isFailed ? 'jmx-operation-error' : 'jmx-operation-success'}
       >
         {result ?? ''}
       </ClipboardCopy>
@@ -254,7 +256,7 @@ const OperationFormContents: React.FunctionComponent<{ isExpanded: boolean }> = 
         <OperationExecuteForm setResult={setResult} setIsFailed={setIsFailed} />
       </DataListContent>
       {result && (
-        <DataListContent id={`operation-result-${name}`} aria-label={`operation result ${name}`} isHidden={!isExpanded}>
+        <DataListContent id={`operation-result-${name}`} aria-label={`operation result ${name}`} isHidden={!isExpanded} hasNoPadding>
           <OperationExecuteResult
             result={result}
             isFailed={isFailed}

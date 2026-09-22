@@ -1,9 +1,41 @@
 .jmx-operation-error .pf-v6-c-clipboard-copy__expandable-content {
   background-color: var(--pf-t--global--background--color--primary--default);
-  color: var(--pf-t--global--text--color--regular);
+  color: var(--pf-t--global--text--color--status--danger--default);
   border: var(--pf-v6-c-alert--BorderWidth, 2px) solid var(--pf-t--global--border--color--status--danger--default);
 }
+.jmx-operation-success .pf-v6-c-clipboard-copy__expandable-content {
+  background-color: var(--pf-t--global--background--color--primary--default);
+  border: var(--pf-v6-c-alert--BorderWidth, 2px) solid var(--pf-t--global--border--color--status--success--default);
+}
 
-.operation-datatype {
-  margin-right: 0.5em;
+#jmx-operation-list.pf-v6-c-data-list.pf-m-grid-md {
+  --pf-v6-c-data-list__expandable-content-body--PaddingBlockStart: 0.125rem;
+  --pf-v6-c-data-list__expandable-content-body--PaddingBlockEnd: 0.125rem;
+  --pf-v6-c-data-list__expandable-content-body--PaddingInlineEnd: 0.125rem;
+  --pf-v6-c-data-list__expandable-content-body--PaddingInlineStart: 0.125rem;
+
+  --pf-v6-c-data-list__expandable-content--MarginBlockEnd: var(--pf-t--global--spacer--sm);
+}
+
+#jmx-operation-list .pf-v6-c-form {
+  /*--pf-v6-c-form--m-horizontal__group-label--md--GridColumnWidth: 15%;*/
+  --pf-v6-c-form--m-horizontal__group-label--md--PaddingBlockStart: 0;
+  --pf-v6-c-form__group--m-action--MarginBlockStart: var(--pf-t--global--spacer--sm);
+  --pf-v6-c-form--GridGap: 0.25rem;
+}
+#jmx-operation-list .pf-v6-c-form__group-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+#jmx-operation-list .pf-v6-c-form__group {
+  max-width: 100%;
+}
+#jmx-operation-list .pf-v6-c-form__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#jmx-operation-list .pf-v6-c-form__label-text {
+  text-wrap: nowrap;
 }

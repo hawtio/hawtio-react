@@ -1,0 +1,21 @@
+#attribute-form.pf-v6-c-form {
+  --pf-v6-c-form--m-horizontal__group-label--md--GridColumnWidth: 20%;
+  --pf-v6-c-form--m-horizontal__group-label--md--PaddingBlockStart: 0;
+  --pf-v6-c-form--GridGap: 0.25rem;
+}
+#attribute-form .pf-v6-c-form__group-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+#attribute-form .pf-v6-c-form__group {
+  max-width: 100%;
+}
+#attribute-form .pf-v6-c-form__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#attribute-form .pf-v6-c-form__label-text {
+  text-wrap: nowrap;
+}
