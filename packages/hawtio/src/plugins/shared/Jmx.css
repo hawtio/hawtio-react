@@ -79,8 +79,8 @@
    *  - inline: horizontal/left/right
    * "public" variable names are used (from external CSS) and defaults are used if missing
    */
-  --hawtio-tree-block-padding: var(--hawtio-v4-tree-block-padding, 0.25rem);
-  --hawtio-tree-inline-padding: var(--hawtio-v4-tree-inline-padding, 0.5rem);
+  --hawtio-tree-block-padding: var(--hawtio-v4-tree-block-padding, 0.125rem);
+  --hawtio-tree-inline-padding: var(--hawtio-v4-tree-inline-padding, 0.25rem);
 
   /*
    * top/bottom padding of the nodes - defaults to:
@@ -111,6 +111,9 @@
   /* icons have asymmetric padding (only right) */
   --pf-v6-c-tree-view__node-icon--PaddingInlineStart: 0.125rem;
   --pf-v6-c-tree-view__node-icon--PaddingInlineEnd: 0.125rem;
+
+  /* better minimal width, so 16x16 icons don't shrink */
+  --pf-v6-c-tree-view__node-toggle-icon--MinWidth: 1.25rem;
 
   /*
    * Patternfly creates a guide base decreased by hardcoded --pf-v6-c-tree-view--m-guides__list-node--guide-width--base,

@@ -105,7 +105,7 @@ export const Attributes: React.FunctionComponent = () => {
 
   const attributesTable = (
     <div id='attribute-table-with-panel'>
-      <Table aria-label='Attributes' variant='compact'>
+      <Table aria-label='Attributes' variant='compact' isStriped>
         <Thead>
           <Tr>
             <Th sort={getSortParams()}>Attribute</Th>
@@ -132,8 +132,8 @@ export const Attributes: React.FunctionComponent = () => {
   )
   return (
     <Panel>
-      <Drawer isExpanded={isModalOpen} className='pf-m-inline-on-2xl'>
-        <DrawerContent panelContent={panelContent}>
+      <Drawer isExpanded={isModalOpen}>
+        <DrawerContent panelContent={panelContent} >
           <DrawerContentBody>{attributesTable}</DrawerContentBody>
         </DrawerContent>
       </Drawer>

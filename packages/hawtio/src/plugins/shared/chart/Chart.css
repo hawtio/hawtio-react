@@ -1,4 +1,6 @@
-.pf-v6-theme-dark .camel-chart tspan {
-  color: var(--pf-t--color--white);
-  fill: var(--pf-t--color--white) !important;
+.attributes-chart .pf-v6-c-card.pf-m-compact {
+  --pf-v6-c-card--m-compact--child--PaddingBlockStart: var(--pf-t--global--spacer--sm);
+  --pf-v6-c-card--m-compact--child--PaddingBlockEnd: var(--pf-t--global--spacer--sm);
+  --pf-v6-c-card--m-compact--child--PaddingInlineStart: var(--pf-t--global--spacer--sm);
+  --pf-v6-c-card--m-compact--child--PaddingInlineEnd: var(--pf-t--global--spacer--sm);
 }

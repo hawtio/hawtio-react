@@ -72,7 +72,7 @@ const AttributeChart: React.FunctionComponent<{
   }, [])
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '220px' }}>
+    <div ref={containerRef}>
       <ChartDraw
         ariaTitle={name}
         containerComponent={
@@ -334,12 +334,12 @@ export const Chart: React.FunctionComponent = () => {
   return (
     <React.Fragment>
       {watchableAttributesForm}
-      <Grid hasGutter span={12} xl2={6} className='camel-chart'>
+      <Grid hasGutter span={12} xl2={6} className='attributes-chart'>
         <GridItem span={12}>
-          <Card isPlain>
+          <Card isPlain id='chart-toolbar'>
             <CardHeader
               actions={{
-                actions: <Button onClick={() => setIsWatchableAttributesModalOpen(true)}>Edit watches</Button>,
+                actions: <Button size='sm' onClick={() => setIsWatchableAttributesModalOpen(true)}>Edit watches</Button>,
                 hasNoOffset: false,
               }}
             >

@@ -17,6 +17,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { attributeService } from './attribute-service'
 import { log } from '../globals'
 import { eventService } from '@hawtiosrc/core'
+import './AttributeModal.css'
 
 export const AttributeModal: React.FunctionComponent<{
   isOpen: boolean
@@ -102,7 +103,7 @@ export const AttributeModal: React.FunctionComponent<{
   return (
     <DrawerPanelContent isResizable>
       <DrawerHead>
-        <Title headingLevel='h2' size='xl'>
+        <Title headingLevel='h2' size='lg'>
           {modalTitle}
         </Title>
         <DrawerActions>
@@ -140,7 +141,7 @@ export const AttributeModal: React.FunctionComponent<{
             <ClipboardCopy isReadOnly>{jolokiaUrl}</ClipboardCopy>
           </FormGroup>
           <FormGroup label='Value' fieldId='attribute-form-value'>
-            <TextInput
+            <TextArea
               id='attribute-form-value'
               name='attribute-form-value'
               value={attributeValue}
