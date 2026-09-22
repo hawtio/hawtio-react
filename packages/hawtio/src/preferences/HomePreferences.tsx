@@ -3,6 +3,7 @@ import { HawtioLoadingPage } from '@hawtiosrc/ui'
 import {
   Alert,
   Button,
+  CardBody,
   Form,
   FormGroup,
   FormHelperText,
@@ -10,7 +11,6 @@ import {
   HelperTextItem,
   MenuToggle,
   MenuToggleElement,
-  PageSection,
   Select,
   SelectList,
   SelectOption,
@@ -30,7 +30,7 @@ export const HomePreferences: React.FunctionComponent = () => {
   const sideBarShown = hawtconfig.appearance?.showSideBar ?? true
 
   return (
-    <PageSection hasBodyWrapper={false}>
+    <CardBody>
       <Form isHorizontal>
         {sideBarShown && (
           <HawtioFormSection title='UI'>
@@ -41,7 +41,7 @@ export const HomePreferences: React.FunctionComponent = () => {
           <ResetForm />
         </HawtioFormSection>
       </Form>
-    </PageSection>
+    </CardBody>
   )
 }
 

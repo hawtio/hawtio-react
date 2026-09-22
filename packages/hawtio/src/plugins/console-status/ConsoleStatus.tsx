@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Alert,
-  Card,
-  CardBody,
   PageSection,
   Panel,
   PanelHeader,
@@ -10,7 +8,6 @@ import {
   PanelMainBody,
 } from '@patternfly/react-core'
 import { HawtioLoadingCard, workspace } from '@hawtiosrc/plugins/shared'
-import './ConsoleStatus.css'
 
 export const ConsoleStatus: React.FunctionComponent = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
@@ -59,17 +56,13 @@ export const ConsoleStatus: React.FunctionComponent = () => {
 
   return (
     <PageSection hasBodyWrapper={false}>
-      <Card>
-        <CardBody>
-          <Alert variant='warning' title='Application returned no mbeans' />
+      <Alert variant='warning' title='Application returned no mbeans' />
 
-          {errors.map((error, index) => (
-            <Alert key={index} variant='danger' title={error.message} className='console-alert'>
-              {hasCause(error) && <p>Cause: {(error.cause as Error).message}</p>}
-            </Alert>
-          ))}
-        </CardBody>
-      </Card>
+      {errors.map((error, index) => (
+        <Alert key={index} variant='danger' title={error.message}>
+          {hasCause(error) && <p>Cause: {(error.cause as Error).message}</p>}
+        </Alert>
+      ))}
     </PageSection>
   )
 }
