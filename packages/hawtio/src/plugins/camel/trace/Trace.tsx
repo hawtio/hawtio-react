@@ -1,6 +1,16 @@
 import { HawtioEmptyCard, HawtioLoadingCard, MBeanNode } from '@hawtiosrc/plugins/shared'
 import { childText, parseXML } from '@hawtiosrc/util/xml'
-import { Button, Divider, Panel, PanelHeader, PanelMain, PanelMainBody, Content, Title } from '@patternfly/react-core'
+import {
+  Button,
+  PanelMain,
+  PanelMainBody,
+  Content,
+  Title,
+  Flex,
+  FlexItem,
+  Alert,
+  PageSection
+} from '@patternfly/react-core'
 import { BanIcon } from '@patternfly/react-icons/dist/esm/icons/ban-icon'
 import { PlayIcon } from '@patternfly/react-icons/dist/esm/icons/play-icon'
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
@@ -189,121 +199,118 @@ export const Trace: React.FunctionComponent = () => {
   }
 
   return (
-    <Panel>
-      <PanelHeader id='trace-header-container'>
-        <Title headingLevel='h3'>Tracing</Title>
-        <Button
-          variant='primary'
-          size='sm'
-          icon={!isTracing ? React.createElement(PlayIcon) : React.createElement(BanIcon)}
-          onClick={onTracing}
-          isDisabled={!camelService.canTrace(selectedNode)}
-        >
-          {!isTracing ? 'Start Tracing' : 'Stop Tracing'}
-        </Button>
-      </PanelHeader>
-      <PanelMain>
-        <PanelMainBody>
-          {!isTracing && (
-            <React.Fragment>
-              <Content className='noTracing' data-testid='no-tracing' component='p'>
-                Tracing allows you to send messages to a route and then step through and see the messages flow through a
-                route to aid debugging and to help diagnose issues.
-              </Content>
-              <Content className='noTracing' data-testid='no-tracing2' component='p'>
-                Once you start tracing, you can send messages to the input endpoints, then come back to this page and
-                see the flow of messages through your route.
-              </Content>
-              <Content className='noTracing' data-testid='no-tracing3' component='p'>
-                As you click on the message table, you can see which node in the flow it came through; moving the
-                selection up and down in the message table lets you see the flow of the message through the diagram.
-              </Content>
-            </React.Fragment>
-          )}
-          {isTracing && (
-            <MessageDrawer
-              messages={message ? [message] : []}
-              expanded={msgPanelExpanded}
-              setExpanded={setMsgPanelExpanded}
-            >
-              <div id='trace-content'>
-                <Panel id='route-diagram-tracing-view'>
-                  <PanelMain>
-                    <PanelMainBody>
-                      <RouteDiagramContext.Provider
-                        value={{
-                          graphNodeData,
-                          setGraphNodeData,
-                          graphSelection,
-                          setGraphSelection,
-                          setShowStatistics,
-                        }}
-                      >
-                        <RouteDiagram />
-                      </RouteDiagramContext.Provider>
-                    </PanelMainBody>
-                  </PanelMain>
-                </Panel>
-                <Panel id='route-message-table'>
-                  <PanelHeader>Messages</PanelHeader>
-                  <Divider />
+    <>
+      {/* tracing tab header with a title and main switch */}
+      <PageSection hasBodyWrapper={false}>
+        <Flex id='trace-header-container' alignItems={{ default: 'alignItemsCenter' }} justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+          <FlexItem>
+            <Title headingLevel='h1' size='lg'>Tracing</Title>
+          </FlexItem>
+          <FlexItem>
+            <Button
+              variant='primary'
+              size='sm'
+              icon={!isTracing ? React.createElement(PlayIcon) : React.createElement(BanIcon)}
+              onClick={onTracing}
+              isDisabled={!camelService.canTrace(selectedNode)}>
+              {!isTracing ? 'Start Tracing' : 'Stop Tracing'}
+            </Button>
+          </FlexItem>
+        </Flex>
+      </PageSection>
+      {/* tracing tab details occupying remaining vertical space. Contains the diagram and the trace table */}
+      <PageSection id='drawer-wrapper' isFilled hasBodyWrapper={false}>
+        {!isTracing && (
+          <Alert variant='info' title='Camel Tracing'>
+            <Content className='noTracing' data-testid='no-tracing' component='p'>
+              Tracing allows you to send messages to a route and then step through and see the messages flow through a
+              route to aid debugging and to help diagnose issues.
+            </Content>
+            <Content className='noTracing' data-testid='no-tracing2' component='p'>
+              Once you start tracing, you can send messages to the input endpoints, then come back to this page and
+              see the flow of messages through your route.
+            </Content>
+            <Content className='noTracing' data-testid='no-tracing3' component='p'>
+              As you click on the message table, you can see which node in the flow it came through; moving the
+              selection up and down in the message table lets you see the flow of the message through the diagram.
+            </Content>
+          </Alert>
+        )}
+        {isTracing && (
+          <MessageDrawer messages={message ? [message] : []} expanded={msgPanelExpanded}
+                         setExpanded={setMsgPanelExpanded}>
+            {/* All the elements go to <DrawerContentBody> which is the visible content of the <Drawer> */}
+            <div id='trace-content'>
+              <div id='route-diagram-tracing-view'>
+                <RouteDiagramContext.Provider
+                  value={{
+                    graphNodeData,
+                    setGraphNodeData,
+                    graphSelection,
+                    setGraphSelection,
+                    setShowStatistics,
+                  }}>
+                  <RouteDiagram />
+                </RouteDiagramContext.Provider>
+              </div>
+              <Flex id='route-message-table' direction={{ default: 'column' }}>
+                <FlexItem>
+                  <Title headingLevel='h2' size='md'>Messages</Title>
+                </FlexItem>
+                <FlexItem flex={{ default: 'flex_1' }}>
                   {parsedMessages.length === 0 && (
                     <PanelMain>
                       <PanelMainBody>
                         <Content className='tracing-on-no-messages' data-testid='tracing-on-no-messages' component='p'>
-                          Awaiting tracing messages.
+                          Awaiting tracing messages ...
                         </Content>
                       </PanelMainBody>
                     </PanelMain>
                   )}
                   {parsedMessages.length !== 0 && (
-                    <PanelMain>
-                      <PanelMainBody id='route-message-table-body'>
-                        <Table aria-label='message table' variant='compact' isStriped>
-                          <Thead>
-                            <Tr>
-                              <Th>ID</Th>
-                              <Th>To Node</Th>
-                              <Th>Elapsed</Th>
-                              <Th>Endpoint Uri</Th>
-                              <Th>Is Remote?</Th>
-                              <Th>Service Url</Th>
-                              <Th>Protocol</Th>
-                              <Th>Metadata</Th>
-                            </Tr>
-                          </Thead>
-                          <Tbody isOddStriped>
-                            {parsedMessages.map(message => (
-                              <Tr
-                                key={message.uid}
-                                onRowClick={() => onRowSelected(message)}
-                                isRowSelected={isRowSelected(message)}
-                              >
-                                <Td dataLabel='ID'>
-                                  <Button variant='link' isDisabled={!message} onClick={onMessagePanelToggle}>
-                                    {message.headers.breadcrumbId ? message.headers.breadcrumbId : message.uid}
-                                  </Button>
-                                </Td>
-                                <Td dataLabel='ToNode'>{message.toNode}</Td>
-                                <Td dataLabel='Elapsed'>{message.elapsed}ms</Td>
-                                <Td dataLabel='EndpointUri'>{message.endpointUri}</Td>
-                                <Td dataLabel='IsRemote'>{message.isRemoteEndpoint}</Td>
-                                <Td dataLabel='ServiceUrl'>{message.endpointServiceUrl}</Td>
-                                <Td dataLabel='Protocol'>{message.endpointServiceProtocol}</Td>
-                                <Td dataLabel='Metadata'>{message.endpointServiceMetadata}</Td>
-                              </Tr>
-                            ))}
-                          </Tbody>
-                        </Table>
-                      </PanelMainBody>
-                    </PanelMain>
+                    <Table aria-label='message table' variant='compact' isStriped>
+                      <Thead>
+                        <Tr>
+                          <Th>ID</Th>
+                          <Th>To Node</Th>
+                          <Th>Elapsed</Th>
+                          <Th>Endpoint Uri</Th>
+                          <Th>Is Remote?</Th>
+                          <Th>Service Url</Th>
+                          <Th>Protocol</Th>
+                          <Th>Metadata</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody isOddStriped>
+                        {parsedMessages.map(message => (
+                          <Tr
+                            key={message.uid}
+                            onRowClick={() => onRowSelected(message)}
+                            isRowSelected={isRowSelected(message)}
+                          >
+                            <Td dataLabel='ID'>
+                              <Button variant='link' isDisabled={!message} onClick={onMessagePanelToggle}>
+                                {message.headers.breadcrumbId ? message.headers.breadcrumbId : message.uid}
+                              </Button>
+                            </Td>
+                            <Td dataLabel='ToNode'>{message.toNode}</Td>
+                            <Td dataLabel='Elapsed'>{message.elapsed}ms</Td>
+                            <Td dataLabel='EndpointUri'>{message.endpointUri}</Td>
+                            <Td dataLabel='IsRemote'>{message.isRemoteEndpoint}</Td>
+                            <Td dataLabel='ServiceUrl'>{message.endpointServiceUrl}</Td>
+                            <Td dataLabel='Protocol'>{message.endpointServiceProtocol}</Td>
+                            <Td dataLabel='Metadata'>{message.endpointServiceMetadata}</Td>
+                          </Tr>
+                        ))}
+                      </Tbody>
+                    </Table>
                   )}
-                </Panel>
-              </div>
-            </MessageDrawer>
-          )}
-        </PanelMainBody>
-      </PanelMain>
-    </Panel>
+                </FlexItem>
+              </Flex>
+            </div>
+          </MessageDrawer>
+        )}
+      </PageSection>
+    </>
   )
 }

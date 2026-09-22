@@ -293,7 +293,7 @@ const CamelNode: React.FunctionComponent<NodeProps<CamelNodeData>> = ({
       <div className='camel-node-label'>{truncate(data.label)}</div>
       {data.cid && <div className='camel-node-id'> (ID: {data.cid})</div>}
       {showStatistics && (
-        <NodeToolbar isVisible={isVisible} position={Position.Bottom} style={{ marginTop: '-30px' }}>
+        <NodeToolbar isVisible={isVisible} position={Position.Bottom}>
           <div className='node-tooltip'>
             {data.note && (
               <Popover
@@ -309,7 +309,7 @@ const CamelNode: React.FunctionComponent<NodeProps<CamelNodeData>> = ({
             {!data.stats && data.label}
             {data.stats && !showFull && (
               <Table variant='compact'>
-                <Tbody style={{ fontSize: 'xx-small' }}>
+                <Tbody>
                   <Tr className='node-tooltip-odd-row'>
                     <Td>ID</Td>
                     <Td className='node-tooltip-value'>{data.stats.id}</Td>
@@ -349,7 +349,8 @@ const CamelNode: React.FunctionComponent<NodeProps<CamelNodeData>> = ({
             {data.stats && showFull && (
               //TODO finish full statistics
               <Table variant='compact'>
-                <Tbody style={{ fontSize: 'xx-small' }}>
+                {/*<Tbody style={{ fontSize: 'xx-small' }}>*/}
+                <Tbody>
                   {Object.entries(data.stats).map(s => {
                     return (
                       <Tr key={s[0]}>

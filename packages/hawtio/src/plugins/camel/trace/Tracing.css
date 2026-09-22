@@ -1,43 +1,39 @@
-.noTracing {
-  margin-bottom: 0.5em;
+#drawer-wrapper {
+  /*
+   * Patternfly <Drawer> should be wrapped with an element with this ID.
+   * These two styles prevent vertical resize beyond the grid/flex.
+   */
+  flex-shrink: 1;
+  /*
+   * A best-practice for nested flex containers. It prevents the container from
+   * expanding beyond its parent if the content is too large.
+   */
+  min-height: 0;
+}
+#message-drawer-content-body {
+  height: 100%;
+}
+#message-drawer-panel-content-panel {
+  flex: 1;
+  overflow: auto;
 }
 
 #trace-content {
+  /* row oriented flex for the drawer content (diagram + messages) */
   display: flex;
   flex-direction: row;
+  align-items: stretch;
   height: 100%;
-}
-
-#route-message-table {
-  height: 100%;
-  flex: 1;
-}
-
-#route-message-table-body {
-  height: 100%;
-  max-height: 60vh;
-  max-width: 40vw;
-  overflow: auto;
 }
 
 #route-diagram-tracing-view {
   flex: 1;
+  height: 100%;
 }
-
-#route-diagram-tracing-view .camel-route-diagram {
-  /* 330px is approximately size of hawtio bar, header, navigation, paddings and footer  */
-  height: calc(100vh - 330px);
-  min-height: 50vh;
-  max-height: calc(100vh - 330px);
-  width: 100%;
+#route-message-table {
+  flex: 2;
+  height: 100%;
 }
-
-#trace-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#route-message-table-header button {
-  float: right;
+#route-message-table>div:last-child {
+  overflow: auto;
 }

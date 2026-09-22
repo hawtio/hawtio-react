@@ -129,58 +129,60 @@ export const EndpointStats: React.FunctionComponent = () => {
   }
 
   return (
-    <PageSection hasBodyWrapper={false}>
-      <Title headingLevel='h1'>Endpoints (in/out)</Title>
+    <>
+      <PageSection hasBodyWrapper={false}>
+        <Title headingLevel='h1'>Endpoints (in/out)</Title>
 
-      <Toolbar clearAllFilters={clearFilters}>
-        <ToolbarContent>
-          <ToolbarGroup>
-            <Dropdown
-              data-testid='attribute-select'
-              onSelect={() => setIsDropdownOpen(false)}
-              defaultValue='url'
-              onOpenChange={setIsDropdownOpen}
-              toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
-                <MenuToggle
-                  ref={toggleRef}
-                  data-testid='attribute-select-toggle'
-                  id='toggle-basic'
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  {attributes.find(att => att.key === attributeMenuItem)?.value}
-                </MenuToggle>
-              )}
-              isOpen={isDropdownOpen}
-            >
-              <DropdownList>{dropdownItems}</DropdownList>
-            </Dropdown>
+        <Toolbar clearAllFilters={clearFilters}>
+          <ToolbarContent>
+            <ToolbarGroup>
+              <Dropdown
+                data-testid='attribute-select'
+                onSelect={() => setIsDropdownOpen(false)}
+                defaultValue='url'
+                onOpenChange={setIsDropdownOpen}
+                toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                  <MenuToggle
+                    ref={toggleRef}
+                    data-testid='attribute-select-toggle'
+                    id='toggle-basic'
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  >
+                    {attributes.find(att => att.key === attributeMenuItem)?.value}
+                  </MenuToggle>
+                )}
+                isOpen={isDropdownOpen}
+              >
+                <DropdownList>{dropdownItems}</DropdownList>
+              </Dropdown>
 
-            <ToolbarFilter
-              labels={filters}
-              deleteLabel={(_e, filter) => onDeleteFilter(filter as string)}
-              deleteLabelGroup={clearFilters}
-              categoryName='Filters'
-            >
-              <SearchInput
-                type='text'
-                data-testid='filter-input'
-                id='search-input'
-                placeholder='Search...'
-                value={searchTerm}
-                onChange={(_event, value) => {
-                  handleSearch(value, attributeMenuItem, filters)
-                }}
-                aria-label='Search input'
-              />
-            </ToolbarFilter>
-            <Button onClick={addToFilters}>Add Filter</Button>
-          </ToolbarGroup>
-        </ToolbarContent>
-      </Toolbar>
+              <ToolbarFilter
+                labels={filters}
+                deleteLabel={(_e, filter) => onDeleteFilter(filter as string)}
+                deleteLabelGroup={clearFilters}
+                categoryName='Filters'
+              >
+                <SearchInput
+                  type='text'
+                  data-testid='filter-input'
+                  id='search-input'
+                  placeholder='Search...'
+                  value={searchTerm}
+                  onChange={(_event, value) => {
+                    handleSearch(value, attributeMenuItem, filters)
+                  }}
+                  aria-label='Search input'
+                />
+              </ToolbarFilter>
+              <Button onClick={addToFilters}>Add Filter</Button>
+            </ToolbarGroup>
+          </ToolbarContent>
+        </Toolbar>
+      </PageSection>
 
       {sortStatistics().length > 0 ? (
-        <FormGroup>
-          <Table aria-label='Endpoints Table' variant='compact' height='80vh'>
+        <PageSection hasBodyWrapper={false} hasOverflowScroll aria-label='endpoints-table'>
+          <Table aria-label='Endpoints Table' variant='compact' isStriped>
             <Thead noWrap>
               <Tr>
                 <Th data-testid={'url-header'} sort={getSortParams(0)}>
@@ -218,7 +220,7 @@ export const EndpointStats: React.FunctionComponent = () => {
               })}
             </Tbody>
           </Table>
-        </FormGroup>
+        </PageSection>
       ) : (
         <Bullseye>
           <EmptyState icon={SearchIcon}>
@@ -226,6 +228,6 @@ export const EndpointStats: React.FunctionComponent = () => {
           </EmptyState>
         </Bullseye>
       )}
-    </PageSection>
+    </>
   )
 }

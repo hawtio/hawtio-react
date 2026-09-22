@@ -2,7 +2,7 @@ import { eventService } from '@hawtiosrc/core'
 import { isRouteNode, isRoutesFolder } from '@hawtiosrc/plugins/camel/camel-service'
 import { CamelContext } from '@hawtiosrc/plugins/camel/context'
 import { CodeEditor, CodeEditorControl, Language } from '@patternfly/react-code-editor'
-import { Alert } from '@patternfly/react-core'
+import { Alert, PageSection } from '@patternfly/react-core'
 import { SaveIcon } from '@patternfly/react-icons/dist/esm/icons/save-icon'
 import React, { useContext, useEffect, useState } from 'react'
 import { log } from '../globals'
@@ -74,20 +74,8 @@ export const Source: React.FunctionComponent = () => {
     />
   )
 
-  /*
-   * If consumers want to avoid the hardcoded 75vh value
-   * of the height then this can override in CSS:
-   *
-   * #camel-source-editor {
-   *   --hawtio-code-editor-height: 100%;
-   * }
-   */
-  const editorHeight = () => {
-    return 'var(--hawtio-source-code-editor-height, 75vh)'
-  }
-
   return (
-    <div id='camel-source-editor' style={{ display: 'flex', flexDirection: 'column', gap: '1rem', margin: '1rem' }}>
+    <PageSection hasBodyWrapper={false} isFilled>
       {isUpdateEnabled && isWarningVisible && (
         <Alert isInline isPlain variant='warning' title='The source update of the route is enabled' />
       )}
@@ -99,9 +87,9 @@ export const Source: React.FunctionComponent = () => {
         code={xmlSource}
         language={Language.xml}
         isLanguageLabelVisible
-        height={editorHeight()}
+        isFullHeight
         onCodeChange={onCodeChange}
       />
-    </div>
+    </PageSection>
   )
 }

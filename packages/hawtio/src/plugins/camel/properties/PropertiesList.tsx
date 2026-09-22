@@ -3,14 +3,13 @@ import {
   DescriptionListDescription,
   DescriptionListGroup,
   DescriptionListTerm,
-  Divider,
   Panel,
   PanelHeader,
   PanelMain,
   PanelMainBody,
+  Title,
 } from '@patternfly/react-core'
 import React from 'react'
-import './Properties.css'
 import { PropertiesTooltippedName } from './PropertiesTooltippedName'
 import { Property } from './property'
 
@@ -22,23 +21,24 @@ interface PropertiesListProps {
 export const PropertiesList: React.FunctionComponent<PropertiesListProps> = props => {
   return (
     <React.Fragment>
-      <Divider />
-      <Panel className='properties-list-panel'>
-        <PanelHeader>{props.title}</PanelHeader>
+      <Panel variant='bordered'>
+        <PanelHeader>
+          <Title headingLevel='h1' size='lg'>{props.title}</Title>
+        </PanelHeader>
         <PanelMain>
           {(!props.values || props.values.length === 0) && (
             <PanelMainBody className='properties-no-properties'>No properties</PanelMainBody>
           )}
           {props.values && props.values.length > 0 && (
             <PanelMainBody>
-              <DescriptionList columnModifier={{ default: '2Col' }}>
+              <DescriptionList columnModifier={{ default: '3Col', lg: '3Col', md: '2Col', sm: '1Col' }}>
                 {props.values.map(p => {
                   return (
                     <DescriptionListGroup key={p.name}>
                       <DescriptionListTerm>
                         <PropertiesTooltippedName property={p} />
                       </DescriptionListTerm>
-                      <DescriptionListDescription>{p.value}</DescriptionListDescription>
+                      {(p.value && <DescriptionListDescription>{p.value}</DescriptionListDescription>)}
                     </DescriptionListGroup>
                   )
                 })}

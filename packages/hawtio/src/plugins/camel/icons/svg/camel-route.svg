@@ -1,17 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">  <image id="image0" width="16" height="16" x="0" y="0"
-    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
-AAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAABCFBMVEX///+eXgmhXQWgXQae
-XgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgmeXgnExruBjIuNoJ2u
-vbuCjImOoJywvbmFjYeQn5iyvbWFjIeIjYWToJW0vLG1vbGTn5WLjYGVn5G4vKy4vK2Vn5CLjoKO
-jn+nejmgZRW3sJSYno2QiHC1nHOSj3u8tZikaBmwkFuwkl+eZRaeXgmmcSfOyLGVj3jDu52sjVee
-YQ+fXgmYkHagnX/Fu5fFupa5pHeqcyefYAydZhuugkKakHOjnXzJu5LKupPJupPJu5O1jU+gdzaj
-m3idkXClnXfMuo7Nuo64k1WeczX///9tQuP0AAAAFHRSTlMAAAAAH0X9YOlpnlYIjkcJiGYkmrFA
-+jYAAAABYktHRACIBR1IAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wEeFCkvvoshmAAA
-AI5JREFUGNNjYCAOiIiKiIii8MXEUfgSklISIkgC0jKysnLIAvIKikrK8kgiIiqqauoamsgiWto6
-unr6BiyMjFARQyNjE1MzcwtWqICllbWNrZ25uTkbO4Rv7+Do5Ozi6ubOwQnme3h6efv4+vkHWHJx
-gwQCg4JDgoODQ8MseXj5YPYwMfMLCDIKCfNj+hMA+qUSjRXRm9kAAAAldEVYdGRhdGU6Y3JlYXRl
-ADIwMjMtMDEtMzBUMjA6NDE6NDcrMDA6MDBOBPwLAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTAx
-LTMwVDIwOjQxOjQ3KzAwOjAwP1lEtwAAAABJRU5ErkJggg==" />
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg width="64" height="64" viewBox="0 0 64 64" version="1.1" id="svg1" xmlns="http://www.w3.org/2000/svg">
+    <defs id="defs1">
+        <style>
+            @media(prefers-color-scheme:light) {
+                :root {
+                --eip-stroke-color: var(--hawtio-eip-stroke-color, #000000);
+                --eip-fill-color: var(--hawtio-eip-fill-color, #ffffff);
+                --eip-inner-fill-color: var(--hawtio-eip-inner-fill-color, #aaaaaa);
+                --eip-secondary-fill-color: var(--hawtio-eip-secondary-fill-color, #f69923);
+                }
+            }
+            @media(prefers-color-scheme:dark) {
+                :root {
+                --eip-stroke-color: var(--hawtio-eip-stroke-color, #ffffff);
+                --eip-fill-color: var(--hawtio-eip-fill-color, #000000);
+                --eip-inner-fill-color: var(--hawtio-eip-inner-fill-color, #888888);
+                --eip-secondary-fill-color: var(--hawtio-eip-secondary-fill-color, #f69923);
+                }
+            }
+        </style>
+    </defs>
+    <g id="layer1" style="display:inline">
+        <path id="path203"
+                style="display:inline;fill:var(--eip-inner-fill-color);fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+                transform="matrix(1,0,0.4394,1,-110.8,-128)"
+                d="m 90,137 c -5.8,5.8 -11.49,11.5 -11.19,16.5 0.3,5 6.55,9.2 7.08,14.2 0.53,5 -4.69,10.6 -9.94,16.3 -12.67,0 -25.33,0 -38,0 9.82,-5.7 19.61,-11.3 21.68,-16 2.06,-4.7 -3.6,-8.3 -2.05,-13.3 1.55,-5.1 10.24,-11.4 19.02,-17.7 4.47,0 8.93,0 13.4,0" />
+        <path id="path204"
+                style="display:inline;fill:none;fill-opacity:1;stroke:var(--eip-stroke-color);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+                transform="matrix(1,0,0.4394,1,-110.8,-128)"
+                d="m 90,137 c -5.8,5.8 -11.49,11.5 -11.19,16.5 0.3,5 6.55,9.2 7.08,14.2 0.53,5 -4.67,10.6 -9.94,16.3 m 0.65,-47 c -8.87,6.4 -17.47,12.6 -19.02,17.7 -1.55,5 4.11,8.6 2.05,13.3 -2.07,4.7 -11.82,10.3 -21.68,16" />
+        <path style="display:inline;fill:none;fill-opacity:1;stroke:var(--eip-stroke-color);stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+                d="m 90,137 c -1.52,1.6 -3.03,3.2 -4.43,4.8 m -4.09,5 c -1.41,2.1 -2.4,4.1 -2.71,5.9 m 1.87,6 c 1.28,1.7 2.95,3.3 4.26,5 m 1.93,5.9 c -0.4,1.8 -1.61,3.6 -3.29,5.6 m -4.63,4.5 c -1.56,1.4 -3.24,2.9 -4.92,4.3"
+                id="path205" transform="matrix(1,0,0.2128,1,-86.15,-128)" />
+        <circle fill="url(#linearGradient-3)" fill-rule="nonzero" mask="url(#mask-2)" cx="128" cy="128" r="123.1"
+                id="circle205" style="display:inline;fill:var(--eip-secondary-fill-color);fill-opacity:1;stroke-width:2.67121"
+                transform="matrix(0.0935,0,0,0.0937,36.07,34)" />
+        <path d="m 128.7,54 c -10.9,5.5 0,27.47 0,27.47 -32.93,27.53 -25.9,74.43 -64.39,74.43 -20.97,0 -42.24,-24.1 -64.2309,-38.8 -0.2831,3.5 -0.7854,6.9 -0.7854,10.5 0,48.1 26.2663,89.9 65.4163,111.9 10.96,-1.4 22.84,-4.1 31.05,-9.6 43.14,-28.8 53.84,-83.5 71.54,-109.9 10.9,-16.5 62.4,-15.1 65.9,-22.03 5.5,-11 -11,-27.47 -16.5,-27.47 h -44 c -3.1,0 -7.9,-5.46 -11,-5.46 h -16.5 c 0,0 -7.3,-11.08 -13.8,-11.52 -0.9,-0.1 -1.8,0 -2.7,0.48 z"
+                fill-rule="nonzero" mask="url(#mask-2)" id="path206" style="stroke-width:2.67121;fill:var(--eip-fill-color)"
+                transform="matrix(0.0935,0,0,0.0937,36.07,34)" />
+        <ellipse
+                style="display:inline;fill:none;fill-opacity:1;stroke:var(--eip-stroke-color);stroke-width:1.50015;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+                id="ellipse206" cx="48.03" cy="46" rx="11.86" ry="11.83" />
+    </g>
 </svg>

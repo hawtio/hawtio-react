@@ -48,7 +48,7 @@ export const AddEndpoint: React.FunctionComponent = () => {
   }
 
   return (
-    <Card>
+    <Card isPlain>
       <CardTitle>Add Endpoint</CardTitle>
       <CardBody>{chooseWizard()}</CardBody>
     </Card>

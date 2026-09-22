@@ -13,7 +13,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon'
 import { AddEndpointContext } from './context'
 import { parseBoolean } from '@hawtiosrc/util/strings'
-import './EndpointParametersForm.css'
 
 interface PropertySpec {
   type: string

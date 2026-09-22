@@ -1,6 +1,6 @@
 import { eventService } from '@hawtiosrc/core'
 import { HawtioEmptyCard, HawtioLoadingCard } from '@hawtiosrc/plugins/shared'
-import { Button, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core'
+import { Button, PageSection, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core'
 import { PlusIcon } from '@patternfly/react-icons/dist/esm/icons/plus-icon'
 import { ISortBy, Table, Tbody, Td, Th, ThProps, Thead, Tr } from '@patternfly/react-table'
 import React, { useContext, useEffect, useState } from 'react'
@@ -85,37 +85,41 @@ export const Endpoints: React.FunctionComponent = () => {
 
   return (
     <React.Fragment>
-      <Toolbar id='camel-endpoints-toolbar' inset={{ default: 'insetSm' }}>
-        <ToolbarContent>
-          <ToolbarItem id='camel-endpoints-toolbar-item-add'>
-            <Button
-              variant='secondary'
-              size='sm'
-              isDisabled={!isAddEnabled()}
-              icon={<PlusIcon />}
-              onClick={onAddClicked}
-            >
-              Add
-            </Button>
-          </ToolbarItem>
-        </ToolbarContent>
-      </Toolbar>
-      <Table id='camel-endpoints-table' aria-label='Camel endpoints table' variant='compact'>
-        <Thead>
-          <Tr>
-            <Th sort={sortParams()}>URI</Th>
-            <Th modifier='wrap'>State</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {sortedEndpoints.map(endpoint => (
-            <Tr key={endpoint.mbean}>
-              <Td dataLabel={endpoint.uri}>{endpoint.uri}</Td>
-              <Td dataLabel={endpoint.state}>{endpoint.state}</Td>
+      <PageSection hasBodyWrapper={false}>
+        <Toolbar id='camel-endpoints-toolbar' inset={{ default: 'insetSm' }}>
+          <ToolbarContent>
+            <ToolbarItem id='camel-endpoints-toolbar-item-add'>
+              <Button
+                variant='secondary'
+                size='sm'
+                isDisabled={!isAddEnabled()}
+                icon={<PlusIcon />}
+                onClick={onAddClicked}
+              >
+                Add
+              </Button>
+            </ToolbarItem>
+          </ToolbarContent>
+        </Toolbar>
+      </PageSection>
+      <PageSection hasBodyWrapper={false} hasOverflowScroll aria-label='endpoints-list'>
+        <Table id='camel-endpoints-table' aria-label='Camel endpoints table' variant='compact' isStriped>
+          <Thead>
+            <Tr>
+              <Th sort={sortParams()}>URI</Th>
+              <Th modifier='wrap'>State</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {sortedEndpoints.map(endpoint => (
+              <Tr key={endpoint.mbean}>
+                <Td dataLabel={endpoint.uri}>{endpoint.uri}</Td>
+                <Td dataLabel={endpoint.state}>{endpoint.state}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </PageSection>
     </React.Fragment>
   )
 }

@@ -1,4 +1,5 @@
 import {
+  Content,
   Divider,
   Drawer,
   DrawerActions,
@@ -13,7 +14,7 @@ import {
   Panel,
   PanelMain,
   PanelMainBody,
-  Content,
+  Title,
 } from '@patternfly/react-core'
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table'
 import React, { useRef, useState } from 'react'
@@ -31,9 +32,16 @@ export interface MessageDrawerProps {
 export interface MessageDrawerPanel {
   id: string
   label: string
-  panelFn: () => JSX.Element
+  panelFn: () => React.ReactNode
 }
 
+/**
+ * Specialization of Patternfly `<Drawer>` component, where the sliding panel contains details about
+ * selected message, while the visible content can be anything that allows to select messages (from
+ * tracing or debugging).
+ * @param props
+ * @constructor
+ */
 export const MessageDrawer: React.FunctionComponent<MessageDrawerProps> = (props: MessageDrawerProps) => {
   const panelRef = useRef<HTMLDivElement | null>(null)
   const [activePanelTab, setActivePanelTab] = useState<string>('msg-panel-tab-header')
@@ -79,7 +87,7 @@ export const MessageDrawer: React.FunctionComponent<MessageDrawerProps> = (props
     if (!message) return <em key='body-no-messages'>No Messages</em>
     if (message.body === '[Body is null]') return <em key={'body-' + message.uid}>No Body</em>
 
-    return <p key={'body-' + message.uid}>{message.body}</p>
+    return <Content component='pre' key={'body-' + message.uid}>{message.body}</Content>
   }
 
   const corePanels: MessageDrawerPanel[] = [
@@ -116,9 +124,9 @@ export const MessageDrawer: React.FunctionComponent<MessageDrawerProps> = (props
     <DrawerPanelContent id='message-drawer-panel-content' minSize={'50%'}>
       <DrawerHead id='message-drawer-panel-content-head'>
         <div tabIndex={props.expanded ? 0 : -1} ref={panelRef}>
-          <Content component='p'>
-            <em>UID: {props.messages && props.messages.length > 0 ? props.messages[0]?.uid : ''}</em>
-          </Content>
+          <Title headingLevel='h3' size='md'>
+            UID: {props.messages && props.messages.length > 0 ? props.messages[0]?.uid : ''}
+          </Title>
           <Nav
             id='message-drawer-panel-content-head-nav'
             onSelect={(_event, result: { itemId: number | string }) => onSelectTab(result)}
@@ -136,9 +144,7 @@ export const MessageDrawer: React.FunctionComponent<MessageDrawerProps> = (props
       <Panel id='message-drawer-panel-content-panel'>
         <PanelMain id='message-drawer-panel-content-panel-main'>
           <PanelMainBody id='message-drawer-panel-content-panel-main-body'>
-            <div style={{ height: '100%', overflow: 'auto' }}>
-              {drawerPanels().map(panel => activePanelTab === panel.id && panel.panelFn())}
-            </div>
+            {drawerPanels().map(panel => activePanelTab === panel.id && panel.panelFn())}
           </PanelMainBody>
         </PanelMain>
       </Panel>

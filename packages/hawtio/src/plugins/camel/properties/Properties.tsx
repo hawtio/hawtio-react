@@ -1,12 +1,21 @@
 import { HawtioEmptyCard, HawtioLoadingCard } from '@hawtiosrc/plugins/shared'
-import { Label, LabelGroup, Panel, PanelMain, PanelMainBody } from '@patternfly/react-core'
+import {
+  Flex,
+  FlexItem,
+  Label,
+  LabelGroup,
+  PageSection,
+  Panel,
+  PanelHeader,
+  PanelMain,
+  PanelMainBody
+} from '@patternfly/react-core'
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/esm/icons/info-circle-icon'
 import React, { useContext, useEffect, useState } from 'react'
 import { CamelContext } from '../context'
 import { log, xmlNodeLocalName } from '../globals'
 import { routeStatsService } from '../route-stats-service'
 import { schemaService } from '../schema-service'
-import './Properties.css'
 import { PropertiesList } from './PropertiesList'
 import * as pps from './properties-service'
 import { Property } from './property'
@@ -74,32 +83,32 @@ export const Properties: React.FunctionComponent = () => {
   }
 
   return (
-    <React.Fragment>
-      <Panel id='properties-card-body'>
-        <PanelMain>
-          <PanelMainBody id='properties-card-title-panel'>
-            {icon}
-            <span>{title}</span>
-            <LabelGroup id='properties-card-title-panel-labelgroup'>
-              {labels.map(label => (
-                <Label key={label} icon={<InfoCircleIcon />}>
-                  {label}
-                </Label>
-              ))}
-            </LabelGroup>
-          </PanelMainBody>
-        </PanelMain>
-      </Panel>
-      {description && (
-        <Panel>
+    <PageSection hasBodyWrapper={false}>
+      <Panel variant='bordered'>
+        <PanelHeader>
+          <Flex alignItems={{ default: 'alignItemsCenter' }}>
+            <FlexItem>{icon}</FlexItem>
+            <FlexItem>{title}</FlexItem>
+            <FlexItem>
+              <LabelGroup id='properties-card-title-panel-labelgroup'>
+                {labels.map(label => (
+                    <Label key={label} icon={<InfoCircleIcon />}>
+                      {label}
+                    </Label>
+                ))}
+              </LabelGroup>
+            </FlexItem>
+          </Flex>
+        </PanelHeader>
+        {description && (
           <PanelMain>
-            <PanelMainBody id='properties-card-description-panel'>{description}</PanelMainBody>
+            <PanelMainBody>{description}</PanelMainBody>
           </PanelMain>
-        </Panel>
-      )}
+        )}
+      </Panel>
       <PropertiesList title='Defined Properties' values={definedProperties} />
       <PropertiesList title='Default Properties' values={defaultProperties} />
       <PropertiesList title='Undefined Properties' values={undefinedProperties} />
-    </React.Fragment>
+    </PageSection>
   )
 }

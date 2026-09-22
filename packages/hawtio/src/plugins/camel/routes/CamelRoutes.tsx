@@ -9,6 +9,7 @@ import {
   Label,
   MenuToggle,
   MenuToggleElement,
+  PageSection,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
@@ -175,74 +176,76 @@ export const CamelRoutes: React.FunctionComponent = () => {
         selectedRoutes={selected}
         handleConfirmDeleteToggle={handleConfirmDeleteToggle}
       />
-      <Table id='camel-routes-table' data-testid='camel-routes-table' aria-label='Camel routes table' variant='compact'>
-        <Thead noWrap>
-          <Tr>
-            <Th
-              aria-label='select-route-header'
-              select={{
-                onSelect: (_event, isSelecting) => onSelectAll(isSelecting),
-                isSelected: isAllSelected(),
-              }}
-            />
-            <Th data-testid='name-header' sort={getSortParams(0)}>
-              Name
-            </Th>
-            <Th data-testid='state-header' sort={getSortParams(1)}>
-              State
-            </Th>
-            <Th data-testid='uptime-header' sort={getSortParams(2)}>
-              Uptime
-            </Th>
-            <Th data-testid='completed-header' sort={getSortParams(3)}>
-              Completed
-            </Th>
-            <Th data-testid='failed-header' sort={getSortParams(4)}>
-              Failed
-            </Th>
-            <Th data-testid='handled-header' sort={getSortParams(5)}>
-              Handled
-            </Th>
-            <Th data-testid='total-header' sort={getSortParams(6)}>
-              Total
-            </Th>
-            <Th data-testid='inflight-header' sort={getSortParams(7)}>
-              InFlight
-            </Th>
-            <Th data-testid='meantime-header' sort={getSortParams(8)}>
-              Meantime
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {routes.map((route, rowIndex) => {
-            return (
-              <Tr data-testid={'row' + rowIndex} key={route.routeId}>
-                <Td
-                  select={{
-                    rowIndex,
-                    onSelect: (_event, isSelected) => {
-                      onSelect(route.routeId, isSelected)
-                    },
-                    isSelected: selected.includes(route.routeId),
-                  }}
-                />
-                <Td dataLabel='Name'>{route.routeId}</Td>
-                <Td dataLabel='State'>
-                  <RouteStateLabel state={route.state} />
-                </Td>
-                <Td dataLabel='Uptime'>{route.uptime}</Td>
-                <Td dataLabel='Completed'>{route.exchangesCompleted}</Td>
-                <Td dataLabel='Failed'>{route.exchangesFailed}</Td>
-                <Td dataLabel='Handled'>{route.failuresHandled}</Td>
-                <Td dataLabel='Total'>{route.exchangesTotal}</Td>
-                <Td dataLabel='InFlight'>{route.exchangesInflight}</Td>
-                <Td dataLabel='Meantime'>{route.meanProcessingTime}</Td>
-              </Tr>
-            )
-          })}
-        </Tbody>
-      </Table>
+      <PageSection hasBodyWrapper={false} isFilled hasOverflowScroll aria-label='camel-routes'>
+        <Table id='camel-routes-table' data-testid='camel-routes-table' aria-label='Camel routes table' variant='compact' isStriped>
+          <Thead noWrap>
+            <Tr>
+              <Th
+                aria-label='select-route-header'
+                select={{
+                  onSelect: (_event, isSelecting) => onSelectAll(isSelecting),
+                  isSelected: isAllSelected(),
+                }}
+              />
+              <Th data-testid='name-header' sort={getSortParams(0)}>
+                Name
+              </Th>
+              <Th data-testid='state-header' sort={getSortParams(1)}>
+                State
+              </Th>
+              <Th data-testid='uptime-header' sort={getSortParams(2)}>
+                Uptime
+              </Th>
+              <Th data-testid='completed-header' sort={getSortParams(3)}>
+                Completed
+              </Th>
+              <Th data-testid='failed-header' sort={getSortParams(4)}>
+                Failed
+              </Th>
+              <Th data-testid='handled-header' sort={getSortParams(5)}>
+                Handled
+              </Th>
+              <Th data-testid='total-header' sort={getSortParams(6)}>
+                Total
+              </Th>
+              <Th data-testid='inflight-header' sort={getSortParams(7)}>
+                InFlight
+              </Th>
+              <Th data-testid='meantime-header' sort={getSortParams(8)}>
+                Meantime
+              </Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {routes.map((route, rowIndex) => {
+              return (
+                <Tr data-testid={'row' + rowIndex} key={route.routeId}>
+                  <Td
+                    select={{
+                      rowIndex,
+                      onSelect: (_event, isSelected) => {
+                        onSelect(route.routeId, isSelected)
+                      },
+                      isSelected: selected.includes(route.routeId),
+                    }}
+                  />
+                  <Td dataLabel='Name'>{route.routeId}</Td>
+                  <Td dataLabel='State'>
+                    <RouteStateLabel state={route.state} />
+                  </Td>
+                  <Td dataLabel='Uptime'>{route.uptime}</Td>
+                  <Td dataLabel='Completed'>{route.exchangesCompleted}</Td>
+                  <Td dataLabel='Failed'>{route.exchangesFailed}</Td>
+                  <Td dataLabel='Handled'>{route.failuresHandled}</Td>
+                  <Td dataLabel='Total'>{route.exchangesTotal}</Td>
+                  <Td dataLabel='InFlight'>{route.exchangesInflight}</Td>
+                  <Td dataLabel='Meantime'>{route.meanProcessingTime}</Td>
+                </Tr>
+              )
+            })}
+          </Tbody>
+        </Table>
+      </PageSection>
       <ConfirmDeleteModal
         isConfirmDeleteOpen={isConfirmDeleteOpen}
         deleteRoutes={deleteRoutes}
@@ -378,29 +381,31 @@ const CamelRoutesToolbar: React.FunctionComponent<{
   ]
 
   return (
-    <Toolbar id='camel-routes-toolbar'>
-      <ToolbarContent>
-        {toolbarButtons}
-        <ToolbarItem id='camel-routes-toolbar-item-dropdown'>
-          <Dropdown
-            onSelect={() => onDropdownToggle(!isDropdownOpen)}
-            onOpenChange={setIsDropdownOpen}
-            toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
-              <MenuToggle
-                ref={toggleRef}
-                variant='plain'
-                id='camel-routes-toolbar-item-dropdown-toggle'
-                onClick={() => onDropdownToggle(!isDropdownOpen)}
-              >
-                <EllipsisVIcon />
-              </MenuToggle>
-            )}
-            isOpen={isDropdownOpen}
-          >
-            <DropdownList>{dropdownItems}</DropdownList>
-          </Dropdown>
-        </ToolbarItem>
-      </ToolbarContent>
-    </Toolbar>
+    <PageSection>
+      <Toolbar id='camel-routes-toolbar'>
+        <ToolbarContent>
+          {toolbarButtons}
+          <ToolbarItem id='camel-routes-toolbar-item-dropdown'>
+            <Dropdown
+              onSelect={() => onDropdownToggle(!isDropdownOpen)}
+              onOpenChange={setIsDropdownOpen}
+              toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
+                <MenuToggle
+                  ref={toggleRef}
+                  variant='plain'
+                  id='camel-routes-toolbar-item-dropdown-toggle'
+                  onClick={() => onDropdownToggle(!isDropdownOpen)}
+                >
+                  <EllipsisVIcon />
+                </MenuToggle>
+              )}
+              isOpen={isDropdownOpen}
+            >
+              <DropdownList>{dropdownItems}</DropdownList>
+            </Dropdown>
+          </ToolbarItem>
+        </ToolbarContent>
+      </Toolbar>
+    </PageSection>
   )
 }
