@@ -144,8 +144,10 @@ export const CamelContent: React.FunctionComponent = () => {
   return (
     <PageGroup id='camel-content'>
       <PageSection id='camel-content-header' hasBodyWrapper={false}>
-        {camelService.isContext(selectedNode) && <CamelContentContextToolbar />}
-        <Title headingLevel='h1'>{selectedNode.name}</Title>
+        <Flex alignItems={{ default: 'alignItemsCenter'}} justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+          <FlexItem><Title headingLevel='h1'>{selectedNode.name}</Title></FlexItem>
+          {camelService.isContext(selectedNode) && <FlexItem><CamelContentContextToolbar /></FlexItem>}
+        </Flex>
         {selectedNode.objectName && <Content component='small'>{selectedNode.objectName}</Content>}
       </PageSection>
       {navItems.length > 1 && (

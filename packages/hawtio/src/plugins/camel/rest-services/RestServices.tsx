@@ -22,7 +22,6 @@ import React, { ChangeEvent, MouseEvent, useCallback, useContext, useEffect, use
 import { CamelContext } from '../context'
 import { log } from '../globals'
 import { RestService, restServicesService } from './rest-services-service'
-import './rest-services.css'
 
 const defaultFilterInputPlaceholder = 'Filter by URL ...'
 

@@ -39,7 +39,7 @@ export function getIcon(name: string, size?: number): JSX.Element {
 
     if (!element) {
       // No icon in cache so build the icon then cache it
-      const iconKey = name.replace('Icon', '').toLowerCase()
+      const iconKey = (name[0] ?? '').toString().toLowerCase() + name.substring(1).replace('Icon', '')
       Object.entries(svg)
         .filter(([key, _]) => iconKey === key)
         .forEach(([_, value]) => {

@@ -1,9 +1,8 @@
 import { MBeanNode } from '@hawtiosrc/plugins/shared'
-import { Button, Form, FormGroup, Popover, Radio, TextInput } from '@patternfly/react-core'
+import { Alert, Button, Flex, FlexItem, Form, FormGroup, Popover, Radio, TextInput } from '@patternfly/react-core'
 import { Modal, ModalVariant } from '@patternfly/react-core/deprecated'
 import { useState } from 'react'
 import { ConditionalBreakpoint, debugService as ds } from './debug-service'
-import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-circle-icon'
 import { HelpIcon } from '@patternfly/react-icons/dist/esm/icons/help-icon'
 
 interface CondBkpsProps {
@@ -75,33 +74,41 @@ export const ConditionalBreakpointModal: React.FunctionComponent<CondBkpsProps> 
     >
       <Form id='cond-bkp-form' isHorizontal>
         <FormGroup label='Language' isRequired isStack fieldId='cond-bkp-form-lang'>
-          <div>
-            <Radio
-              label='Simple'
-              id='cond-bkp-form-lang-simple'
-              className='cond-bkp-form-lang-radio'
-              name='simple'
-              isChecked={language === 'simple'}
-              onChange={() => setLanguage('simple')}
-            />
-            <Popover bodyContent={helpLanguageChoice('simple')}>
-              <Button className='cond-bkp-form-lang-radio-help' variant='plain' size='sm' icon={<HelpIcon />} />
-            </Popover>
-          </div>
-          <div>
-            <Radio
-              label='XPath'
-              id='cond-bkp-form-lang-xpath'
-              className='cond-bkp-form-lang-radio'
-              name='xpath'
-              isChecked={language === 'xpath'}
-              description=''
-              onChange={() => setLanguage('xpath')}
-            />
-            <Popover bodyContent={helpLanguageChoice('xpath')}>
-              <Button className='cond-bkp-form-lang-radio-help' variant='plain' size='sm' icon={<HelpIcon />} />
-            </Popover>
-          </div>
+          <Flex direction={{default: 'row'}} alignItems={{ default: 'alignItemsCenter'}} spaceItems={{ default: 'spaceItemsNone' }}>
+            <FlexItem>
+              <Radio
+                  label='Simple'
+                  id='cond-bkp-form-lang-simple'
+                  className='cond-bkp-form-lang-radio'
+                  name='simple'
+                  isChecked={language === 'simple'}
+                  onChange={() => setLanguage('simple')}
+              />
+            </FlexItem>
+            <FlexItem>
+              <Popover bodyContent={helpLanguageChoice('simple')}>
+                <Button className='cond-bkp-form-lang-radio-help' variant='plain' size='sm' icon={<HelpIcon />} />
+              </Popover>
+            </FlexItem>
+          </Flex>
+          <Flex direction={{default: 'row'}} alignItems={{ default: 'alignItemsCenter'}} spaceItems={{ default: 'spaceItemsNone' }}>
+            <FlexItem>
+              <Radio
+                label='XPath'
+                id='cond-bkp-form-lang-xpath'
+                className='cond-bkp-form-lang-radio'
+                name='xpath'
+                isChecked={language === 'xpath'}
+                description=''
+                onChange={() => setLanguage('xpath')}
+              />
+            </FlexItem>
+            <FlexItem>
+              <Popover bodyContent={helpLanguageChoice('xpath')}>
+                <Button className='cond-bkp-form-lang-radio-help' variant='plain' size='sm' icon={<HelpIcon />} />
+              </Popover>
+            </FlexItem>
+          </Flex>
         </FormGroup>
         <FormGroup label='Predicate' isRequired fieldId='cond-bkp-form-pred'>
           <TextInput
@@ -114,10 +121,7 @@ export const ConditionalBreakpointModal: React.FunctionComponent<CondBkpsProps> 
           />
         </FormGroup>
         {error && (
-          <div className='cond-bkp-form-error'>
-            <ExclamationCircleIcon className='cond-bkp-form-error-icon' />
-            <p className='cond-bkp-form-error-msg'>{error}</p>
-          </div>
+          <Alert variant="danger" isInline title={error} />
         )}
       </Form>
     </Modal>

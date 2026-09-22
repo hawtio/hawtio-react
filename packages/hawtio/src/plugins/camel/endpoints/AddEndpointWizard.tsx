@@ -84,7 +84,7 @@ export const AddEndpointWizard: React.FunctionComponent = () => {
           aria-label={placeholder}
           toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
             <MenuToggle ref={toggleRef} onClick={() => onToggle(!isOpen)}>
-              {placeholder}
+              {ctx.componentName != '' ? ctx.componentName : placeholder}
             </MenuToggle>
           )}
           onSelect={onSelect}

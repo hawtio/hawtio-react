@@ -224,6 +224,7 @@ export const ContextToolbar: React.FunctionComponent<{
             <Dropdown
               onSelect={() => onDropdownToggle(!isDropdownOpen)}
               onOpenChange={onDropdownToggle}
+              popperProps={{ placement: 'bottom-end' }}
               toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
                 <MenuToggle
                   ref={toggleRef}

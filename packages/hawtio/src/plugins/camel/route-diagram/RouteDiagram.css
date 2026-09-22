@@ -26,7 +26,7 @@
   /* Now there are four rows */
   grid-template-rows: 25% 25% 25% 25%;
   grid-template-columns: 40% 35% 25%;
-  border: 2px solid #8a8d90;
+  border: 2px solid var(--pf-t--global--border--color--on-secondary);
   background-color: var(--hawtio-diagram-node--BackgroundColor);
   padding: 5px;
   height: 100px;
@@ -55,7 +55,7 @@
 .react-flow__node-camel .camel-node-content .inflights {
   grid-row: 2 / 3;
   grid-column: 2 / 3;
-  color: #0f4a85;
+  color: var(--pf-t--global--text--color--link--hover);
   justify-self: center;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .node-tooltip {
-  border: solid 1px black;
+  border: solid 1px var(--pf-t--global--background--color--inverse--default);
   border-radius: 1px;
   font-size: xx-small;
 }

@@ -3,12 +3,12 @@ import { compareArrays } from '@hawtiosrc/util/arrays'
 import { isBlank } from '@hawtiosrc/util/strings'
 import { childText, parseXML } from '@hawtiosrc/util/xml'
 import {
+  Alert,
   Button,
-  Panel,
-  PanelHeader,
-  PanelMain,
-  PanelMainBody,
   Content,
+  Flex,
+  FlexItem,
+  PageSection,
   Title,
   Toolbar,
   ToolbarContent,
@@ -543,71 +543,77 @@ export const Debug: React.FunctionComponent = () => {
   )
 
   return (
-    <Panel>
-      <PanelHeader id='debug-header-container'>
-        <Title headingLevel='h3'>Debug</Title>
-        <Button
-          variant='primary'
-          size='sm'
-          icon={!isDebugging ? <PlayIcon /> : <BanIcon />}
-          onClick={onDebugging}
-          isDisabled={!camelService.canGetBreakpoints(selectedNode)}
-        >
-          {!isDebugging ? 'Start Debugging' : 'Stop Debugging'}
-        </Button>
-      </PanelHeader>
-      <PanelMain>
-        <PanelMainBody>
-          {!isDebugging && (
+    <>
+      {/* debug tab header with a title and main switch */}
+      <PageSection hasBodyWrapper={false}>
+        <Flex id='debug-header-container' alignItems={{ default: 'alignItemsCenter' }} justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+          <FlexItem>
+            <Title headingLevel='h1' size='lg'>Debug</Title>
+          </FlexItem>
+          <FlexItem>
+            <Button
+              variant='primary'
+              size='sm'
+              icon={!isDebugging ? <PlayIcon /> : <BanIcon />}
+              onClick={onDebugging}
+              isDisabled={!camelService.canGetBreakpoints(selectedNode)}>
+              {!isDebugging ? 'Start Debugging' : 'Stop Debugging'}
+            </Button>
+          </FlexItem>
+        </Flex>
+      </PageSection>
+      <PageSection id='drawer-wrapper' isFilled hasBodyWrapper={false}>
+        {!isDebugging && (
+          <Alert variant='info' title='Camel Debugging'>
             <Content data-testid='no-debugging' component='p'>
               Debugging allows you to step through camel routes to diagnose issues.
             </Content>
-          )}
-          {isDebugging && (
-            <React.Fragment>
-              <Toolbar id='toolbar-items'>
-                <ToolbarContent>{toolbarButtons}</ToolbarContent>
-              </Toolbar>
+          </Alert>
+        )}
+        {isDebugging && (
+          <React.Fragment>
+            <Toolbar id='toolbar-items'>
+              <ToolbarContent>{toolbarButtons}</ToolbarContent>
+            </Toolbar>
 
-              <MessageDrawer
-                messages={messages}
-                expanded={debugPanelExpanded}
+            <MessageDrawer messages={messages} expanded={debugPanelExpanded}
                 setExpanded={setDebugPanelExpanded}
                 extraPanel={{
                   id: 'debug-panel-tab-breakpoints',
                   label: 'Breakpoints',
                   panelFn: debugPanelBreakpointsTab,
-                }}
-              >
+                }}>
+              {/* All the elements go to <DrawerContentBody> which is the visible content of the <Drawer> */}
+              <div id='debug-content'>
                 <div id='route-diagram-breakpoint-view'>
                   <RouteDiagramContext.Provider
-                    value={{
-                      graphNodeData,
-                      setGraphNodeData,
-                      graphSelection,
-                      setGraphSelection,
-                      setShowStatistics,
-                      doubleClickAction,
-                      setDoubleClickAction,
-                      annotations,
-                      setAnnotations,
-                    }}
+                      value={{
+                        graphNodeData,
+                        setGraphNodeData,
+                        graphSelection,
+                        setGraphSelection,
+                        setShowStatistics,
+                        doubleClickAction,
+                        setDoubleClickAction,
+                        annotations,
+                        setAnnotations,
+                      }}
                   >
                     <RouteDiagram />
                   </RouteDiagramContext.Provider>
                 </div>
-              </MessageDrawer>
-            </React.Fragment>
-          )}
-          <ConditionalBreakpointModal
+              </div>
+            </MessageDrawer>
+          </React.Fragment>
+        )}
+        <ConditionalBreakpointModal
             selectedNode={selectedNode}
             selection={graphSelection}
             isConditionalBreakpointOpen={isConditionalBreakpointOpen}
             onAddConditionalBreakpointToggle={onAddConditionalBreakpointToggle}
             addConditionalBreakpoint={handleAddConditionalBreakpoint}
-          />
-        </PanelMainBody>
-      </PanelMain>
-    </Panel>
+        />
+      </PageSection>
+    </>
   )
 }

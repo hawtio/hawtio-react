@@ -1,17 +1,39 @@
+#drawer-wrapper {
+  /*
+   * Patternfly <Drawer> should be wrapped with an element with this ID.
+   * These two styles prevent vertical resize beyond the grid/flex.
+   */
+  flex-shrink: 1;
+  /*
+   * A best-practice for nested flex containers. It prevents the container from
+   * expanding beyond its parent if the content is too large.
+   */
+  min-height: 0;
+}
 #message-drawer-content-body {
+  height: 100%;
+}
+
+#debug-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
+  height: 100%;
 }
 
 #route-diagram-breakpoint-view {
   overflow: auto;
-  margin-top: 1.5em;
 
   /*
    * This is the key fix. It tells this div to grow and take up all available
    * vertical space within its parent flex container (the DrawerContentBody).
    */
   flex-grow: 1;
+  /*
+   * This shrinks the content to not overflow parent. overflow:auto
+   * adds scrollbars to see the overflown content.
+   */
+  flex-shrink: 1;
 
   /*
    * Make this div a flex container itself, so its own children
@@ -26,38 +48,8 @@
    */
   min-height: 0;
 }
-#debug-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .breakpoint-symbol {
   text-align: right;
-  color: darkred;
-}
-
-.cond-bkp-form-lang-radio {
-  float: left;
-}
-
-.cond-bkp-form-lang-radio-help {
-  float: left;
-  padding-top: 0 !important;
-}
-
-.cond-bkp-form-error {
-  color: red;
-}
-
-.cond-bkp-form-error-icon {
-  float: left;
-  width: 5%;
-  margin-right: 0.5em;
-  margin-top: 0.25em;
-}
-
-.cond-bkp-form-error-msg {
-  float: left;
-  width: 90%;
+  color: var(--pf-t--global--icon--color--status--danger--default);
 }
