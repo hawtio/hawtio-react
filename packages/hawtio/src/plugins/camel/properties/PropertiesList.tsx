@@ -23,7 +23,9 @@ export const PropertiesList: React.FunctionComponent<PropertiesListProps> = prop
     <React.Fragment>
       <Panel variant='bordered'>
         <PanelHeader>
-          <Title headingLevel='h1' size='lg'>{props.title}</Title>
+          <Title headingLevel='h1' size='lg'>
+            {props.title}
+          </Title>
         </PanelHeader>
         <PanelMain>
           {(!props.values || props.values.length === 0) && (
@@ -38,7 +40,7 @@ export const PropertiesList: React.FunctionComponent<PropertiesListProps> = prop
                       <DescriptionListTerm>
                         <PropertiesTooltippedName property={p} />
                       </DescriptionListTerm>
-                      {(p.value && <DescriptionListDescription>{p.value}</DescriptionListDescription>)}
+                      {p.value && <DescriptionListDescription>{p.value}</DescriptionListDescription>}
                     </DescriptionListGroup>
                   )
                 })}

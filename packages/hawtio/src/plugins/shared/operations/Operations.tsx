@@ -34,7 +34,12 @@ export const Operations: React.FunctionComponent = () => {
   return (
     <Panel>
       <PanelHeader>
-        <Alert isInline isPlain variant='info' title='This MBean supports the following JMX operations. Expand an item in the list to invoke that operation.' />
+        <Alert
+          isInline
+          isPlain
+          variant='info'
+          title='This MBean supports the following JMX operations. Expand an item in the list to invoke that operation.'
+        />
       </PanelHeader>
       <PanelMain>
         <PanelMainBody>

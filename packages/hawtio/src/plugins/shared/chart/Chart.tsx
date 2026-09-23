@@ -339,7 +339,11 @@ export const Chart: React.FunctionComponent = () => {
           <Card isPlain id='chart-toolbar'>
             <CardHeader
               actions={{
-                actions: <Button size='sm' onClick={() => setIsWatchableAttributesModalOpen(true)}>Edit watches</Button>,
+                actions: (
+                  <Button size='sm' onClick={() => setIsWatchableAttributesModalOpen(true)}>
+                    Edit watches
+                  </Button>
+                ),
                 hasNoOffset: false,
               }}
             >

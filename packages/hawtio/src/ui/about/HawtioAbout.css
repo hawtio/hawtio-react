@@ -3,10 +3,10 @@
 #hawtio-about {
   min-height: 0;
 }
-#hawtio-about>div.pf-v6-c-about-modal-box__body {
+#hawtio-about > div.pf-v6-c-about-modal-box__body {
   min-height: 0;
 }
-#hawtio-about>div.pf-v6-c-about-modal-box__body>div.pf-v6-c-content {
+#hawtio-about > div.pf-v6-c-about-modal-box__body > div.pf-v6-c-content {
   display: flex;
   flex-direction: column;
   height: 100%;

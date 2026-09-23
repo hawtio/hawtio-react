@@ -9,7 +9,7 @@ import {
   Flex,
   FlexItem,
   Alert,
-  PageSection
+  PageSection,
 } from '@patternfly/react-core'
 import { BanIcon } from '@patternfly/react-icons/dist/esm/icons/ban-icon'
 import { PlayIcon } from '@patternfly/react-icons/dist/esm/icons/play-icon'
@@ -202,9 +202,15 @@ export const Trace: React.FunctionComponent = () => {
     <>
       {/* tracing tab header with a title and main switch */}
       <PageSection hasBodyWrapper={false}>
-        <Flex id='trace-header-container' alignItems={{ default: 'alignItemsCenter' }} justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+        <Flex
+          id='trace-header-container'
+          alignItems={{ default: 'alignItemsCenter' }}
+          justifyContent={{ default: 'justifyContentSpaceBetween' }}
+        >
           <FlexItem>
-            <Title headingLevel='h1' size='lg'>Tracing</Title>
+            <Title headingLevel='h1' size='lg'>
+              Tracing
+            </Title>
           </FlexItem>
           <FlexItem>
             <Button
@@ -212,7 +218,8 @@ export const Trace: React.FunctionComponent = () => {
               size='sm'
               icon={!isTracing ? React.createElement(PlayIcon) : React.createElement(BanIcon)}
               onClick={onTracing}
-              isDisabled={!camelService.canTrace(selectedNode)}>
+              isDisabled={!camelService.canTrace(selectedNode)}
+            >
               {!isTracing ? 'Start Tracing' : 'Stop Tracing'}
             </Button>
           </FlexItem>
@@ -227,8 +234,8 @@ export const Trace: React.FunctionComponent = () => {
               route to aid debugging and to help diagnose issues.
             </Content>
             <Content className='noTracing' data-testid='no-tracing2' component='p'>
-              Once you start tracing, you can send messages to the input endpoints, then come back to this page and
-              see the flow of messages through your route.
+              Once you start tracing, you can send messages to the input endpoints, then come back to this page and see
+              the flow of messages through your route.
             </Content>
             <Content className='noTracing' data-testid='no-tracing3' component='p'>
               As you click on the message table, you can see which node in the flow it came through; moving the
@@ -237,8 +244,11 @@ export const Trace: React.FunctionComponent = () => {
           </Alert>
         )}
         {isTracing && (
-          <MessageDrawer messages={message ? [message] : []} expanded={msgPanelExpanded}
-                         setExpanded={setMsgPanelExpanded}>
+          <MessageDrawer
+            messages={message ? [message] : []}
+            expanded={msgPanelExpanded}
+            setExpanded={setMsgPanelExpanded}
+          >
             {/* All the elements go to <DrawerContentBody> which is the visible content of the <Drawer> */}
             <div id='trace-content'>
               <div id='route-diagram-tracing-view'>
@@ -249,13 +259,16 @@ export const Trace: React.FunctionComponent = () => {
                     graphSelection,
                     setGraphSelection,
                     setShowStatistics,
-                  }}>
+                  }}
+                >
                   <RouteDiagram />
                 </RouteDiagramContext.Provider>
               </div>
               <Flex id='route-message-table' direction={{ default: 'column' }}>
                 <FlexItem>
-                  <Title headingLevel='h2' size='md'>Messages</Title>
+                  <Title headingLevel='h2' size='md'>
+                    Messages
+                  </Title>
                 </FlexItem>
                 <FlexItem flex={{ default: 'flex_1' }}>
                   {parsedMessages.length === 0 && (

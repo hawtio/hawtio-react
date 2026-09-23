@@ -1,12 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {
-  Alert,
-  PageSection,
-  Panel,
-  PanelHeader,
-  PanelMain,
-  PanelMainBody,
-} from '@patternfly/react-core'
+import { Alert, PageSection, Panel, PanelHeader, PanelMain, PanelMainBody } from '@patternfly/react-core'
 import { HawtioLoadingCard, workspace } from '@hawtiosrc/plugins/shared'
 
 export const ConsoleStatus: React.FunctionComponent = () => {

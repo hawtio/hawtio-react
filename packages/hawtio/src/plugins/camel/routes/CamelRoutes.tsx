@@ -177,7 +177,13 @@ export const CamelRoutes: React.FunctionComponent = () => {
         handleConfirmDeleteToggle={handleConfirmDeleteToggle}
       />
       <PageSection hasBodyWrapper={false} isFilled hasOverflowScroll aria-label='camel-routes'>
-        <Table id='camel-routes-table' data-testid='camel-routes-table' aria-label='Camel routes table' variant='compact' isStriped>
+        <Table
+          id='camel-routes-table'
+          data-testid='camel-routes-table'
+          aria-label='Camel routes table'
+          variant='compact'
+          isStriped
+        >
           <Thead noWrap>
             <Tr>
               <Th

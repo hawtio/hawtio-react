@@ -29,9 +29,7 @@ const AboutDescription: React.FunctionComponent<{
   about: AboutConfig
 }> = ({ about }) => {
   if (about.description) {
-    return (
-      <Content component='p'>{about.description}</Content>
-    )
+    return <Content component='p'>{about.description}</Content>
   }
   return null
 }
@@ -60,7 +58,8 @@ export const HawtioAbout: React.FunctionComponent<{
   log.debug('Product info:', productInfo)
 
   return (
-    <AboutModal id='hawtio-about'
+    <AboutModal
+      id='hawtio-about'
       isOpen={isOpen}
       onClose={onClose}
       productName={title}

@@ -8,7 +8,7 @@ import {
   Panel,
   PanelHeader,
   PanelMain,
-  PanelMainBody
+  PanelMainBody,
 } from '@patternfly/react-core'
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/esm/icons/info-circle-icon'
 import React, { useContext, useEffect, useState } from 'react'
@@ -92,9 +92,9 @@ export const Properties: React.FunctionComponent = () => {
             <FlexItem>
               <LabelGroup id='properties-card-title-panel-labelgroup'>
                 {labels.map(label => (
-                    <Label key={label} icon={<InfoCircleIcon />}>
-                      {label}
-                    </Label>
+                  <Label key={label} icon={<InfoCircleIcon />}>
+                    {label}
+                  </Label>
                 ))}
               </LabelGroup>
             </FlexItem>

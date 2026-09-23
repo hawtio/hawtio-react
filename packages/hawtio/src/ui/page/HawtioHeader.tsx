@@ -185,9 +185,7 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
 
       components.push(
         ...plugin.headerItems
-          .filter(
-            headerItem => isUniversalHeaderItem(headerItem) && (headerItem as UniversalHeaderItem).universal,
-          )
+          .filter(headerItem => isUniversalHeaderItem(headerItem) && (headerItem as UniversalHeaderItem).universal)
           .map(headerItem => (headerItem as UniversalHeaderItem).component),
       )
     })
@@ -202,10 +200,14 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
     <Toolbar id='hawtio-header-toolbar' inset={{ default: 'insetNone' }}>
       <ToolbarContent alignItems='center'>
         {showAppName && (
-          <ToolbarGroup align={{ default: 'alignStart' }} alignItems='center' visibility={{ default: 'hidden', lg: 'visible' }} >
-              <Title headingLevel='h1' size='xl'>
-                {appName}
-              </Title>
+          <ToolbarGroup
+            align={{ default: 'alignStart' }}
+            alignItems='center'
+            visibility={{ default: 'hidden', lg: 'visible' }}
+          >
+            <Title headingLevel='h1' size='xl'>
+              {appName}
+            </Title>
           </ToolbarGroup>
         )}
         <ToolbarGroup align={{ default: 'alignEnd' }}>

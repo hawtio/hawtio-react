@@ -31,7 +31,12 @@ export const HawtioPreferences: React.FunctionComponent = () => {
           </NavList>
         </Nav>
       </PageSection>
-      <PageSection id='hawtio-preferences-content' hasBodyWrapper={false} hasOverflowScroll aria-label='hawtio-preferences'>
+      <PageSection
+        id='hawtio-preferences-content'
+        hasBodyWrapper={false}
+        hasOverflowScroll
+        aria-label='hawtio-preferences'
+      >
         <Routes>
           {preferencesRegistry.getPreferences().map(({ id, component }) => (
             <Route key={id} path={id} element={React.createElement(component)} />

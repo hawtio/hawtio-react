@@ -239,11 +239,7 @@ export const AgentCard: React.FunctionComponent<{
           hasNoOffset: false,
         }}
       >
-        <img
-          src={discoverService.productLogo(agent)}
-          alt={agent.server_product}
-          style={{ maxWidth: '1.5rem' }}
-        />
+        <img src={discoverService.productLogo(agent)} alt={agent.server_product} style={{ maxWidth: '1.5rem' }} />
         <CardTitle style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</CardTitle>
       </CardHeader>
       <CardBody>
@@ -325,11 +321,7 @@ export const JvmCard: React.FunctionComponent<{
           hasNoOffset: false,
         }}
       >
-        <img
-          src={discoverService.productLogoJvm(jvm)}
-          alt={jvm.alias}
-          style={{ maxWidth: '1.5rem' }}
-        />
+        <img src={discoverService.productLogoJvm(jvm)} alt={jvm.alias} style={{ maxWidth: '1.5rem' }} />
         <CardTitle style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {jvm.alias}
         </CardTitle>

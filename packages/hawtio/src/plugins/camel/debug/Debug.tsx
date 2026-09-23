@@ -546,9 +546,15 @@ export const Debug: React.FunctionComponent = () => {
     <>
       {/* debug tab header with a title and main switch */}
       <PageSection hasBodyWrapper={false}>
-        <Flex id='debug-header-container' alignItems={{ default: 'alignItemsCenter' }} justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+        <Flex
+          id='debug-header-container'
+          alignItems={{ default: 'alignItemsCenter' }}
+          justifyContent={{ default: 'justifyContentSpaceBetween' }}
+        >
           <FlexItem>
-            <Title headingLevel='h1' size='lg'>Debug</Title>
+            <Title headingLevel='h1' size='lg'>
+              Debug
+            </Title>
           </FlexItem>
           <FlexItem>
             <Button
@@ -556,7 +562,8 @@ export const Debug: React.FunctionComponent = () => {
               size='sm'
               icon={!isDebugging ? <PlayIcon /> : <BanIcon />}
               onClick={onDebugging}
-              isDisabled={!camelService.canGetBreakpoints(selectedNode)}>
+              isDisabled={!camelService.canGetBreakpoints(selectedNode)}
+            >
               {!isDebugging ? 'Start Debugging' : 'Stop Debugging'}
             </Button>
           </FlexItem>
@@ -576,28 +583,31 @@ export const Debug: React.FunctionComponent = () => {
               <ToolbarContent>{toolbarButtons}</ToolbarContent>
             </Toolbar>
 
-            <MessageDrawer messages={messages} expanded={debugPanelExpanded}
-                setExpanded={setDebugPanelExpanded}
-                extraPanel={{
-                  id: 'debug-panel-tab-breakpoints',
-                  label: 'Breakpoints',
-                  panelFn: debugPanelBreakpointsTab,
-                }}>
+            <MessageDrawer
+              messages={messages}
+              expanded={debugPanelExpanded}
+              setExpanded={setDebugPanelExpanded}
+              extraPanel={{
+                id: 'debug-panel-tab-breakpoints',
+                label: 'Breakpoints',
+                panelFn: debugPanelBreakpointsTab,
+              }}
+            >
               {/* All the elements go to <DrawerContentBody> which is the visible content of the <Drawer> */}
               <div id='debug-content'>
                 <div id='route-diagram-breakpoint-view'>
                   <RouteDiagramContext.Provider
-                      value={{
-                        graphNodeData,
-                        setGraphNodeData,
-                        graphSelection,
-                        setGraphSelection,
-                        setShowStatistics,
-                        doubleClickAction,
-                        setDoubleClickAction,
-                        annotations,
-                        setAnnotations,
-                      }}
+                    value={{
+                      graphNodeData,
+                      setGraphNodeData,
+                      graphSelection,
+                      setGraphSelection,
+                      setShowStatistics,
+                      doubleClickAction,
+                      setDoubleClickAction,
+                      annotations,
+                      setAnnotations,
+                    }}
                   >
                     <RouteDiagram />
                   </RouteDiagramContext.Provider>
@@ -607,11 +617,11 @@ export const Debug: React.FunctionComponent = () => {
           </React.Fragment>
         )}
         <ConditionalBreakpointModal
-            selectedNode={selectedNode}
-            selection={graphSelection}
-            isConditionalBreakpointOpen={isConditionalBreakpointOpen}
-            onAddConditionalBreakpointToggle={onAddConditionalBreakpointToggle}
-            addConditionalBreakpoint={handleAddConditionalBreakpoint}
+          selectedNode={selectedNode}
+          selection={graphSelection}
+          isConditionalBreakpointOpen={isConditionalBreakpointOpen}
+          onAddConditionalBreakpointToggle={onAddConditionalBreakpointToggle}
+          addConditionalBreakpoint={handleAddConditionalBreakpoint}
         />
       </PageSection>
     </>

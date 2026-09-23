@@ -153,23 +153,27 @@ const ChildLoggerItem: React.FunctionComponent<ChildLoggerItemProps> = props => 
   }
 
   return (
-      <FormGroup label={name}>
-        <Flex direction={{ default: 'row' }} spaceItems={{ default: 'spaceItemsMd' }} alignItems={{ default: 'alignItemsCenter' }}>
-          <FlexItem flex={{ default: 'flex_1' }}>
-            <Slider
-              id={`logs-child-logger-actions-log-level-slider-${name}`}
-              value={LOG_LEVEL_OPTIONS.findIndex(level => level === logger.filterLevel.name)}
-              max={LOG_LEVEL_OPTIONS.length - 1}
-              customSteps={LOG_LEVEL_OPTIONS.map((level, index) => ({ value: index, label: level }))}
-              onChange={(_event, value: number) => onLogLevelChange(LOG_LEVEL_OPTIONS[value])}
-              onMouseUp={_event => onStopDragging()}
-              onTouchEnd={_event => onStopDragging()}
-            />
-          </FlexItem>
-          <FlexItem>
-            <Button icon={<TrashIcon />} variant='secondary' onClick={deleteChildLogger}></Button>
-          </FlexItem>
-        </Flex>
-      </FormGroup>
+    <FormGroup label={name}>
+      <Flex
+        direction={{ default: 'row' }}
+        spaceItems={{ default: 'spaceItemsMd' }}
+        alignItems={{ default: 'alignItemsCenter' }}
+      >
+        <FlexItem flex={{ default: 'flex_1' }}>
+          <Slider
+            id={`logs-child-logger-actions-log-level-slider-${name}`}
+            value={LOG_LEVEL_OPTIONS.findIndex(level => level === logger.filterLevel.name)}
+            max={LOG_LEVEL_OPTIONS.length - 1}
+            customSteps={LOG_LEVEL_OPTIONS.map((level, index) => ({ value: index, label: level }))}
+            onChange={(_event, value: number) => onLogLevelChange(LOG_LEVEL_OPTIONS[value])}
+            onMouseUp={_event => onStopDragging()}
+            onTouchEnd={_event => onStopDragging()}
+          />
+        </FlexItem>
+        <FlexItem>
+          <Button icon={<TrashIcon />} variant='secondary' onClick={deleteChildLogger}></Button>
+        </FlexItem>
+      </Flex>
+    </FormGroup>
   )
 }
