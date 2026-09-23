@@ -10,10 +10,14 @@ export const HawtioSidebar: React.FunctionComponent = () => {
   const { pathname, search } = useHawtioLocation()
 
   const pathMatch = (path: string, pluginPath: string) => {
-    if (!pluginPath.startsWith('/')) {
-      pluginPath = '/' + pluginPath
+    while (pluginPath.startsWith('/')) {
+      pluginPath = pluginPath.substring(1)
     }
-    return path.startsWith(pluginPath)
+    const slash = pluginPath.indexOf('/')
+    if (slash != -1) {
+      pluginPath = pluginPath.substring(0, slash)
+    }
+    return path.split('/', 2)?.[1] === pluginPath
   }
 
   const pageNav = (
