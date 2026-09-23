@@ -9,7 +9,6 @@ import {
   DropdownList,
   EmptyState,
   EmptyStateBody,
-  FormGroup,
   MenuToggle,
   MenuToggleElement,
   PageSection,

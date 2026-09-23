@@ -38,7 +38,6 @@ import {
   RecordingState,
   UserJfrSettings,
 } from './flight-recorder-service'
-import './FlightRecorder.css'
 
 type GenericStateType<T> = [T, React.Dispatch<React.SetStateAction<T>>]
 type BooleanStateType = GenericStateType<boolean>
