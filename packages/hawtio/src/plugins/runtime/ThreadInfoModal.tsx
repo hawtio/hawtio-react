@@ -79,17 +79,26 @@ export const ThreadInfoModal: React.FunctionComponent<{
               <ol>
                 {thread.lockedMonitors.map((monitor, index) => (
                   <li key={'monitor-key-' + index}>
-                    Frame: <strong>{monitor.lockedStackDepth}{' '}</strong>
-                    <span style={{ color: 'var(--pf-t--global--text--color--status--success--default)' }}>{monitor.lockedStackFrame.className}</span>
+                    Frame: <strong>{monitor.lockedStackDepth} </strong>
+                    <span style={{ color: 'var(--pf-t--global--text--color--status--success--default)' }}>
+                      {monitor.lockedStackFrame.className}
+                    </span>
                     <strong>.</strong>
                     <strong>
-                      <span style={{ color: 'var(--pf-t--global--text--color--brand--default)' }}>{monitor.lockedStackFrame.methodName}</span>
+                      <span style={{ color: 'var(--pf-t--global--text--color--brand--default)' }}>
+                        {monitor.lockedStackFrame.methodName}
+                      </span>
                     </strong>
                     {' ('}
                     {monitor.lockedStackFrame.fileName}
                     {monitor.lockedStackFrame.lineNumber > 0 && <span>:{monitor.lockedStackFrame.lineNumber}</span>}
                     {')'}
-                    {monitor.lockedStackFrame.nativeMethod && <span style={{ color: 'var(--pf-t--global--icon--color--severity--important--default)' }}> (Native)</span>}
+                    {monitor.lockedStackFrame.nativeMethod && (
+                      <span style={{ color: 'var(--pf-t--global--icon--color--severity--important--default)' }}>
+                        {' '}
+                        (Native)
+                      </span>
+                    )}
                   </li>
                 ))}
               </ol>
@@ -105,15 +114,25 @@ export const ThreadInfoModal: React.FunctionComponent<{
               <ol>
                 {thread.stackTrace.map((frame, index) => (
                   <li key={'stacktrace-' + index}>
-                    <span style={{ color: 'var(--pf-t--global--text--color--status--success--default)' }}>{frame.className}</span>
+                    <span style={{ color: 'var(--pf-t--global--text--color--status--success--default)' }}>
+                      {frame.className}
+                    </span>
                     <strong>.</strong>
                     <strong>
-                      <span style={{ color: 'var(--pf-t--global--text--color--brand--default)' }}>{frame.methodName}</span>
+                      <span style={{ color: 'var(--pf-t--global--text--color--brand--default)' }}>
+                        {frame.methodName}
+                      </span>
                     </strong>
                     {' ('}
-                    {frame.fileName}{frame.lineNumber > 0 && <span>:{frame.lineNumber}</span>}
+                    {frame.fileName}
+                    {frame.lineNumber > 0 && <span>:{frame.lineNumber}</span>}
                     {')'}
-                    {frame.nativeMethod && <span style={{ color: 'var(--pf-t--global--icon--color--severity--important--default)' }}> (Native)</span>}
+                    {frame.nativeMethod && (
+                      <span style={{ color: 'var(--pf-t--global--icon--color--severity--important--default)' }}>
+                        {' '}
+                        (Native)
+                      </span>
+                    )}
                   </li>
                 ))}
               </ol>

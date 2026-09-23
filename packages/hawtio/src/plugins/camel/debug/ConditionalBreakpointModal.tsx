@@ -74,15 +74,19 @@ export const ConditionalBreakpointModal: React.FunctionComponent<CondBkpsProps> 
     >
       <Form id='cond-bkp-form' isHorizontal>
         <FormGroup label='Language' isRequired isStack fieldId='cond-bkp-form-lang'>
-          <Flex direction={{default: 'row'}} alignItems={{ default: 'alignItemsCenter'}} spaceItems={{ default: 'spaceItemsNone' }}>
+          <Flex
+            direction={{ default: 'row' }}
+            alignItems={{ default: 'alignItemsCenter' }}
+            spaceItems={{ default: 'spaceItemsNone' }}
+          >
             <FlexItem>
               <Radio
-                  label='Simple'
-                  id='cond-bkp-form-lang-simple'
-                  className='cond-bkp-form-lang-radio'
-                  name='simple'
-                  isChecked={language === 'simple'}
-                  onChange={() => setLanguage('simple')}
+                label='Simple'
+                id='cond-bkp-form-lang-simple'
+                className='cond-bkp-form-lang-radio'
+                name='simple'
+                isChecked={language === 'simple'}
+                onChange={() => setLanguage('simple')}
               />
             </FlexItem>
             <FlexItem>
@@ -91,7 +95,11 @@ export const ConditionalBreakpointModal: React.FunctionComponent<CondBkpsProps> 
               </Popover>
             </FlexItem>
           </Flex>
-          <Flex direction={{default: 'row'}} alignItems={{ default: 'alignItemsCenter'}} spaceItems={{ default: 'spaceItemsNone' }}>
+          <Flex
+            direction={{ default: 'row' }}
+            alignItems={{ default: 'alignItemsCenter' }}
+            spaceItems={{ default: 'spaceItemsNone' }}
+          >
             <FlexItem>
               <Radio
                 label='XPath'
@@ -120,9 +128,7 @@ export const ConditionalBreakpointModal: React.FunctionComponent<CondBkpsProps> 
             onChange={(_event, value) => setPredicate(value)}
           />
         </FormGroup>
-        {error && (
-          <Alert variant="danger" isInline title={error} />
-        )}
+        {error && <Alert variant='danger' isInline title={error} />}
       </Form>
     </Modal>
   )

@@ -7,9 +7,7 @@ export const HawtioLoadingPage: React.FunctionComponent = () => (
     <PageSection isFilled isWidthLimited isCenterAligned hasBodyWrapper={false}>
       <Bullseye>
         <Spinner diameter='60px' aria-label='Loading Hawtio' />
-        <Content component='h3'>
-          Loading ...
-        </Content>
+        <Content component='h3'>Loading ...</Content>
       </Bullseye>
     </PageSection>
   </Page>

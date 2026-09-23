@@ -41,7 +41,8 @@
   overflow: hidden;
 }
 
-.jmx-split>div>div.pf-v6-c-tree-view, .jmx-split>div>div.pf-v6-c-page__main-group {
+.jmx-split > div > div.pf-v6-c-tree-view,
+.jmx-split > div > div.pf-v6-c-page__main-group {
   /*
    * Both the tree and the content should use the flex layout.
    * Tree contains: toolbar, divider and the rest is the tree itself (should have "flex-grow: 1")
@@ -54,8 +55,8 @@
   height: 100%;
 }
 
-.jmx-split>div>div.pf-v6-c-tree-view>ul.pf-v6-c-tree-view__list,
-.jmx-split>div>div.pf-v6-c-page__main-group>section.pf-v6-c-page__main-section:last-child {
+.jmx-split > div > div.pf-v6-c-tree-view > ul.pf-v6-c-tree-view__list,
+.jmx-split > div > div.pf-v6-c-page__main-group > section.pf-v6-c-page__main-section:last-child {
   /*
    * Both the tree and the actual content should grow fully to occupy the remaining space and use auto scrolls
    * For the content, if we use last section as <PageSection hasOverflowScroll> these properties are not needed.
@@ -119,7 +120,9 @@
    * Patternfly creates a guide base decreased by hardcoded --pf-v6-c-tree-view--m-guides__list-node--guide-width--base,
    * which breaks customization
    */
-  --pf-v6-c-tree-view--m-guides--guide-left--base: calc(var(--pf-v6-c-tree-view__node-toggle--PaddingInlineStart) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) / 2);
+  --pf-v6-c-tree-view--m-guides--guide-left--base: calc(
+    var(--pf-v6-c-tree-view__node-toggle--PaddingInlineStart) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) / 2
+  );
 
   /*
    * Patternfly decreases the nested indentation by hardcoded --pf-t--global--spacer--md, which
@@ -134,15 +137,24 @@
    *  - right padding of toggle icon
    *  - half of the toggle icon
    */
-  --pf-v6-c-tree-view--m-guides--guide-left--base--offset: calc(var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd) * 2 + var(--pf-v6-c-tree-view__node-toggle--PaddingInlineStart) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) * 1.5);
+  --pf-v6-c-tree-view--m-guides--guide-left--base--offset: calc(
+    var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd) * 2 +
+      var(--pf-v6-c-tree-view__node-toggle--PaddingInlineStart) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) *
+      1.5
+  );
 
   /* When a node doesn't have toggle, the horizontal guide can be wider by the toggle size */
-  --pf-v6-c-tree-view--m-guides__node--before--Width: calc(var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) * 1.5 + var(--pf-v6-c-tree-view__node-icon--PaddingInlineStart));
+  --pf-v6-c-tree-view--m-guides__node--before--Width: calc(
+    var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd) + var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) *
+      1.5 + var(--pf-v6-c-tree-view__node-icon--PaddingInlineStart)
+  );
 }
 
 .jmx-split .pf-v6-c-tree-view__node:has(button.pf-v6-c-tree-view__node-toggle) {
   /* Horizontal guide which has a subtree toggle should be shorter */
-  --pf-v6-c-tree-view--m-guides__node--before--Width: calc(var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) / 2 + var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd));
+  --pf-v6-c-tree-view--m-guides__node--before--Width: calc(
+    var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth) / 2 + var(--pf-v6-c-tree-view__node-toggle--PaddingInlineEnd)
+  );
 }
 
 .jmx-split span.pf-v6-c-tree-view__node-icon {
@@ -153,7 +165,7 @@
   min-width: var(--pf-v6-c-tree-view__node-toggle-icon--MinWidth);
 }
 
-.jmx-split span.pf-v6-c-tree-view__node-icon>img {
+.jmx-split span.pf-v6-c-tree-view__node-icon > img {
   /* Unify the positioning of img and svg icons */
   vertical-align: center;
 }

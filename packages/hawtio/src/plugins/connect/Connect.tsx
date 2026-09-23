@@ -67,9 +67,7 @@ export const Connect: React.FunctionComponent = () => {
         </Title>
         {!secure && insecureAlert}
       </PageSection>
-      <PageSection type='tabs'>
-        {nav}
-      </PageSection>
+      <PageSection type='tabs'>{nav}</PageSection>
       <PageSection id='connect-main' hasBodyWrapper={false}>
         <Routes>
           {routes}

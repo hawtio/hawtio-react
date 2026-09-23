@@ -34,6 +34,6 @@
   flex: 2;
   height: 100%;
 }
-#route-message-table>div:last-child {
+#route-message-table > div:last-child {
   overflow: auto;
 }

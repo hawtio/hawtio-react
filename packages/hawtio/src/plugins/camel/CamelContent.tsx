@@ -10,7 +10,7 @@ import {
   NavList,
   PageGroup,
   PageSection,
-  Title
+  Title,
 } from '@patternfly/react-core'
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import Jolokia, { JolokiaErrorResponse, JolokiaFetchErrorResponse, JolokiaSuccessResponse } from 'jolokia.js'
@@ -144,9 +144,15 @@ export const CamelContent: React.FunctionComponent = () => {
   return (
     <PageGroup id='camel-content'>
       <PageSection id='camel-content-header' hasBodyWrapper={false}>
-        <Flex alignItems={{ default: 'alignItemsCenter'}} justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-          <FlexItem><Title headingLevel='h1'>{selectedNode.name}</Title></FlexItem>
-          {camelService.isContext(selectedNode) && <FlexItem><CamelContentContextToolbar /></FlexItem>}
+        <Flex alignItems={{ default: 'alignItemsCenter' }} justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+          <FlexItem>
+            <Title headingLevel='h1'>{selectedNode.name}</Title>
+          </FlexItem>
+          {camelService.isContext(selectedNode) && (
+            <FlexItem>
+              <CamelContentContextToolbar />
+            </FlexItem>
+          )}
         </Flex>
         {selectedNode.objectName && <Content component='small'>{selectedNode.objectName}</Content>}
       </PageSection>

@@ -148,8 +148,8 @@ export const Scheduler: React.FunctionComponent = () => {
               <Icon>
                 <PauseCircleIcon />
               </Icon>
-            )}
-            {' '}Scheduler
+            )}{' '}
+            Scheduler
           </CardTitle>
         </CardHeader>
         <CardBody>
@@ -208,8 +208,8 @@ export const Scheduler: React.FunctionComponent = () => {
               <Icon>
                 <PauseCircleIcon />
               </Icon>
-            )}
-            {' '}Sampled Statistics (Most Recent Samples)
+            )}{' '}
+            Sampled Statistics (Most Recent Samples)
           </CardTitle>
         </CardHeader>
         <CardBody>

@@ -133,7 +133,7 @@ export const Attributes: React.FunctionComponent = () => {
   return (
     <Panel>
       <Drawer isExpanded={isModalOpen}>
-        <DrawerContent panelContent={panelContent} >
+        <DrawerContent panelContent={panelContent}>
           <DrawerContentBody>{attributesTable}</DrawerContentBody>
         </DrawerContent>
       </Drawer>

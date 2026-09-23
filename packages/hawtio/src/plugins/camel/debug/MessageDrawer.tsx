@@ -87,7 +87,11 @@ export const MessageDrawer: React.FunctionComponent<MessageDrawerProps> = (props
     if (!message) return <em key='body-no-messages'>No Messages</em>
     if (message.body === '[Body is null]') return <em key={'body-' + message.uid}>No Body</em>
 
-    return <Content component='pre' key={'body-' + message.uid}>{message.body}</Content>
+    return (
+      <Content component='pre' key={'body-' + message.uid}>
+        {message.body}
+      </Content>
+    )
   }
 
   const corePanels: MessageDrawerPanel[] = [
