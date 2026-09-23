@@ -953,7 +953,7 @@ __metadata:
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^30.0.0"
     "@types/node": "npm:^26.5.1"
-    commit-and-tag-version: "npm:^13.2.0"
+    commit-and-tag-version: "npm:^13.2.1"
     concurrently: "npm:^10.0.5"
     express: "npm:^5.2.1"
     jest: "npm:^30.5.1"
@@ -1024,7 +1024,7 @@ __metadata:
     "@types/node": "npm:^26.5.1"
     "@types/react": "npm:^18.3.31"
     "@types/react-dom": "npm:^18.3.7"
-    commit-and-tag-version: "npm:^13.2.0"
+    commit-and-tag-version: "npm:^13.2.1"
     dagre: "npm:^0.8.5"
     dompurify: "npm:^3.4.15"
     eventemitter3: "npm:^5.0.4"
@@ -5237,9 +5237,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commit-and-tag-version@npm:^13.2.0":
-  version: 13.2.0
-  resolution: "commit-and-tag-version@npm:13.2.0"
+"commit-and-tag-version@npm:^13.2.1":
+  version: 13.2.1
+  resolution: "commit-and-tag-version@npm:13.2.1"
   dependencies:
     "@conventional-changelog/git-client": "npm:3.1.0"
     "@conventional-changelog/template": "npm:1.2.1"
@@ -5259,7 +5259,7 @@ __metadata:
     yargs: "npm:^17.7.2"
   bin:
     commit-and-tag-version: bin/cli.js
-  checksum: 10/61bbe6232806cdd756d40960b6eda28ebf694888e78e14f39ca020309a1ff76c47073584b1e642373a0be6f6ba9a7cf0b3251936d504d12dbaf63d20cf4b53f9
+  checksum: 10/346576811a32b600ca74e6523a0a1912a3a54d1fb609070431a8c9bef098f385b4b89ac47c3ae0da8f8e7cd37c085e03470fbce77cf6e2d5d0646dc822bc6452
   languageName: node
   linkType: hard
 
