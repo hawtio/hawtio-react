@@ -1,0 +1,12 @@
+#drawer-wrapper {
+  /*
+   * Patternfly <Drawer> should be wrapped with an element with this ID.
+   * These two styles prevent vertical resize beyond the grid/flex.
+   */
+  flex-shrink: 1;
+  /*
+   * A best-practice for nested flex containers. It prevents the container from
+   * expanding beyond its parent if the content is too large.
+   */
+  min-height: 0;
+}

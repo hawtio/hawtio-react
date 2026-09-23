@@ -2,13 +2,14 @@ import { PluginNodeSelectionContext } from '@hawtiosrc/plugins/context'
 import { HawtioEmptyCard, HawtioLoadingCard } from '@hawtiosrc/plugins/shared'
 import { AttributeValues } from '@hawtiosrc/plugins/shared/jolokia-service'
 import { isObject, objectSorter } from '@hawtiosrc/util/objects'
-import { Drawer, DrawerContent, DrawerContentBody, Panel } from '@patternfly/react-core'
+import { Drawer, DrawerContent, DrawerContentBody, PageSection, Panel } from '@patternfly/react-core'
 import { Table, Tbody, Td, Th, Thead, ThProps, Tr } from '@patternfly/react-table'
 import Jolokia from 'jolokia.js'
 import React, { useContext, useEffect, useState } from 'react'
 import { log } from '../globals'
 import { attributeService } from './attribute-service'
 import { AttributeModal } from './AttributeModal'
+import './Attributes.css'
 
 export const Attributes: React.FunctionComponent = () => {
   const { selectedNode } = useContext(PluginNodeSelectionContext)
@@ -131,12 +132,12 @@ export const Attributes: React.FunctionComponent = () => {
     </div>
   )
   return (
-    <Panel>
+    <PageSection id='drawer-wrapper' isFilled hasBodyWrapper={false}>
       <Drawer isExpanded={isModalOpen}>
         <DrawerContent panelContent={panelContent}>
           <DrawerContentBody>{attributesTable}</DrawerContentBody>
         </DrawerContent>
       </Drawer>
-    </Panel>
+    </PageSection>
   )
 }
