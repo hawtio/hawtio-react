@@ -8,7 +8,7 @@ export const HawtioFormSection: React.FC<{
   return (
     <FormSection
       title={
-        <Title headingLevel='h1' size='xl'>
+        <Title headingLevel='h2' size='xl'>
           {title}
         </Title>
       }

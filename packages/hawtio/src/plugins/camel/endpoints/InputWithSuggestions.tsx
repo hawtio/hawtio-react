@@ -49,9 +49,9 @@ export const InputWithSuggestions: React.FunctionComponent<{
       )
     })
 
+  // TODO: remove hardcoded styles
   const suggestionsElement = (
     <div ref={suggestionsRef}>
-      // TODO: remove hardcoded styles
       <Menu
         style={{ position: 'absolute', top: '100%', zIndex: '999' }}
         onSelect={onSelect}
@@ -65,8 +65,8 @@ export const InputWithSuggestions: React.FunctionComponent<{
     </div>
   )
 
+  // TODO: remove hardcoded styles
   return (
-    // TODO: remove hardcoded styles
     <div style={{ position: 'relative' }}>
       <TextInput
         value={value}
