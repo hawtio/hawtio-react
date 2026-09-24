@@ -55,7 +55,7 @@
     "eslint-plugin-testing-library": "^7.16.2",
     "prettier": "^3.9.9",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.70.0"
+    "typescript-eslint": "^8.70.1"
   },
   "resolutions": {
     "dompurify": "^3.4.10"
