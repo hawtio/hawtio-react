@@ -40,7 +40,7 @@ export const PropertiesList: React.FunctionComponent<PropertiesListProps> = prop
                       <DescriptionListTerm>
                         <PropertiesTooltippedName property={p} />
                       </DescriptionListTerm>
-                      {p.value && <DescriptionListDescription>{p.value}</DescriptionListDescription>}
+                      {p.value !== null && <DescriptionListDescription>{p.value}</DescriptionListDescription>}
                     </DescriptionListGroup>
                   )
                 })}

@@ -3,7 +3,7 @@
 .jmx-split {
   display: flex;
   flex-direction: row;
-  /* We can safely use 100% here, because #hawtio-main-page.pf-v6-c-page element has `heigh: 100dvh` */
+  /* We can safely use 100% here, because #hawtio-main-page.pf-v6-c-page element has `height: 100dvh` */
   height: 100%;
   /* explicit stretch for documentation and clear height propagation */
   align-items: stretch;
@@ -167,7 +167,7 @@
 
 .jmx-split span.pf-v6-c-tree-view__node-icon > img {
   /* Unify the positioning of img and svg icons */
-  vertical-align: center;
+  vertical-align: middle;
 }
 
 .jmx-split button.pf-v6-c-tree-view__node-text {
