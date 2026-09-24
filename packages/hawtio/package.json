@@ -98,7 +98,7 @@
     "@types/react-dom": "^18.3.7",
     "commit-and-tag-version": "^13.2.1",
     "jest": "^30.5.2",
-    "jest-environment-jsdom": "^30.5.1",
+    "jest-environment-jsdom": "^30.5.2",
     "jest-fetch-mock": "^4.2.0",
     "monaco-editor": "~0.56.0",
     "react": "^18.3.1",
