@@ -138,5 +138,5 @@
 :root {
   /* Make all trees more compact (vertical and horizontal padding respectively) */
   --hawtio-v4-tree-block-padding: 0.125rem;
-  --hawtio-v4-tree-inline-padding: 0.25rem;
+  --hawtio-v4-tree-inline-padding: 0.0125rem;
 }
