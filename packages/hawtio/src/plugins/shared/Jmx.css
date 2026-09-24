@@ -81,7 +81,7 @@
    * "public" variable names are used (from external CSS) and defaults are used if missing
    */
   --hawtio-tree-block-padding: var(--hawtio-v4-tree-block-padding, 0.125rem);
-  --hawtio-tree-inline-padding: var(--hawtio-v4-tree-inline-padding, 0.25rem);
+  --hawtio-tree-inline-padding: var(--hawtio-v4-tree-inline-padding, 0.0125rem);
 
   /*
    * top/bottom padding of the nodes - defaults to:
