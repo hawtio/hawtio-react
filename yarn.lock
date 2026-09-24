@@ -971,10 +971,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hawtio/camel-model-v4_22@npm:@hawtio/camel-model@~4.22.0":
-  version: 4.22.0
-  resolution: "@hawtio/camel-model@npm:4.22.0"
-  checksum: 10/75e72608d7c489251e36a6cabd3299b5efa52f2991834cc0cf42b97ea0d253f9b789eba9bfde0095e3d1748611128e372e80a54044c6aac6cc40bb8f21f80ff1
+"@hawtio/camel-model-v4_22@npm:@hawtio/camel-model@~4.22.1":
+  version: 4.22.1
+  resolution: "@hawtio/camel-model@npm:4.22.1"
+  checksum: 10/1102662759da90665cc4e1e30caa6c13c94e09f1f07c8ef60f59a6773c762c01753e94ae3837651d63129ffcf5197d89e2425b621b4b807039be0ad21977b908
   languageName: node
   linkType: hard
 
@@ -1003,7 +1003,7 @@ __metadata:
   resolution: "@hawtio/react@workspace:packages/hawtio"
   dependencies:
     "@hawtio/camel-model-v4_18": "npm:@hawtio/camel-model@~4.18.4"
-    "@hawtio/camel-model-v4_22": "npm:@hawtio/camel-model@~4.22.0"
+    "@hawtio/camel-model-v4_22": "npm:@hawtio/camel-model@~4.22.1"
     "@jolokia.js/simple": "npm:^2.6.1"
     "@module-federation/utilities": "npm:^3.1.77"
     "@monaco-editor/react": "npm:^4.7.0"
