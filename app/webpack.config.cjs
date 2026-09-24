@@ -169,6 +169,11 @@ module.exports = (_, args) => {
       performance: {
         maxAssetSize: 1000000, // 1MB for now
       },
+      optimization: {
+        minimize: {
+          html: false
+        }
+      },
       devServer: {
         port: port,
         static: path.join(__dirname, 'public'),
