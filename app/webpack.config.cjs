@@ -76,6 +76,8 @@ module.exports = (_, args) => {
             },
           },
         }),
+        // https://github.com/webpack/webpack/issues/22288#issuecomment-5812386061 suggests moving away
+        // from html-webpack-plugin
         new HtmlWebpackPlugin({
           template: path.resolve(__dirname, 'public/index.html'),
           favicon: path.resolve(__dirname, 'public/favicon.ico'),
@@ -170,9 +172,14 @@ module.exports = (_, args) => {
         maxAssetSize: 1000000, // 1MB for now
       },
       optimization: {
+        // new webpack plugin uses built-in minimizer and we have no reason to optimize htmls
+        // https://webpack.js.org/configuration/optimization/#optimizationminimizer
         minimize: {
+          // this violates type checking, but works fine.
+          // TODO: review available minifier plugins and for minimizer-webpack-plugin - available
+          //        minifier implementations
           html: false
-        }
+        },
       },
       devServer: {
         port: port,
