@@ -61,7 +61,7 @@
     "@hawtio/camel-model-v4_18": "npm:@hawtio/camel-model@~4.18.4",
     "@hawtio/camel-model-v4_22": "npm:@hawtio/camel-model@~4.22.1",
     "@jolokia.js/simple": "^2.6.1",
-    "@module-federation/utilities": "^3.1.77",
+    "@module-federation/utilities": "^3.1.83",
     "@monaco-editor/react": "^4.7.0",
     "@thumbmarkjs/thumbmarkjs": "^1.11.0",
     "dagre": "^0.8.5",
