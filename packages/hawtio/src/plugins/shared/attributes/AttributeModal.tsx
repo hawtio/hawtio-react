@@ -145,6 +145,7 @@ export const AttributeModal: React.FunctionComponent<{
               id='attribute-form-value'
               name='attribute-form-value'
               value={attributeValue}
+              resizeOrientation='vertical'
               onChange={(_event, value) => setAttributeValue(value)}
               readOnlyVariant={isWritable ? undefined : 'default'}
             />
