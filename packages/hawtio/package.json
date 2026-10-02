@@ -53,7 +53,7 @@
     "test": "jest",
     "test:watch": "jest --watch --silent=false",
     "test:coverage": "jest --coverage",
-    "replace-version": "node ./scripts/replace-version.mjs",
+    "replace-version": "node ./scripts/replace-version.mjs $npm_package_version ./dist/*.js",
     "release": "commit-and-tag-version --path .",
     "prepack": "yarn build && yarn replace-version"
   },

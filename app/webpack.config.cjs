@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const { dependencies } = require('./package.json')
+const { version: packageVersion } = require('../packages/hawtio/package.json')
 const { hawtioBackend } = require('@hawtio/backend-middleware')
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -67,8 +68,8 @@ module.exports = (_, args) => {
             },
             '@hawtio/react': {
               singleton: true,
-              // Hardcoding needed because it cannot handle yarn 'workspace:*' version
-              requiredVersion: '^2.3.0-pre.0',
+              // dynamically loaded version from actual @hawtio/react package
+              requiredVersion: packageVersion,
             },
             '@patternfly/react-core': {
               singleton: true,
