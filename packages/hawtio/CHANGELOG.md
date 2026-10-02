@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.0-pre.0](https://github.com/hawtio/hawtio-react/compare/v2.3.0...v2.4.0-pre.0) (2026-10-02)
+
+### Features
+
+* **help:** provide a simple way to report issues ([a87f6fa](https://github.com/hawtio/hawtio-react/commit/a87f6fa3ba306d5bdeaaf372148a5657f0d3978e)), closes [#2205](https://github.com/hawtio/hawtio-react/issues/2205)
+
+### Bug Fixes
+
+* **css:** Apply code review issues ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([8fe53ac](https://github.com/hawtio/hawtio-react/commit/8fe53ac1d5fcdd988941adf24bb5912c3fe5b72c))
+* **css:** Make trees more customizable. Better tree-guide CSS algorithm. ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([b97a043](https://github.com/hawtio/hawtio-react/commit/b97a043a950e9c53e7bcafb0908035d47f142bc2))
+* **css:** Review default PF6 styling for core Hawtio elements (page, sidebar, header, about) ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([b5cc1fb](https://github.com/hawtio/hawtio-react/commit/b5cc1fbd8e62d0c98fe5cf11695eebde27e858b4))
+* **css:** Review PF6 styling for Camel plugin ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([ba43d51](https://github.com/hawtio/hawtio-react/commit/ba43d516626d8262bea63df4dd0ef126ac6ddcb6))
+* **css:** Review PF6 styling for Connect/Remote/Discovery plugin ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([b5da9d4](https://github.com/hawtio/hawtio-react/commit/b5da9d4cc9bccc888080725b99a5f7f0995246ef))
+* **css:** Review PF6 styling for ConsoleStatus plugin and unify preferences ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([f53de15](https://github.com/hawtio/hawtio-react/commit/f53de154049d9a64707b511780563ea6f3c39619))
+* **css:** Review PF6 styling for Diagnostics plugin ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([23a0139](https://github.com/hawtio/hawtio-react/commit/23a0139880a6db9825002d63e02a7aecfade8540))
+* **css:** Review PF6 styling for Hawtio preferences (forms) sections ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([8cae740](https://github.com/hawtio/hawtio-react/commit/8cae74014c1a9fe0eaa52751745e299144ce4d25))
+* **css:** Review PF6 styling for Hawtio tables (logs) ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([d719bf6](https://github.com/hawtio/hawtio-react/commit/d719bf603da8a58c09ea98d8bb74f44f54299867))
+* **css:** Review PF6 styling for Jmx plugin (attributes/operations/chart) (Fixes [#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([fcf5409](https://github.com/hawtio/hawtio-react/commit/fcf540954a839aebba61e3dc4520ad55eb5a95c3))
+* **css:** Review PF6 styling for Quartz plugin ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([3e80c20](https://github.com/hawtio/hawtio-react/commit/3e80c20f22493b4fc74ada8fc01e47189181ac6e))
+* **css:** Review PF6 styling for Runtime, Logs and Spring Boot plugins. Fixed chart styling in dark mode. ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([6375fb6](https://github.com/hawtio/hawtio-react/commit/6375fb6703733e18f882f85390120c9e9d48ad8e))
+* **css:** Shrink the horizontal width of the tree elements ([#2236](https://github.com/hawtio/hawtio-react/issues/2236)) ([e7b44a0](https://github.com/hawtio/hawtio-react/commit/e7b44a076143f3413747c0242543a24da9438d4a))
+* **css:** Vertically align items in Remote tab ([6942b6c](https://github.com/hawtio/hawtio-react/commit/6942b6c8d7eeacb4333871b40b70ae6414683941))
+* **quartz:** Open trigger configuration dialog for correct trigger (Fixes [#2235](https://github.com/hawtio/hawtio-react/issues/2235)) ([312b961](https://github.com/hawtio/hawtio-react/commit/312b9613715c95081a5303e5271f259a75844327))
+* **ui:** Attribute view no longer scrolls with attributes list ([3911aab](https://github.com/hawtio/hawtio-react/commit/3911aabdf439b5476d51d4f9d8522f6b8dd95379))
+* **ui:** Do not navigate when switching to Jmx from Quartz ([89b5635](https://github.com/hawtio/hawtio-react/commit/89b56353aa502b7c09734ebc594b39d394d6f64e))
+* **ui:** Final(?) tree navigation fix for edge case with react-router synchronization ([#2198](https://github.com/hawtio/hawtio-react/issues/2198)) ([1c6674e](https://github.com/hawtio/hawtio-react/commit/1c6674ee885bd2692de86bd54ee64ab0609f2d2b))
+* **ui:** Fix :focus styling with history navigation ([#2198](https://github.com/hawtio/hawtio-react/issues/2198))(patternfly/patternfly-design[#1403](https://github.com/hawtio/hawtio-react/issues/1403)) ([318df89](https://github.com/hawtio/hawtio-react/commit/318df891f649cfd37233fdac7429a2fcd97a3ad2))
+* **ui:** Fix tree navigation by path (DFS->BFS) (fixes [#2214](https://github.com/hawtio/hawtio-react/issues/2214)) ([df34ab3](https://github.com/hawtio/hawtio-react/commit/df34ab3d439677f0ab903bdd684281f6ff371736))
+* **ui:** Improve navigation and history handling ([#2198](https://github.com/hawtio/hawtio-react/issues/2198)) ([36ca8b1](https://github.com/hawtio/hawtio-react/commit/36ca8b188c4940c9c974e022dd2c57358b7de921))
+* **ui:** Improve tree navigation ("nid", history, expand/collapse, refresh, search) ([#2198](https://github.com/hawtio/hawtio-react/issues/2198)) ([1de5c68](https://github.com/hawtio/hawtio-react/commit/1de5c687f0218ff6ae6d73ac1b7cc3561b6991a1))
+* **ui:** Make proper sidebar link active depending on the path ([51a9b25](https://github.com/hawtio/hawtio-react/commit/51a9b256260848a2e972dede777a3582accd2717))
+* **ui:** Use tree navigation improvements in Camel tab ([#2198](https://github.com/hawtio/hawtio-react/issues/2198)) ([d5436b8](https://github.com/hawtio/hawtio-react/commit/d5436b83dfb4eddc7afb8032a4484943e1ac9eea))
+* **ui:** Use tree navigation improvements in Quartz tab (fixes [#2198](https://github.com/hawtio/hawtio-react/issues/2198)) ([928e2dc](https://github.com/hawtio/hawtio-react/commit/928e2dcdab9f884d341d8610fdbe57fc19b9abea))
+
 ## [2.3.0](https://github.com/hawtio/hawtio-react/compare/v2.2.1...v2.3.0) (2026-08-26)
 
 ### Features
