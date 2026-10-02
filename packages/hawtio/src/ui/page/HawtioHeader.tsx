@@ -254,6 +254,7 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
                 onSelect={onUserSelect}
                 isOpen={userOpen}
                 onOpenChange={setUserOpen}
+                popperProps={{ position: 'end' }}
                 toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
                   <MenuToggle
                     ref={toggleRef}

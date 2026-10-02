@@ -66,7 +66,12 @@ export const SpringBoot: React.FunctionComponent = () => {
           </NavList>
         </Nav>
       </PageSection>
-      <PageSection aria-label='Spring Boot Content' padding={{ default: 'noPadding' }} hasBodyWrapper={false}>
+      <PageSection
+        aria-label='Spring Boot Content'
+        padding={{ default: 'noPadding' }}
+        hasBodyWrapper={false}
+        hasOverflowScroll
+      >
         <Routes>
           {navItems.map(({ id, component }) => (
             <Route key={id} path={id} element={component} />
