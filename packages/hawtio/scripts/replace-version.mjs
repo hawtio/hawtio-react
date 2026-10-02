@@ -11,7 +11,8 @@ const PLACEHOLDER = '__PACKAGE_VERSION_PLACEHOLDER__'
 const __base = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const pkgJsonPath = resolve(__base, './package.json')
 
-const version = process.argv.length > 2 ? process.argv[2] : JSON.parse(readFileSync(pkgJsonPath, 'utf8').toString()).version
+const version =
+  process.argv.length > 2 ? process.argv[2] : JSON.parse(readFileSync(pkgJsonPath, 'utf8').toString()).version
 console.info('Setting package version to', version)
 
 let files = process.argv.slice(3) ?? []
