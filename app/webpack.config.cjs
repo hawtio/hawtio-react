@@ -175,12 +175,12 @@ module.exports = (_, args) => {
       optimization: {
         // new webpack plugin uses built-in minimizer and we have no reason to optimize htmls
         // https://webpack.js.org/configuration/optimization/#optimizationminimizer
-        minimize: {
+        minimize: isProduction ? {
           // this violates type checking, but works fine.
           // TODO: review available minifier plugins and for minimizer-webpack-plugin - available
           //        minifier implementations
           html: false
-        },
+        } : false,
       },
       devServer: {
         port: port,
