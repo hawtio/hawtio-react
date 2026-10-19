@@ -5,6 +5,7 @@
  */
 
 /* Customization of Patternfly variables */
+/* This file is not about branding, but about adjusting default Patternfly variables roughly for more compact style */
 
 /* Variables from '@patternfly/react-core/dist/styles/base.css' that can be overridden using the same selector */
 
@@ -35,6 +36,11 @@
   /* <Masthead> - less padding */
   --pf-v6-c-masthead--PaddingBlock: var(--pf-t--global--spacer--md);
   --pf-v6-c-masthead--PaddingInline: calc(var(--pf-t--global--spacer--inset--page-chrome) / 2);
+}
+
+#hawtio-main-page.pf-v6-c-page {
+  /* <PageSidebar> customization. Defaults to 18.125rem */
+  --pf-v6-c-page__sidebar--Width--base: 18.125rem;
 }
 
 #hawtio-main-page .pf-v6-c-nav {
