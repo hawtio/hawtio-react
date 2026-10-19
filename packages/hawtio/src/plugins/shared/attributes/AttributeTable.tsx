@@ -11,6 +11,15 @@ import { JmxContentMBeans } from '../JmxContentMBeans'
 import { MBeanNode } from '../tree'
 import { attributeService } from './attribute-service'
 
+/**
+ * Aggregate table for a node whose children are all MBeans, typically several
+ * MBeans of the same type (e.g. memory pools): one row per child MBean, one
+ * column per attribute, for side-by-side comparison.
+ * Falls back to JmxContentMBeans if the children don't share the same
+ * attributes.
+ *
+ * For a single MBean, see {@link Attributes}.
+ */
 export const AttributeTable: React.FunctionComponent = () => {
   const { selectedNode } = useContext(PluginNodeSelectionContext)
   const [attributesList, setAttributesList] = useState<{ [name: string]: AttributeValues }>({})

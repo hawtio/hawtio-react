@@ -12,6 +12,12 @@ import { attributeService } from './attribute-service'
 import { AttributeModal } from './AttributeModal'
 import './Attributes.css'
 
+/**
+ * Detail view for a single selected MBean: an "Attribute | Value" list of that
+ * MBean's attributes (row click opens AttributeModal).
+ *
+ * For a node whose children are multiple MBeans, see {@link AttributeTable}.
+ */
 export const Attributes: React.FunctionComponent = () => {
   const { selectedNode } = useContext(PluginNodeSelectionContext)
   const [attributes, setAttributes] = useState<AttributeValues>({})
