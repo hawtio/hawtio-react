@@ -21,6 +21,7 @@ export const registerRemote: HawtioAsyncPlugin = async () => {
       m.hawtio.addPlugin({
         id: 'remote3',
         title: 'Remote plugin 3 (dynamic, immediate)',
+        group: 'Remote Examples',
         path: '/remote3a',
         component: r.RemotePlugin,
         isActive: async () => true,

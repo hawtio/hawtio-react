@@ -86,6 +86,11 @@ export type Plugin = {
   title?: string
 
   /**
+   * Group to use in the left sidebar. If not specified, the navigation will be top-level without grouping.
+   */
+  group?: string
+
+  /**
    * Path for plugin's main component. Optional if the plugin only contributes header elements for example
    */
   path?: string

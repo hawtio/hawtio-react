@@ -18,6 +18,7 @@ export const registerRemoteDeferred: HawtioPlugin = () => {
         return {
           id: 'remote3-deferred',
           title: 'Remote plugin 3 (dynamic, deferred)',
+          group: 'Remote Examples',
           path: '/remote3b',
           component: r.RemotePlugin,
           isActive: async () => true,

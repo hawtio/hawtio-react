@@ -6,6 +6,7 @@ export const registerExample3: HawtioPlugin = () => {
       return {
         id: 'example3',
         title: 'Example 3',
+        group: 'Examples',
         path: '/example3',
         component: m.Example3,
         headerItems: [

@@ -13,6 +13,7 @@ export const remotePlugin = async () => {
       return {
         id: remotePluginName,
         title: 'Remote plugin 2 (static)',
+        group: 'Remote Examples',
         path: '/remote2',
         component: r.RemotePlugin,
         isActive: async () => true,
