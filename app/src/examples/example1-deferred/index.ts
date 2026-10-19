@@ -20,6 +20,7 @@ export const registerExample1Deferred: HawtioPlugin = () => {
       return {
         id: pluginId,
         title: 'Example 1 (deferred)',
+        group: 'Examples',
         path: '/example1b',
         component: m.Example1,
         isActive: async () => true,

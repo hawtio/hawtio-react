@@ -22,6 +22,7 @@ export const registerRemoteExamplesStatically: HawtioPlugin = () => {
       return {
         id: 'exampleStaticRemote1',
         title: 'Remote plugin 1 (static)',
+        group: 'Remote Examples',
         path: '/remote1',
         component: m.RemotePlugin,
         isActive: async () => true,

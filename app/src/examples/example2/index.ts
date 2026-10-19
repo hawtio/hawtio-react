@@ -6,6 +6,7 @@ export const registerExample2: HawtioPlugin = () => {
       return {
         id: 'example2',
         title: 'Example 2',
+        group: 'Examples',
         path: '/example2',
         component: m.Example2,
         isActive: async () => true,

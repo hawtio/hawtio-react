@@ -11,6 +11,7 @@ export const registerExample1: HawtioPlugin = () => {
   hawtio.addPlugin({
     id: 'example1a',
     title: 'Example 1 (immediate)',
+    group: 'Examples',
     path: '/example1a',
     component: Example1,
     isActive: async () => true,
