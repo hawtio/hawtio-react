@@ -34,9 +34,9 @@ export const PropertiesList: React.FunctionComponent<PropertiesListProps> = prop
           {props.values && props.values.length > 0 && (
             <PanelMainBody>
               <DescriptionList columnModifier={{ default: '3Col', lg: '3Col', md: '2Col', sm: '1Col' }}>
-                {props.values.map(p => {
+                {props.values.map((p, idx) => {
                   return (
-                    <DescriptionListGroup key={p.name}>
+                    <DescriptionListGroup key={`${p.name}-${idx}`}>
                       <DescriptionListTerm>
                         <PropertiesTooltippedName property={p} />
                       </DescriptionListTerm>

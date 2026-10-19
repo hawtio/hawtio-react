@@ -106,9 +106,9 @@ export const Properties: React.FunctionComponent = () => {
           </PanelMain>
         )}
       </Panel>
-      <PropertiesList title='Defined Properties' values={definedProperties} />
-      <PropertiesList title='Default Properties' values={defaultProperties} />
-      <PropertiesList title='Undefined Properties' values={undefinedProperties} />
+      <PropertiesList key='defined-properties' title='Defined Properties' values={definedProperties} />
+      <PropertiesList key='default-properties' title='Default Properties' values={defaultProperties} />
+      <PropertiesList key='undefined-properties' title='Undefined Properties' values={undefinedProperties} />
     </PageSection>
   )
 }
