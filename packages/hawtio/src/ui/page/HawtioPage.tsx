@@ -22,7 +22,7 @@ import { log } from './globals'
 export const HawtioPage: React.FunctionComponent = () => {
   // static information, fetched only during Hawtio initialization
   const { hawtconfig, hawtconfigLoaded } = useHawtconfig()
-  const { plugins, pluginsLoaded } = usePlugins()
+  const { plugins, pluginGroups, pluginGroupNames, pluginsLoaded } = usePlugins()
   // useUser also returns static information, because user login and logout always end with page reload
   const { username, isLogin, userLoaded, loginMethod } = useUser()
 
@@ -89,7 +89,7 @@ export const HawtioPage: React.FunctionComponent = () => {
   // It is important that the routes are always using `/*` suffix, so the subnavigation works correctly - then
   // the plugins may use nested <Routes> elements.
   return (
-    <PageContext.Provider value={{ username, plugins }}>
+    <PageContext.Provider value={{ username, plugins, pluginGroups, pluginGroupNames }}>
       <Page
         id='hawtio-main-page'
         mainContainerId='hawtio-main-container'

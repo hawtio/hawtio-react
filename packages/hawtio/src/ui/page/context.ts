@@ -5,6 +5,8 @@ import { useLocation, type Location } from 'react-router'
 export type PageContext = {
   username: string
   plugins: Plugin[]
+  pluginGroups: Record<string, Plugin[]>
+  pluginGroupNames: string[]
 }
 
 /**
@@ -19,6 +21,8 @@ export type PageContext = {
 export const PageContext = createContext<PageContext>({
   username: '',
   plugins: [],
+  pluginGroups: {},
+  pluginGroupNames: [],
 })
 
 /**
