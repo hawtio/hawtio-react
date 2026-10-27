@@ -1,6 +1,7 @@
 import { configManager, eventService, EVENT_PLUGINS_UPDATED, Hawtconfig, hawtio, Plugin } from '@hawtiosrc/core'
 import { useEffect, useState } from 'react'
 import { log } from './globals'
+import { stringSorter } from '@hawtiosrc/util/strings'
 
 /**
  * Custom React hook for accessing information about Hawtio plugins.
@@ -14,6 +15,8 @@ import { log } from './globals'
 export function usePlugins() {
   const [plugins, setPlugins] = useState<Plugin[]>([])
   const [pluginsLoaded, setPluginsLoaded] = useState(false)
+  const [pluginGroups, setPluginGroups] = useState<Record<string, Plugin[]>>({})
+  const [pluginGroupNames, setPluginGroupNames] = useState<string[]>([])
 
   log.debug('usePlugins - Plugins:', hawtio.getPlugins())
 
@@ -25,6 +28,32 @@ export function usePlugins() {
       // Filter plugins by hawtconfig.json
       const enabledPlugins = await configManager.filterEnabledPlugins(activePlugins)
       setPlugins(enabledPlugins)
+
+      // put plugins into groups if needed
+      const groups: Record<string, Plugin[]> = {}
+      let groupNames: string[] = []
+      const rootGroup: Plugin[] = []
+
+      for (const plugin of enabledPlugins) {
+        if (!plugin.path) {
+          continue
+        }
+        if (plugin.group) {
+          if (!groups[plugin.group]) {
+            groups[plugin.group] = []
+            groupNames.push(plugin.group)
+          }
+          groups[plugin.group]!.push(plugin)
+        } else {
+          rootGroup.push(plugin)
+        }
+      }
+      groups['.'] = rootGroup
+      groupNames.sort((a, b) => stringSorter(a, b))
+      groupNames = ['.', ...groupNames]
+      setPluginGroupNames(groupNames)
+      setPluginGroups(groups)
+
       setPluginsLoaded(true)
     }
     loadPlugins()
@@ -34,7 +63,7 @@ export function usePlugins() {
     return () => eventService.removeListener(EVENT_PLUGINS_UPDATED, loadPlugins)
   }, [])
 
-  return { plugins, pluginsLoaded }
+  return { plugins, pluginGroups, pluginGroupNames, pluginsLoaded }
 }
 
 /**
