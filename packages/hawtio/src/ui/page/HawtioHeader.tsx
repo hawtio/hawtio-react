@@ -34,7 +34,7 @@ import {
 } from '@patternfly/react-core'
 import { QuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/question-circle-icon'
 import React, { useContext, useState } from 'react'
-import { Link, useLocation } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import './HawtioHeader.css'
 import { PageContext, useHawtioLocation } from './context'
 
@@ -111,6 +111,8 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
   // calling useHawtioLocation() gives us "search" without plugin-specific parameters like "nid"
   const location = useHawtioLocation()
 
+  const navigate = useNavigate()
+
   const isPublic = username === PUBLIC_USER
 
   const showAppName = hawtconfig.branding?.showAppName ?? false
@@ -143,8 +145,13 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
   const reportIssue = hawtconfig.about?.issueReporting
 
   const helpItems = [
-    <DropdownItem key='help'>
-      <Link to={{ pathname: '/help', search: location.search }}>Help</Link>
+    <DropdownItem
+      key='help'
+      onClick={() => {
+        navigate({ pathname: '/help', search: location.search })
+      }}
+    >
+      Help
     </DropdownItem>,
     ...(reportIssue
       ? [
@@ -159,8 +166,13 @@ const HawtioHeaderToolbar: React.FunctionComponent<{
   ]
 
   const userItems = [
-    <DropdownItem key='preferences'>
-      <Link to={{ pathname: '/preferences', search: location.search }}>Preferences</Link>
+    <DropdownItem
+      key='preferences'
+      onClick={() => {
+        navigate({ pathname: '/preferences', search: location.search })
+      }}
+    >
+      Preferences
     </DropdownItem>,
     <DropdownItem key='logout' onClick={logout}>
       Log out
