@@ -106,6 +106,7 @@ const ChildLoggerToolbar: React.FunctionComponent = () => {
           <Dropdown
             onSelect={handleAddToggle}
             onOpenChange={setIsAddOpen}
+            isScrollable
             toggle={(toggleRef: React.Ref<MenuToggleElement>) => (
               <MenuToggle
                 ref={toggleRef}
