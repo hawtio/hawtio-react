@@ -18,6 +18,7 @@ module.exports = (_, args) => {
   return [
     // this is the "main" webpack configuration which builds entire application
     {
+      name: 'app',
       entry: './src/index',
 
       /*
@@ -446,6 +447,7 @@ module.exports = (_, args) => {
     // this is a very slim configuration which only builds a file used as exposed entry point for ModuleFederation plugin
     // which will be loaded dynamically by Hawtio using @module-federation/utilities
     {
+      name: 'remote3',
       entry: './src/examples/remote3',
       devtool: false,
       plugins: [
