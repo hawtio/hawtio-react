@@ -94,7 +94,7 @@ class LogsService implements ILogsService {
 
     const { cacheSize } = this.loadOptions()
     if (appended.length > cacheSize) {
-      appended.splice(0, logs.length - cacheSize)
+      appended.splice(0, appended.length - cacheSize)
     }
 
     return appended
