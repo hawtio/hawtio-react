@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.0-pre.2](https://github.com/hawtio/hawtio-react/compare/v2.4.0-pre.1...v2.4.0-pre.2) (2026-10-29)
+
+### Features
+
+* **ui:** Optionally group sidebar plugin links (fixes [#2237](https://github.com/hawtio/hawtio-react/issues/2237)) ([a0b3aa4](https://github.com/hawtio/hawtio-react/commit/a0b3aa4c7a19384ca9fe5e03707d1cb99901091e))
+
+### Bug Fixes
+
+* **logs:** HAWNG-900 correct log cache and batch size behaviour ([6b8de68](https://github.com/hawtio/hawtio-react/commit/6b8de68eb50612088b87f34b0159f002dbd7bb78))
+* **react:** Use unique keys for <dl> in Properties.tsx ([867e7c2](https://github.com/hawtio/hawtio-react/commit/867e7c26a7b088b576251d3a90b29c3bd16e7f95))
+* **ui:** Fix clicking on Help and Preferences links in the padding area ([70aec09](https://github.com/hawtio/hawtio-react/commit/70aec0900c5195f3607de36da0883c495cefb40d))
+* **ui:** Make child loggers dropdown scrollable ([0294fed](https://github.com/hawtio/hawtio-react/commit/0294fed24964e257f230065d1f4c6d85fcf674bb))
+* **ui:** Move plugin groupping to usePlugins hook (Fixes [#2301](https://github.com/hawtio/hawtio-react/issues/2301)) ([f6d0ac3](https://github.com/hawtio/hawtio-react/commit/f6d0ac3d8f52fe39a11610141c98a725d86e9a9f))
+
 ## [2.4.0-pre.1](https://github.com/hawtio/hawtio-react/compare/v2.4.0-pre.0...v2.4.0-pre.1) (2026-10-16)
 
 ### Features
