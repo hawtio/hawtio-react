@@ -1,6 +1,6 @@
 import { userService } from '@hawtiosrc/auth'
 import { configManager, eventService, JmxConfig, Logger } from '@hawtiosrc/core'
-import { jolokiaService } from '@hawtiosrc/plugins/shared/jolokia-service'
+import { jolokiaService, JolokiaStatus } from '@hawtiosrc/plugins/shared/jolokia-service'
 import Jolokia, { JolokiaErrorResponse, JolokiaFetchErrorResponse, JolokiaSuccessResponse } from 'jolokia.js'
 import { pluginName } from './globals'
 import { MBeanNode, MBeanTree } from './tree'
@@ -40,8 +40,25 @@ export enum ExpansionValue {
   CollapseAll,
 }
 
+export enum WorkspaceStatus {
+  INITIAL,
+  // when the workspaces is disabled by the deployer, there's no need to show any errors/alerts in the UI
+  DISABLED_BY_CONFIGURATION,
+  // When Jolokia list/sublist returns nothing we set the status differently, because it's not expected to be empty
+  NO_JMX_DOMAINS,
+  // Jolokia may return an error - could be related to jolokia-access.xml preventing access even if user is logged
+  // into Hawtio correctly
+  JOLOKIA_ERROR,
+}
+
 export interface IWorkspace {
   // ---- JMX tree management backed by Jolokia list operation
+
+  /**
+   * Status of the workspace. It is initialized with JMX data and there may be different scenarios when
+   * fetching this data.
+   */
+  workspaceStatus(): WorkspaceStatus
 
   /**
    * Get the global, single JMX tree of the workspace. The returned promise eventually
@@ -123,6 +140,8 @@ export interface IWorkspace {
 class Workspace implements IWorkspace {
   private tree?: Promise<MBeanTree>
 
+  private status: WorkspaceStatus = WorkspaceStatus.INITIAL
+
   // a workspace-managed set of ids for expanded folder nodes, which helps preserving
   // UI status between tree reloads
   private expandedFolders = new Set<string>()
@@ -144,6 +163,10 @@ class Workspace implements IWorkspace {
 
   private _errors: Error[] = []
 
+  workspaceStatus(): WorkspaceStatus {
+    return this.status
+  }
+
   // ---- JMX tree management backed by Jolokia list operation
 
   async hasErrors(): Promise<boolean> {
@@ -162,6 +185,7 @@ class Workspace implements IWorkspace {
 
   async refreshTree() {
     this.tree = undefined
+    this.status = WorkspaceStatus.INITIAL
     this._errors = []
     // no need to keep the old tree. Entire UI state to reapply on the new tree (collapsed/expanded)
     // is kept in separate structure
@@ -192,27 +216,57 @@ class Workspace implements IWorkspace {
 
     const config = await this.getConfig()
     if (config.workspace === false || (typeof config.workspace !== 'boolean' && config.workspace?.length === 0)) {
-      // TODO Should this set the error??
+      // the workspace is explicitly disabled
+      this.status = WorkspaceStatus.DISABLED_BY_CONFIGURATION
       return MBeanTree.createEmpty(pluginName)
     }
     const mbeanPaths = config.workspace && typeof config.workspace !== 'boolean' ? config.workspace : []
+
+    // before calling list/sublist, we may simply check the status determined at "probing time"
+    const jolokiaStatus = await jolokiaService.status()
+    if (!jolokiaStatus.transient) {
+      // we may fail fast for same-origin Jolokia connections (no connection to remote Agent using "Connect")
+      switch (jolokiaStatus.status) {
+        case JolokiaStatus.REQUIRES_HAWTIO_LOGIN: {
+          this.addError(new Error('User needs to have logged in to use workspace'))
+          throw new Error('User needs to have logged in to use workspace')
+        }
+        case JolokiaStatus.REQUIRES_AUTHENTICATION:
+        case JolokiaStatus.ACCESS_DENIED: {
+          this.status = WorkspaceStatus.JOLOKIA_ERROR
+          const error = new Error('Jolokia Error - initialization')
+          error.cause = jolokiaStatus.error
+          this.addError(error)
+          return MBeanTree.createEmpty(pluginName)
+        }
+        case JolokiaStatus.NOT_AVAILABLE: {
+          this.status = WorkspaceStatus.NO_JMX_DOMAINS
+          // we may simply run from webpack-dev-server or similar
+          const error = new Error('No Jolokia Agent found')
+          error.cause = jolokiaStatus.error
+          this.addError(error)
+          return MBeanTree.createEmpty(pluginName)
+        }
+      }
+    }
+
+    // even if Jolokia is OK, it may stop being OK at some point (without re-probing the paths) - for example
+    // restart of the agent
 
     log.debug('Load JMX MBean tree:', mbeanPaths)
     const options: SimpleRequestOptions = {
       ignoreErrors: true,
       error: (response: JolokiaErrorResponse) => {
-        this.addError(
-          new Error(`Error - fetching JMX tree: ${response.error_type} ${response.error} ${response.error_value}`),
-        )
-        log.debug('Error - fetching JMX tree:', response)
+        const text = jolokiaService.errorMessage(response)
+        this.addError(new Error(`Jolokia Error - fetching JMX tree: ${text}`))
+        log.debug('Jolokia Error - fetching JMX tree:', response)
       },
       fetchError: (response: Response | null, error: DOMException | TypeError | string | null) => {
-        const text = response?.statusText || error
-        const err = new Error(`Ajax error - fetching JMX tree: ${text}`)
+        const text = jolokiaService.errorMessage(response?.statusText || error)
+        const err = new Error(`Network error - fetching JMX tree: ${text}`)
         err.cause = error
         this.addError(err)
-
-        log.debug('Ajax error - fetching JMX tree:', text, '-', error)
+        log.debug('Network error - fetching JMX tree:', text, '-', error)
       },
     }
     try {
@@ -257,9 +311,14 @@ class Workspace implements IWorkspace {
       this.maybeMonitorPlugins()
       this.maybeMonitorTree()
 
+      if (tree.isEmpty()) {
+        this.status = WorkspaceStatus.NO_JMX_DOMAINS
+      }
+
       return tree
     } catch (error) {
-      const wkspError: Error = new Error('A request to list the JMX tree failed')
+      this.status = WorkspaceStatus.JOLOKIA_ERROR
+      const wkspError: Error = new Error('JMX information could not be retrieved from Jolokia')
       wkspError.cause = error
       this.addError(wkspError)
 

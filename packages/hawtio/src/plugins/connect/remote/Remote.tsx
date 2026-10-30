@@ -165,14 +165,16 @@ const ConnectionItem: React.FunctionComponent<{
 
   const handleEditToggle = () => {
     setIsEditOpen(!isEditOpen)
+    setIsDropdownOpen(false)
   }
 
   const handleConfirmDeleteToggle = () => {
     setIsConfirmDeleteOpen(!isConfirmDeleteOpen)
+    setIsDropdownOpen(false)
   }
 
   const connect = () => {
-    if (reachable !== 'reachable') {
+    if (reachable !== 'reachable' && reachable !== 'access-denied') {
       return
     }
 
@@ -208,6 +210,13 @@ const ConnectionItem: React.FunctionComponent<{
         </Icon>
       )
       break
+    case 'access-denied':
+      icon = (
+        <Icon size='md' status='warning'>
+          <PluggedIcon />
+        </Icon>
+      )
+      break
   }
 
   return (
@@ -235,7 +244,7 @@ const ConnectionItem: React.FunctionComponent<{
             key={`connection-action-connect-${id}`}
             variant='primary'
             onClick={connect}
-            isDisabled={reachable !== 'reachable'}
+            isDisabled={reachable !== 'reachable' && reachable !== 'access-denied'}
             size='sm'
           >
             Connect

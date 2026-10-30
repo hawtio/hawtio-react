@@ -1,5 +1,11 @@
 import { userService } from '@hawtiosrc/auth'
-import { DEFAULT_MAX_COLLECTION_SIZE, DEFAULT_MAX_DEPTH, JolokiaListMethod, jolokiaService } from './jolokia-service'
+import {
+  DEFAULT_MAX_COLLECTION_SIZE,
+  DEFAULT_MAX_DEPTH,
+  JolokiaListMethod,
+  jolokiaService,
+  JolokiaStatus,
+} from './jolokia-service'
 import { hawtio } from '@hawtiosrc/core'
 import * as jolokia from 'jolokia.js'
 import Jolokia, { SimpleRequestOptions, SimpleResponseCallback } from '@jolokia.js/simple'
@@ -15,11 +21,11 @@ describe('JolokiaService', () => {
 
   test('getJolokiaUrl - not logged in', async () => {
     userService.isLogin = jest.fn(async () => false)
-    await expect(jolokiaService.getJolokiaUrl()).resolves.toBeNull()
+    await expect(jolokiaService.status()).resolves.toHaveProperty('status', JolokiaStatus.REQUIRES_HAWTIO_LOGIN)
   })
 
-  test('getJolokiaUrl - null', async () => {
-    await expect(jolokiaService.getJolokiaUrl()).resolves.toBeNull()
+  test('getJolokiaUrl - not available', async () => {
+    await expect(jolokiaService.status()).resolves.toHaveProperty('status', JolokiaStatus.NOT_AVAILABLE)
   }, 10000)
 
   test('getJolokia - optimised (mbean)', async () => {

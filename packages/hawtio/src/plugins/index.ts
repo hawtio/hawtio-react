@@ -17,7 +17,9 @@ import { springboot } from './springboot'
  * The order of loading the builtin plugins is defined by this function.
  */
 export const registerPlugins = () => {
-  // Auth plugins should be loaded before other plugins
+  // Auth plugins should be loaded before other plugins, because
+  // these other plugins my try to load JMX using Jolokia which may require authentication
+  // provided by these auth plugins
   keycloak()
   oidc()
 

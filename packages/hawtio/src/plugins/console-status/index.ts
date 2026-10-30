@@ -1,10 +1,10 @@
 import { hawtio, type HawtioPlugin } from '@hawtiosrc/core'
-import { connectService, workspace } from '@hawtiosrc/plugins/shared'
+import { connectService, workspace, WorkspaceStatus } from '@hawtiosrc/plugins/shared'
 import { pluginId, pluginPath, pluginTitle } from './globals'
 
 /**
  * Target application status plugin,
- * only active if the workspace contains no mbeans, ie, totally empty.
+ * only active if the workspace contains no MBeans, ie, totally empty.
  * and / or the workspace has produced errors.
  * Will communicate this to the user with a notice component.
  */
@@ -21,7 +21,14 @@ export const consoleStatus: HawtioPlugin = () => {
           const beans = await workspace.hasMBeans()
           const errors = await workspace.hasErrors()
 
-          if (!connection) return false // no connection yet so no beans in workspace
+          if (workspace.workspaceStatus() === WorkspaceStatus.JOLOKIA_ERROR) {
+            // whether or not we're running with remote Jolokia connection
+            return true
+          }
+
+          if (!connection) {
+            return false
+          }
 
           return !beans || errors // either no beans or workspace has errors
         },

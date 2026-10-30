@@ -4,10 +4,31 @@ import { OptimisedJmxDomains } from '../tree'
 import jmxCamelResponse from './jmx-camel-tree.json'
 import { JolokiaErrorResponse, JolokiaRequest, JolokiaSuccessResponse, RequestOptions } from 'jolokia.js'
 
+export enum JolokiaStatus {
+  /** Jolokia target URL was probed and proper Jolokia `version` response was returned */
+  OK,
+  /** Jolokia target returned 404 or 200 without proper JSON (could be an HTML page) or wasn't even checked */
+  NOT_AVAILABLE,
+  /** Jolokia target returned HTTP 401 and we may only know the Auth Realm (if provided) */
+  REQUIRES_AUTHENTICATION,
+  /**
+   * Jolokia target returned HTTP 403 and potentially a Jolokia JSON error response with some details.
+   * This status is not _recoverable_ for given credentials, but also may indicate general access issue
+   * like host/ip restriction.
+   */
+  ACCESS_DENIED,
+  /** Different from REQUIRES_AUTHENTICATION, and related to not being logged in to Hawtio itself (early initialization) */
+  REQUIRES_HAWTIO_LOGIN,
+}
+
 class MockJolokiaService implements IJolokiaService {
   constructor() {
     // eslint-disable-next-line no-console
     console.log('Using mock jolokia service')
+  }
+
+  async status() {
+    return { path: null, status: JolokiaStatus.OK, transient: false }
   }
 
   reset() {

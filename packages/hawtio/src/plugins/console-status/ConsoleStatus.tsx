@@ -1,6 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Alert, PageSection, Panel, PanelHeader, PanelMain, PanelMainBody } from '@patternfly/react-core'
-import { HawtioLoadingCard, workspace } from '@hawtiosrc/plugins/shared'
+import {
+  Alert,
+  Flex,
+  FlexItem,
+  PageSection,
+  Panel,
+  PanelHeader,
+  PanelMain,
+  PanelMainBody,
+} from '@patternfly/react-core'
+import { HawtioLoadingCard, jolokiaService, workspace } from '@hawtiosrc/plugins/shared'
 
 export const ConsoleStatus: React.FunctionComponent = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
@@ -20,7 +29,7 @@ export const ConsoleStatus: React.FunctionComponent = () => {
       setLoading(false)
     }
 
-    timerRef.current = setTimeout(waitLoading, 1000)
+    timerRef.current = setTimeout(waitLoading, 250)
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current)
@@ -42,20 +51,23 @@ export const ConsoleStatus: React.FunctionComponent = () => {
     )
   }
 
-  const hasCause = (error: Error) => {
-    if (!error || !error.cause) return false
-    return error.cause instanceof Error
-  }
-
   return (
-    <PageSection hasBodyWrapper={false}>
-      <Alert variant='warning' title='Application returned no mbeans' />
+    <Flex
+      direction={{ default: 'column' }}
+      justifyContent={{ default: 'justifyContentSpaceBetween' }}
+      rowGap={{ default: 'rowGapMd' }}
+    >
+      <FlexItem>
+        <Alert variant='warning' isInline isPlain title='No JMX MBean information is available' />
+      </FlexItem>
 
       {errors.map((error, index) => (
-        <Alert key={index} variant='danger' title={error.message}>
-          {hasCause(error) && <p>Cause: {(error.cause as Error).message}</p>}
-        </Alert>
+        <FlexItem key={index}>
+          <Alert key={index} variant='danger' isInline isPlain title={jolokiaService.errorMessage(error)}>
+            {!!error.cause && <p>{jolokiaService.errorMessage(error.cause)}</p>}
+          </Alert>
+        </FlexItem>
       ))}
-    </PageSection>
+    </Flex>
   )
 }

@@ -48,6 +48,7 @@ import('@hawtio/react').then(async m => {
   // You can alternatively choose which built-in plugins to load
   // m.connect()
   // m.jmx()
+  // m.consoleStatus()
   // m.camel()
 
   // we're awaiting for the import('./examples').
@@ -62,7 +63,8 @@ import('@hawtio/react').then(async m => {
   configManager.initItem('Loading Hawtio', TaskState.finished, 'config')
 
   // finally, after we've registered all custom and built-in plugins, we can proceed to the final stage:
-  //  - bootstrap(), which finishes internal configuration, applies branding and loads all registered plugins11111
+  //  - bootstrap(), which finishes internal configuration, applies branding and loads (but not yet "resolves")
+  //    all the registered plugins
   //  - rendering of <Hawtio> React component after bootstrap() finishes
   m.hawtio.bootstrap().then(() => {
     import('@hawtio/react/ui').then(m => {

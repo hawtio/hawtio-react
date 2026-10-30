@@ -11,6 +11,10 @@ import { stringSorter } from '@hawtiosrc/util/strings'
  * * a state for a flag indicating that plugins are loaded
  *
  * This hook synchronizes with internal Hawtio services that manage plugins state and configuration.
+ *
+ * One of the important (from dev perspective) side effects of this hook is that its effect calls
+ * `hawtio.resolvePlugins()`. Plugin resolution procedure requires a check of the login status and may (depending
+ * on the plugins being registered) involve fetching JMX information from Jolokia.
  */
 export function usePlugins() {
   const [plugins, setPlugins] = useState<Plugin[]>([])
