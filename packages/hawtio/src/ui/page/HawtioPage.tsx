@@ -6,7 +6,7 @@ import { preferencesService } from '@hawtiosrc/preferences/preferences-service'
 import { HawtioPreferences } from '@hawtiosrc/preferences/ui'
 import { HawtioNotification } from '@hawtiosrc/ui/notification'
 import { SessionMonitor, sessionService } from '@hawtiosrc/ui/session'
-import { EmptyState, Page, PageSection } from '@patternfly/react-core'
+import { EmptyState, EmptyStateBody, Page, PageSection } from '@patternfly/react-core'
 import { CubesIcon } from '@patternfly/react-icons/dist/esm/icons/cubes-icon'
 import React, { useEffect } from 'react'
 import { Navigate, Route, Routes, useNavigate } from 'react-router'
@@ -128,8 +128,14 @@ export const HawtioPage: React.FunctionComponent = () => {
  *
  * @constructor
  */
-const HawtioHome: React.FunctionComponent = () => (
-  <PageSection hasBodyWrapper={false}>
-    <EmptyState headingLevel='h1' icon={CubesIcon} titleText='Hawtio' variant='full' />
-  </PageSection>
-)
+const HawtioHome: React.FunctionComponent = () => {
+  const { plugins } = usePlugins()
+  const information = plugins.length === 0 ? 'No plugins loaded' : `${plugins.length} plugins loaded`
+  return (
+    <PageSection hasBodyWrapper={false}>
+      <EmptyState headingLevel='h1' icon={CubesIcon} titleText='Hawtio' variant='full'>
+        <EmptyStateBody>{information}</EmptyStateBody>
+      </EmptyState>
+    </PageSection>
+  )
+}
