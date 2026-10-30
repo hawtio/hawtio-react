@@ -6,7 +6,7 @@ import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/esm/icons/ex
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon'
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/esm/icons/info-circle-icon'
 import { QuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/question-circle-icon'
-import { Table, Tbody, Td, Tr } from '@patternfly/react-table'
+import { InnerScrollContainer, Table, Tbody, Td, Tr } from '@patternfly/react-table'
 import React, { useEffect, useState } from 'react'
 import { springbootService } from './springboot-service'
 import { HealthComponent, HealthComponentDetail, HealthData } from './types'
@@ -17,20 +17,28 @@ const ComponentDetails: React.FunctionComponent<{
   componentDetails: HealthComponentDetail[]
 }> = ({ componentDetails }) => {
   return (
-    <Table variant='compact' borders={false}>
-      <Tbody>
-        {componentDetails.map((detail, index) => {
-          return (
-            <Tr key={'row' + detail.key + index}>
-              <Td key={detail.key + index}>{humanizeLabels(detail.key)}:</Td>
-              <Td>
-                {typeof detail.value === 'string' ? detail.value : <ComponentDetails componentDetails={detail.value} />}
-              </Td>
-            </Tr>
-          )
-        })}
-      </Tbody>
-    </Table>
+    <InnerScrollContainer>
+      <Table variant='compact' borders={false}>
+        <Tbody>
+          {componentDetails.map((detail, index) => {
+            return (
+              <Tr key={'row' + detail.key + index}>
+                <Td key={detail.key + index}>
+                  <strong>{humanizeLabels(detail.key)}:</strong>
+                </Td>
+                <Td>
+                  {typeof detail.value === 'string' ? (
+                    detail.value
+                  ) : (
+                    <ComponentDetails componentDetails={detail.value} />
+                  )}
+                </Td>
+              </Tr>
+            )
+          })}
+        </Tbody>
+      </Table>
+    </InnerScrollContainer>
   )
 }
 
@@ -146,9 +154,9 @@ export const Health: React.FunctionComponent = () => {
                     <HealthStatusIcon status={status} />
                   </FlexItem>
                   <FlexItem>Status: {status}</FlexItem>
-                  {details && name === 'diskSpace' && <DiskComponentDetails componentDetails={details} />}
-                  {details && name !== 'diskSpace' && <ComponentDetails componentDetails={details} />}
                 </Flex>
+                {details && name === 'diskSpace' && <DiskComponentDetails componentDetails={details} />}
+                {details && name !== 'diskSpace' && <ComponentDetails componentDetails={details} />}
               </CardBody>
             </Card>
           </GridItem>
