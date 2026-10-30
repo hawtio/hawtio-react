@@ -52,5 +52,11 @@ export const ConnectionStatus: React.FunctionComponent = () => {
           <Label status='warning'>{name}</Label>
         </Tooltip>
       )
+    case 'access-denied':
+      return (
+        <Tooltip content={`Connection is reachable but access is denied`} position='bottom'>
+          <Label status='warning'>{name}</Label>
+        </Tooltip>
+      )
   }
 }

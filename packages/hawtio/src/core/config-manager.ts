@@ -341,9 +341,9 @@ export interface IConfigManager {
    *
    * @param item Initialization task name
    * @param state Initialization task state
-   * @param group One of supported initialization task groups
+   * @param group One of the supported initialization task groups
    */
-  initItem(item: string, state: TaskState, group: 'config' | 'plugins' | 'finish'): void
+  initItem(item: string, state: TaskState, group: 'config' | 'plugins'): void
 
   /**
    * Returns global log level value set for the "root logger". Defaults to INFO value.
@@ -390,7 +390,7 @@ export class ConfigManager implements IConfigManager {
     config.about.productInfo.push({ name, value })
   }
 
-  initItem(item: string, ready: TaskState, group: 'config' | 'plugins' | 'finish') {
+  initItem(item: string, ready: TaskState, group: 'config' | 'plugins') {
     this.initTasks[item] = { ready, group }
     setTimeout(() => {
       for (const l of this.initListeners) {
@@ -407,7 +407,9 @@ export class ConfigManager implements IConfigManager {
 
   /**
    * This method is called by `hawtio.bootstrap()`, so we have a single point where global (not plugin-specific)
-   * configuration is loaded
+   * configuration is loaded.
+   * We can't initialize Jolokia here and we can't check user login status, because the plugins (not loaded yet)
+   * may be involved in authentication.
    */
   async initialize(): Promise<boolean> {
     this.initItem('Checking authentication providers', TaskState.started, 'config')
@@ -727,10 +729,10 @@ export class ConfigManager implements IConfigManager {
   async ready(): Promise<boolean> {
     return new Promise((resolve, _reject) => {
       const h: NodeJS.Timeout = setInterval(() => {
-        const result =
-          Object.values(this.initTasks!).find(v => v.ready == TaskState.started || v.ready == TaskState.error) ==
-          undefined
-        if (result) {
+        const pending = Object.values(this.initTasks!).find(
+          v => v.ready == TaskState.started || v.ready == TaskState.error,
+        )
+        if (!pending) {
           resolve(true)
           clearInterval(h)
         }

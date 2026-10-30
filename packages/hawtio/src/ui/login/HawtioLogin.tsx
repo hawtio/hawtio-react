@@ -40,6 +40,7 @@ export const HawtioLogin: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (isLogin) {
+      sessionStorage.removeItem('logout.reason')
       navigate('/')
     } else if (isLoginError) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -76,6 +77,7 @@ export const HawtioLogin: React.FunctionComponent = () => {
           isBlock
           className='idp'
           onClick={async () => {
+            sessionStorage.removeItem('logout.reason')
             const loginMethod = configManager.getAuthenticationMethod(method.method, method.position ?? 0)?.login
             let ok
             let result
@@ -124,6 +126,7 @@ export const HawtioLogin: React.FunctionComponent = () => {
             isBlock
             className='idp'
             onClick={() => {
+              sessionStorage.removeItem('logout.reason')
               setAuthenticationMethodSelected(idx)
               setLoginError('')
             }}
@@ -217,6 +220,7 @@ export const HawtioLogin: React.FunctionComponent = () => {
         variant='link'
         isInline
         onClick={() => {
+          sessionStorage.removeItem('logout.reason')
           setAuthenticationMethodSelected(-1)
           setLoginError('')
         }}

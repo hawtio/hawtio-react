@@ -130,7 +130,7 @@ export type Plugin = {
 
   /**
    * Returns if this plugin should be activated.
-   * This method needs to return a promise as the process of resolving if a plugin
+   * This method needs to return a promise as the process of resolving if the plugin
    * should be activated may require information collected asynchronously such as
    * the existence of some MBeans, etc.
    */
@@ -225,12 +225,12 @@ export class HawtioCore implements IHawtio {
   private urls: string[] = []
 
   /**
-   * Holds all of the Hawtio plugins that need to be bootstrapped.
+   * Holds all the Hawtio plugins that need to be bootstrapped.
    */
   private plugins: Plugins = {}
 
   /**
-   * Holds all of the Hawtio plugins which will be evaluated in deferred way.
+   * Holds all the Hawtio plugins which will be evaluated in a deferred way.
    */
   private deferredPlugins: DeferredPlugins = {}
 
@@ -307,6 +307,11 @@ export class HawtioCore implements IHawtio {
     // Load plugins
     await this.loadPlugins()
 
+    // Plugins are loaded and we have all their _definitions_, but no plugin has its component instantiated
+    // and no isActive() function called.
+    // For the developer context, jolokiaService, workspace (JMX) and userService are already created, but
+    // not called yet (for example, there's no attempt to fetch Jolokia JMX information yet).
+
     // Apply branding
     // Branding should be applied after loading plugins as plugins may customise hawtconfig.
     const brandingApplied = await configManager.applyBranding()
@@ -365,6 +370,7 @@ export class HawtioCore implements IHawtio {
         continue
       }
 
+      // calling plugin.isActive() may involve Jolokia, workspace or any plugin-specific behavior
       if (await plugin.isActive()) {
         resolved.push(plugin)
       }
@@ -456,9 +462,10 @@ export class HawtioCore implements IHawtio {
 
   /**
    * Downloads plugins from any configured URLs and loads them.
-   * It is invoked at Hawtio's bootstrapping.
+   * It is invoked at Hawtio's bootstrapping. After the loading is complete, we have a list of plugins
+   * in `this.plugins` These plugins do not have their `isActive()` called yet.
    *
-   * This plugin mechanism is implemented using [Webpack Module Federation](https://module-federation.github.io/).
+   * This plugin mechanism is implemented using [Webpack Module Federation V1](https://module-federation.github.io/).
    */
   private async loadPlugins() {
     if (this.urls.length === 0 && Object.entries(this.deferredPlugins).length === 0) {

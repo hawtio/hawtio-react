@@ -109,12 +109,41 @@ type AjaxErrorResolver = () => void
 /** Narrowed Jolokia ReadResponseValue type - only a record of attribute values */
 export type AttributeValues = Record<string, unknown>
 
+export enum JolokiaStatus {
+  /** Jolokia target URL was probed and proper Jolokia `version` response was returned */
+  OK,
+  /** Jolokia target returned 404 or 200 without proper JSON (could be an HTML page) or wasn't even checked */
+  NOT_AVAILABLE,
+  /** Jolokia target returned HTTP 401 and we may only know the Auth Realm (if provided) */
+  REQUIRES_AUTHENTICATION,
+  /**
+   * Jolokia target returned HTTP 403 and potentially a Jolokia JSON error response with some details.
+   * This status is not _recoverable_ for given credentials, but also may indicate general access issue
+   * like host/ip restriction.
+   */
+  ACCESS_DENIED,
+  /** Different from REQUIRES_AUTHENTICATION, and related to not being logged in to Hawtio itself (early initialization) */
+  REQUIRES_HAWTIO_LOGIN,
+}
+
+export type JolokiaTargetInfo = {
+  // path that was "probed"
+  path: string | null
+  status: JolokiaStatus
+  error?: JolokiaErrorResponse | string | Error
+  // whether the error may be temporary (for now connections via "Connect" tab may give different responses,
+  // but connection to Jolokia Agent from same origin (as Hawtio) are persistent
+  transient: boolean
+}
+
 /**
  * Jolokia access interface used by Hawtio. Underneath, Jolokia's own {@link IJolokiaSimple} interface is used, but it
  * can also be obtained from this interface, to be used directly.
  */
 export interface IJolokiaService {
   // --- Management methods
+
+  status(): Promise<JolokiaTargetInfo>
 
   reset(): void
 
@@ -172,6 +201,7 @@ export interface IJolokiaService {
 
 class JolokiaService implements IJolokiaService {
   private jolokiaUrl?: Promise<string | null>
+  private jolokiaStatus?: Promise<JolokiaTargetInfo>
   private jolokia?: Promise<IJolokiaSimple>
   private config: JolokiaConfig = {
     method: JolokiaListMethod.DEFAULT,
@@ -191,8 +221,17 @@ class JolokiaService implements IJolokiaService {
 
   // --- Management methods
 
+  async status(): Promise<JolokiaTargetInfo> {
+    if (this.jolokiaStatus) {
+      return this.jolokiaStatus
+    }
+
+    return this.getJolokiaUrl().then(() => this.jolokiaStatus!)
+  }
+
   reset() {
     this.jolokiaUrl = undefined
+    this.jolokiaStatus = undefined
     this.jolokia?.then(jolokia => {
       jolokia.stop()
       return
@@ -209,7 +248,8 @@ class JolokiaService implements IJolokiaService {
    *
    * The URL may not be a full URL including origin (`http(s)://host:port`).
    * It can be a path relative to the root (`/hawtio/jolokia`) or to the current
-   * path (`jolokia`).
+   * path (`jolokia`). If the returned URL is `null`, status needs to be checked for more
+   * details.
    *
    * @see Use {@link getFullJolokiaUrl} for getting the full URL.
    */
@@ -218,7 +258,10 @@ class JolokiaService implements IJolokiaService {
       return this.jolokiaUrl
     }
 
-    this.jolokiaUrl = this.initJolokiaUrl()
+    this.jolokiaUrl = this.initJolokiaUrl().then(result => {
+      this.jolokiaStatus = Promise.resolve(result)
+      return result.path
+    })
     return this.jolokiaUrl
   }
 
@@ -226,8 +269,6 @@ class JolokiaService implements IJolokiaService {
     if (this.jolokia) {
       return this.jolokia
     }
-
-    sessionStorage.removeItem('logout.reason')
 
     // Initialising Jolokia instance
     this.jolokia = this.createJolokia(jolokia => {
@@ -251,10 +292,10 @@ class JolokiaService implements IJolokiaService {
     return this.jolokia
   }
 
-  private async initJolokiaUrl(): Promise<string | null> {
+  private async initJolokiaUrl(): Promise<JolokiaTargetInfo> {
     // Wait for resolving user as it may attach credentials to http request headers
     if (!(await userService.isLogin())) {
-      return null
+      return { path: null, status: JolokiaStatus.REQUIRES_HAWTIO_LOGIN, transient: false }
     }
 
     // Check remote connection
@@ -263,63 +304,171 @@ class JolokiaService implements IJolokiaService {
       log.debug('Connection provided, not discovering Jolokia: con =', connId)
       const url = connectService.getJolokiaUrlFromId(connId)
       log.debug('Jolokia URL for remote connection:', url)
-      return url
-    }
-
-    // Discover Jolokia
-    for (const path of this.JOLOKIA_PATHS) {
-      log.debug('Checking Jolokia path:', path)
-      try {
-        return await this.tryProbeJolokiaPath(path)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (e) {
-        // ignore
+      const con = connectService.getConnection(connId)
+      if (url) {
+        return { ...(await this.tryProbeJolokiaPath(url, con?.name)), transient: true }
+      } else {
+        return { path: null, status: JolokiaStatus.NOT_AVAILABLE, transient: true }
       }
     }
 
-    log.debug('No available Jolokia path found')
-    return null
+    // Discover Jolokia
+    const toFilter: JolokiaTargetInfo[] = []
+    for (const path of this.JOLOKIA_PATHS) {
+      log.debug('Checking Jolokia path:', path)
+      const res = await this.tryProbeJolokiaPath(path)
+      if (res.status === JolokiaStatus.OK) {
+        // return fast, because we have some Jolokia path responded with proper version information
+        return res
+      }
+      toFilter.push(res)
+    }
+
+    // no endpoint returned with OK, so we have roughly 2 scenarios
+    const deniedPath = toFilter.find(res => res.status === JolokiaStatus.ACCESS_DENIED)
+    if (deniedPath) {
+      // One of the probed paths returned 403. It should mean there's some jolokia-access.xml preventing access
+      // on the same origin this Hawtio application is running from.
+      // This is a case which has to be indicated to the user in the Console Status plugin/tab
+      return deniedPath
+    } else {
+      const authRequiredPath = toFilter.find(res => res.status === JolokiaStatus.REQUIRES_AUTHENTICATION)
+      if (authRequiredPath) {
+        // because we're probing same-origin paths only and we're already logged in,
+        // 401 is a bug, so we'll log to the console
+        log.error(
+          `One of the well-known Jolokia paths (${authRequiredPath.path}) requires additional authentication. Please check the configuration.`,
+        )
+        return authRequiredPath
+      } else {
+        const notAvailablePath = toFilter.find(res => res.status === JolokiaStatus.NOT_AVAILABLE)
+        if (notAvailablePath) {
+          return notAvailablePath
+        }
+
+        // Just a fallback
+        const msg = `No Jolokia Agent discovered from: ${this.JOLOKIA_PATHS.join(', ')}`
+        return { path: null, status: JolokiaStatus.NOT_AVAILABLE, transient: false, error: msg }
+      }
+    }
   }
 
-  private async tryProbeJolokiaPath(path: string): Promise<string> {
-    // in normal scenario, when user is authenticated, there should be server-side session created.
-    // thus there's no need to attach "Authorization" header to xhr request (both manually or via native
+  /**
+   * Probe a Jolokia path using known same-origin locations (absolute and relative, but without scheme/host/port).
+   * This method is used for "standard" Hawtio initialization when not using "Connect" plugin.
+   *
+   * There are few assumptions here:
+   *  - User is already logged into Hawtio (otherwise would be redirected to login page)
+   *  - We're connecting to a Jolokia agent running inside the same Hawtio server, so we should never get 401
+   *  - We may get 403 related to `jolokia-access.xml` that prevents connecting from some hosts/addresses or through
+   *    some origins.
+   *  - The _best_ response is a proper Jolokia `version` response.
+   *  - 404 is a clear indication that there's no Jolokia and we may run in webpack-dev-server or other non-Java server
+   *  - 401 is treated as error (see above) which will be shown in "console status" page (unless other path is fine)
+   *  - 403 is an indication of a security issue at the server side (could be non-allowlisted host, origin mismatch
+   *    or even forbidden HTTP method used (Hawtio uses `POST`))
+   *
+   * @param path
+   * @param connName when probing remote connection
+   * @private
+   */
+  private async tryProbeJolokiaPath(path: string, connName?: string): Promise<JolokiaTargetInfo> {
+    // In normal scenario (no remote connection), when the user is authenticated,
+    // there should be a server-side session created.
+    // Thus there's no need to attach "Authorization" header to xhr request (both manually or via native
     // browser popup)
     // TOCHECK: scenarios when there's no server side session (Keycloak, OIDC)
-    return new Promise<string>((resolve, reject) => {
-      fetch(path)
+    return new Promise<JolokiaTargetInfo>((resolve, _reject) => {
+      // probing local path is never re-attempted
+      const transient = false
+
+      fetch(path, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ type: 'version' }),
+      })
         .then(async (response: Response) => {
           // for fetch(), .then() is fed with any response code, while .catch() is used to handle
           // more serious issues (like connection refused)
           if (response.status == 200) {
             try {
+              // we'll try to parse as JSON ignoring content-type (for now)
               const resp = await response.json()
               if ('value' in resp && 'agent' in resp.value) {
                 log.debug('Found jolokia agent at:', path, ', version:', resp.value.agent)
-                resolve(path)
+                resolve({ path, status: JolokiaStatus.OK, transient })
                 return
               }
-            } catch (e) {
-              // Parse error should mean redirect to html
-              // this exception could also be handled by removing this try..catch and getting the exception
-              // in this promise's .catch() handler
-              reject(e)
+              if (Jolokia.isResponseError(resp)) {
+                log.debug('Found jolokia agent at:', path, ', agent responded with error:', resp)
+                if (resp.status === 401) {
+                  resolve({ path, status: JolokiaStatus.REQUIRES_AUTHENTICATION, error: resp, transient })
+                } else if (resp.status === 403 || resp.status === 405) {
+                  // Jolokia delivers policy violations as JSON with .status code using HTTP 200
+                  resolve({ path, status: JolokiaStatus.ACCESS_DENIED, error: resp, transient })
+                } else {
+                  // not 200 and not something returned by Jolokia policy restrictor, but still looks like
+                  // Jolokia error JSON response
+                  resolve({ path, status: JolokiaStatus.NOT_AVAILABLE, error: resp, transient })
+                }
+                return
+              }
+              // unknown JSON returned
+              resolve({
+                path,
+                status: JolokiaStatus.NOT_AVAILABLE,
+                error: `Unrecognized JSON response from "${path}" path`,
+                transient,
+              })
+              return
+            } catch {
+              // Parse error may mean redirect to html or anything that's not a JSON
+              resolve({
+                path,
+                status: JolokiaStatus.NOT_AVAILABLE,
+                error: `Invalid JSON response from "${path}" path. Response type is ${response.headers.get('content-type') ?? 'unknown'}.`,
+                transient,
+              })
               return
             }
-            reject()
-            return
           }
           if (response.status === 401 || response.status === 403) {
-            // I guess this could be it...
-            log.debug('Using URL:', path, 'assuming it could be an agent but got return code:', response.status)
-            resolve(path)
+            // This is not a Jolokia JSON response (valid or error), could be text, could be empty body
+            // because we're probing only same-origin locations, we should be authenticated already anyway, so
+            // don't assume it's a Jolokia agent
+            const status = response.status === 401 ? JolokiaStatus.REQUIRES_AUTHENTICATION : JolokiaStatus.ACCESS_DENIED
+            resolve({ path, status, error: `HTTP ${response.status} when accessing "${path}" path`, transient })
             return
           }
-          reject()
+          // 502? 404? 503?
+          let msg
+          if (connName) {
+            msg = `HTTP ${response.status} when accessing "${connName}" Agent`
+          } else {
+            msg = `HTTP ${response.status} when accessing "${path}" path`
+          }
+          resolve({
+            path,
+            status: JolokiaStatus.NOT_AVAILABLE,
+            error: msg,
+            transient,
+          })
           return
         })
         .catch(error => {
-          reject(error)
+          // connection refused, no route to host, ... any other low-level error
+          // https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch#exceptions
+          let message = `Failed to access "${path}" path`
+          if (error instanceof Error) {
+            message += `: ${error.name}: ${error.message}`
+            if (error.cause instanceof Error) {
+              message += ` (cause: ${error.cause.message})`
+            }
+          } else {
+            message += `: ${String(error)}`
+          }
+          resolve({ path, status: JolokiaStatus.NOT_AVAILABLE, error: message, transient })
           return
         })
     })
@@ -328,7 +477,6 @@ class JolokiaService implements IJolokiaService {
   private async createJolokia(postCreate?: (jolokia: IJolokiaSimple) => void): Promise<IJolokiaSimple> {
     const jolokiaUrl = await this.getJolokiaUrl()
     if (!jolokiaUrl) {
-      log.debug('Use dummy Jolokia')
       return new DummyJolokia()
     }
 
@@ -425,7 +573,7 @@ class JolokiaService implements IJolokiaService {
             log.debug('Logging out due to fetch() error: status =', response.status)
             if (login) {
               if (response.status == 403) {
-                userService.logout('Insufficient permissions')
+                userService.logout('Access Denied')
               } else {
                 userService.logout()
               }
@@ -558,6 +706,8 @@ class JolokiaService implements IJolokiaService {
     await this.getJolokia()
     return this.config.method
   }
+
+  // --- Methods using Jolokia API (read, write, exec, list, search, version)
 
   list(options?: SimpleRequestOptions): Promise<OptimisedJmxDomains> {
     return this.doList([], options)
@@ -1057,6 +1207,8 @@ class JolokiaService implements IJolokiaService {
     jolokia.unregister(handle)
   }
 
+  // --- Configuration methods
+
   loadUpdateRate(): number {
     const value = localStorage.getItem(STORAGE_KEY_UPDATE_RATE)
     return value ? parseInt(JSON.parse(value)) : DEFAULT_UPDATE_RATE
@@ -1087,6 +1239,8 @@ class JolokiaService implements IJolokiaService {
     localStorage.setItem(STORAGE_KEY_JOLOKIA_OPTIONS, JSON.stringify(options))
   }
 
+  // --- Helper methods
+
   errorMessage(error: unknown): string | null {
     if (!error) {
       return 'Unknown error'
@@ -1105,7 +1259,8 @@ class JolokiaService implements IJolokiaService {
 }
 
 /**
- * Dummy Jolokia implementation that does nothing.
+ * Dummy Jolokia implementation that does nothing and is used when there's an issue retrieving
+ * Jolokia version information.
  */
 class DummyJolokia implements IJolokiaSimple {
   CLIENT_VERSION = 'DUMMY'

@@ -7,6 +7,7 @@ import Jolokia, { IJolokiaSimple } from '@jolokia.js/simple'
 import { log } from './globals'
 import { isActive } from '@hawtiosrc/plugins/connect/init'
 import { preferencesService } from '@hawtiosrc/preferences/preferences-service'
+import { jolokiaService } from '@hawtiosrc/plugins'
 
 export type Connections = {
   // key is ID, not name, so we can alter the name
@@ -49,9 +50,13 @@ export type LoginResult =
   { type: 'success' } | { type: 'failure' } | { type: 'throttled'; retryAfter: number } | { type: 'session-expired' }
 
 /**
- * Remote connection status. "not-reachable-securely" is for connections that can't be used in insecure contexts.
+ * Remote connection status.
+ * "not-reachable-securely" is for connections that can't be used in insecure contexts.
+ * "access-denied" is for connections that return 403 status at "Jolokia level" where the HTTP code is 200. This
+ * is a situation where `jolokia-access.xml` rejects the connection - user should be able to check the details at
+ * "Console Status" plugin.
  */
-export type ConnectStatus = 'not-reachable' | 'reachable' | 'not-reachable-securely'
+export type ConnectStatus = 'not-reachable' | 'reachable' | 'not-reachable-securely' | 'access-denied'
 
 const STORAGE_KEY_CONNECTIONS = 'connect.connections'
 const STORAGE_KEY_USE_CONNECTION_PARAM = 'connect.useConnectionParam'
@@ -404,7 +409,29 @@ class ConnectService implements IConnectService {
           .then(response => {
             if (response.ok) {
               // 200-299
-              resolve({ status: 'reachable', message: 'Connection successful' })
+              if (response.headers.get('content-type')?.startsWith('application/json')) {
+                response
+                  .json()
+                  .then(json => {
+                    if (Jolokia.isResponseError(json)) {
+                      if (json.status === 403 || json.status === 405) {
+                        // it may be an error related to jolokia-access.xml policy configuration
+                        resolve({
+                          status: 'access-denied',
+                          message: jolokiaService.errorMessage(json) ?? json.error ?? 'Access Denied',
+                        })
+                      }
+                    }
+                    resolve({ status: 'reachable', message: 'Connection successful' })
+                  })
+                  .catch(_error => {
+                    // no JSON, but HTTP 200. so we can check later if we can connect
+                    resolve({ status: 'reachable', message: 'Connection successful' })
+                  })
+              } else {
+                // not much we can do - will see later
+                resolve({ status: 'reachable', message: 'Connection successful' })
+              }
             } else if (response.status === 401) {
               resolve({
                 status: window.isSecureContext ? 'reachable' : 'not-reachable-securely',
@@ -413,6 +440,7 @@ class ConnectService implements IConnectService {
                   : 'Connection failed (insecure context)',
               })
             } else if (response.status === 403) {
+              // a response from hawtio ProxyServlet
               this.forbiddenReasonMatches(response, 'HOST_NOT_ALLOWED').then(matches => {
                 if (matches) {
                   resolve({ status: 'not-reachable', message: 'Host not allowlisted' })

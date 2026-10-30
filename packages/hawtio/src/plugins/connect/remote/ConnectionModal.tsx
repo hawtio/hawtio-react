@@ -1,7 +1,6 @@
 import { Connection, ConnectionTestResult, connectService } from '@hawtiosrc/plugins/shared/connect-service'
 import { isBlank } from '@hawtiosrc/util/strings'
 import {
-  ActionGroup,
   Button,
   ButtonVariant,
   Form,
@@ -226,18 +225,20 @@ export const ConnectionModal: React.FunctionComponent<{
             onChange={(_event, path) => setConnection({ ...connection, path })}
           />
         </FormGroup>
-        <ActionGroup>
+        <FormGroup>
           <Button variant={ButtonVariant.secondary} onClick={test} size='sm'>
             Test connection
           </Button>
           {validations.test ? (
-            <HelperText>
-              <HelperTextItem variant={validations.test.status === 'reachable' ? 'success' : 'error'}>
-                {validations.test.message}
-              </HelperTextItem>
-            </HelperText>
+            <FormHelperText>
+              <HelperText>
+                <HelperTextItem variant={validations.test.status === 'reachable' ? 'success' : 'error'}>
+                  {validations.test.message}
+                </HelperTextItem>
+              </HelperText>
+            </FormHelperText>
           ) : null}
-        </ActionGroup>
+        </FormGroup>
       </Form>
     </Modal>
   )

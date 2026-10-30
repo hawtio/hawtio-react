@@ -238,6 +238,17 @@ module.exports = (_, args) => {
             res.redirect(`${publicPath}/login`)
           })
 
+          // simulation of "Hawtio's own Jolokia endpoint" returning a security exception (jolokia-access.xml)
+          // devServer.app.get(`${publicPath}/jolokia`, (_, res) => {
+          //   res.type('application/json')
+          //   res.json({
+          //     '.error': true,
+          //     error: 'Access denied',
+          //     error_type: 'java.lang.Exception',
+          //     status: 403
+          //   })
+          // })
+
           /* Testing preset connections */
 
           // devServer.app.get(`${publicPath}/preset-connections`, (_, res) => {
