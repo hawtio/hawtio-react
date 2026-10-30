@@ -313,7 +313,6 @@ export class HawtioCore implements IHawtio {
     log.info('Branding applied:', brandingApplied)
 
     log.info('Bootstrapped Hawtio')
-    configManager.initItem('Finish', TaskState.finished, 'finish')
 
     // return a promise that waits for configManager to finish all its initialization items
     return configManager.ready().then(() => {
