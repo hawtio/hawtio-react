@@ -12,7 +12,7 @@ const imgLogo = `data:image/svg+xml;base64,${imgLogoB64}`
 const AboutProductInfo: React.FunctionComponent<{
   productInfo: AboutProductInfoType[]
 }> = ({ productInfo }) => (
-  <Flex id='hawtio-about-product-info' direction={{ default: 'column' }} flexWrap={{ default: 'nowrap' }}>
+  <Flex id='hawtio-about-product-info' direction={{ default: 'column' }} flexWrap={{ default: 'nowrap' }} spaceItems={{ default: 'spaceItemsMd' }}>
     <Content component='h3'>Component versions</Content>
     <Content component='dl'>
       {productInfo.map(({ name, value }, index) => (
