@@ -11,13 +11,6 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
   useEffect(() => {
     const listener = (tasks: InitializationTasks) => {
       setTasks({ ...tasks })
-
-      for (const item in tasks) {
-        if (tasks[item]?.group === 'finish') {
-          configManager.initItem('Finish', TaskState.finished, 'finish')
-          break
-        }
-      }
     }
     configManager.addInitListener(listener)
     return () => {
@@ -36,6 +29,7 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
   const items: { item: string; ready: TaskState }[] = []
   const plugins: { item: string; ready: TaskState }[] = []
   const errors: string[] = []
+  const waiting: string[] = []
   const dots: TaskState[] = []
   let finish = false
 
@@ -51,6 +45,9 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
     }
     if (!verbose && tasks[item]?.ready == TaskState.error) {
       errors.push(item)
+    }
+    if (!verbose && tasks[item]?.ready == TaskState.started) {
+      waiting.push(item)
     }
   }
 
@@ -70,6 +67,16 @@ export const HawtioInitialization: React.FC<{ verbose: boolean }> = ({ verbose =
               {errors.map((v: string, idx: number) => (
                 <li key={idx} className='ready'>
                   <span>{icon(TaskState.error)}</span>
+                  {v}
+                </li>
+              ))}
+            </ul>
+          )}
+          {waiting.length > 0 && (
+            <ul>
+              {waiting.map((v: string, idx: number) => (
+                <li key={idx} className='not-ready'>
+                  <span>{icon(TaskState.started)}</span>
                   {v}
                 </li>
               ))}
