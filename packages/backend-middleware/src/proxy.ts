@@ -11,7 +11,7 @@ export async function proxy(uri: string, req: Request, res: Response) {
 
   const headers = new Headers()
   for (const [key, value] of Object.entries(req.headers)) {
-    if (key === 'referer' || value == null) {
+    if (key === 'referer' || key === 'host' || value == null) {
       continue
     }
     if (Array.isArray(value)) {
