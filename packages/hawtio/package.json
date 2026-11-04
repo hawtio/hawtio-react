@@ -70,7 +70,7 @@
     "jolokia.js": "^2.6.1",
     "js-logger": "^1.6.1",
     "jwt-decode": "^4.0.0",
-    "keycloak-js": "^26.2.4",
+    "keycloak-js": "^26.2.5",
     "oauth4webapi": "^3.8.8",
     "react-markdown": "^10.1.0",
     "react-split": "^2.0.14",
