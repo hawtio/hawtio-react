@@ -2,6 +2,7 @@ import { Alert, Content, Nav, NavItem, NavList, PageSection, Popover, Title } fr
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon'
 import React from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router'
+import './Connect.css'
 import { ConnectContext, useConnections } from './context'
 import { Discover } from './discover/Discover'
 import { pluginPath } from './globals'
