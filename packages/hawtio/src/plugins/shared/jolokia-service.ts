@@ -382,95 +382,99 @@ class JolokiaService implements IJolokiaService {
       // probing local path is never re-attempted
       const transient = false
 
-      fetch(path, {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ type: 'version' }),
-      })
-        .then(async (response: Response) => {
-          // for fetch(), .then() is fed with any response code, while .catch() is used to handle
-          // more serious issues (like connection refused)
-          if (response.status == 200) {
-            try {
-              // we'll try to parse as JSON ignoring content-type (for now)
-              const resp = await response.json()
-              if ('value' in resp && 'agent' in resp.value) {
-                log.debug('Found jolokia agent at:', path, ', version:', resp.value.agent)
-                resolve({ path, status: JolokiaStatus.OK, transient })
-                return
-              }
-              if (Jolokia.isResponseError(resp)) {
-                log.debug('Found jolokia agent at:', path, ', agent responded with error:', resp)
-                if (resp.status === 401) {
-                  resolve({ path, status: JolokiaStatus.REQUIRES_AUTHENTICATION, error: resp, transient })
-                } else if (resp.status === 403 || resp.status === 405) {
-                  // Jolokia delivers policy violations as JSON with .status code using HTTP 200
-                  resolve({ path, status: JolokiaStatus.ACCESS_DENIED, error: resp, transient })
-                } else {
-                  // not 200 and not something returned by Jolokia policy restrictor, but still looks like
-                  // Jolokia error JSON response
-                  resolve({ path, status: JolokiaStatus.NOT_AVAILABLE, error: resp, transient })
+      const options: RequestOptions = {}
+      this.configureAuthorization(options).then(() => {
+        fetch(path, {
+          method: 'post',
+          headers: { ...options.headers, 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ type: 'version' }),
+        })
+          .then(async (response: Response) => {
+            // for fetch(), .then() is fed with any response code, while .catch() is used to handle
+            // more serious issues (like connection refused)
+            if (response.status == 200) {
+              try {
+                // we'll try to parse as JSON ignoring content-type (for now)
+                const resp = await response.json()
+                if ('value' in resp && 'agent' in resp.value) {
+                  log.debug('Found jolokia agent at:', path, ', version:', resp.value.agent)
+                  resolve({ path, status: JolokiaStatus.OK, transient })
+                  return
                 }
+                if (Jolokia.isResponseError(resp)) {
+                  log.debug('Found jolokia agent at:', path, ', agent responded with error:', resp)
+                  if (resp.status === 401) {
+                    resolve({ path, status: JolokiaStatus.REQUIRES_AUTHENTICATION, error: resp, transient })
+                  } else if (resp.status === 403 || resp.status === 405) {
+                    // Jolokia delivers policy violations as JSON with .status code using HTTP 200
+                    resolve({ path, status: JolokiaStatus.ACCESS_DENIED, error: resp, transient })
+                  } else {
+                    // not 200 and not something returned by Jolokia policy restrictor, but still looks like
+                    // Jolokia error JSON response
+                    resolve({ path, status: JolokiaStatus.NOT_AVAILABLE, error: resp, transient })
+                  }
+                  return
+                }
+                // unknown JSON returned
+                resolve({
+                  path,
+                  status: JolokiaStatus.NOT_AVAILABLE,
+                  error: `Unrecognized JSON response from "${path}" path`,
+                  transient,
+                })
+                return
+              } catch {
+                // Parse error may mean redirect to html or anything that's not a JSON
+                resolve({
+                  path,
+                  status: JolokiaStatus.NOT_AVAILABLE,
+                  error: `Invalid JSON response from "${path}" path. Response type is ${response.headers.get('content-type') ?? 'unknown'}.`,
+                  transient,
+                })
                 return
               }
-              // unknown JSON returned
-              resolve({
-                path,
-                status: JolokiaStatus.NOT_AVAILABLE,
-                error: `Unrecognized JSON response from "${path}" path`,
-                transient,
-              })
-              return
-            } catch {
-              // Parse error may mean redirect to html or anything that's not a JSON
-              resolve({
-                path,
-                status: JolokiaStatus.NOT_AVAILABLE,
-                error: `Invalid JSON response from "${path}" path. Response type is ${response.headers.get('content-type') ?? 'unknown'}.`,
-                transient,
-              })
+            }
+            if (response.status === 401 || response.status === 403) {
+              // This is not a Jolokia JSON response (valid or error), could be text, could be empty body
+              // because we're probing only same-origin locations, we should be authenticated already anyway, so
+              // don't assume it's a Jolokia agent
+              const status =
+                response.status === 401 ? JolokiaStatus.REQUIRES_AUTHENTICATION : JolokiaStatus.ACCESS_DENIED
+              resolve({ path, status, error: `HTTP ${response.status} when accessing "${path}" path`, transient })
               return
             }
-          }
-          if (response.status === 401 || response.status === 403) {
-            // This is not a Jolokia JSON response (valid or error), could be text, could be empty body
-            // because we're probing only same-origin locations, we should be authenticated already anyway, so
-            // don't assume it's a Jolokia agent
-            const status = response.status === 401 ? JolokiaStatus.REQUIRES_AUTHENTICATION : JolokiaStatus.ACCESS_DENIED
-            resolve({ path, status, error: `HTTP ${response.status} when accessing "${path}" path`, transient })
+            // 502? 404? 503?
+            let msg
+            if (connName) {
+              msg = `HTTP ${response.status} when accessing "${connName}" Agent`
+            } else {
+              msg = `HTTP ${response.status} when accessing "${path}" path`
+            }
+            resolve({
+              path,
+              status: JolokiaStatus.NOT_AVAILABLE,
+              error: msg,
+              transient,
+            })
             return
-          }
-          // 502? 404? 503?
-          let msg
-          if (connName) {
-            msg = `HTTP ${response.status} when accessing "${connName}" Agent`
-          } else {
-            msg = `HTTP ${response.status} when accessing "${path}" path`
-          }
-          resolve({
-            path,
-            status: JolokiaStatus.NOT_AVAILABLE,
-            error: msg,
-            transient,
           })
-          return
-        })
-        .catch(error => {
-          // connection refused, no route to host, ... any other low-level error
-          // https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch#exceptions
-          let message = `Failed to access "${path}" path`
-          if (error instanceof Error) {
-            message += `: ${error.name}: ${error.message}`
-            if (error.cause instanceof Error) {
-              message += ` (cause: ${error.cause.message})`
+          .catch(error => {
+            // connection refused, no route to host, ... any other low-level error
+            // https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch#exceptions
+            let message = `Failed to access "${path}" path`
+            if (error instanceof Error) {
+              message += `: ${error.name}: ${error.message}`
+              if (error.cause instanceof Error) {
+                message += ` (cause: ${error.cause.message})`
+              }
+            } else {
+              message += `: ${String(error)}`
             }
-          } else {
-            message += `: ${String(error)}`
-          }
-          resolve({ path, status: JolokiaStatus.NOT_AVAILABLE, error: message, transient })
-          return
-        })
+            resolve({ path, status: JolokiaStatus.NOT_AVAILABLE, error: message, transient })
+            return
+          })
+      })
     })
   }
 
