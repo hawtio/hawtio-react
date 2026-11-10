@@ -1,10 +1,18 @@
 import { type ResolveUser, type UserAuthResult, userService } from '@hawtiosrc/auth/user-service'
-import { AuthenticationResult, configManager, Logger, OidcAuthenticationMethod, TaskState } from '@hawtiosrc/core'
+import {
+  AuthenticationResult,
+  configManager,
+  eventService,
+  Logger,
+  OidcAuthenticationMethod,
+  TaskState,
+} from '@hawtiosrc/core'
 import { jwtDecode } from 'jwt-decode'
 import * as oidc from 'oauth4webapi'
 import { AuthorizationResponseError, AuthorizationServer, Client, ClientAuth, OAuth2Error } from 'oauth4webapi'
 import { getCookie } from '@hawtiosrc/util/https'
 import { preferencesService } from '@hawtiosrc/preferences/preferences-service'
+import { oidcPreferencesService } from '@hawtiosrc/plugins/auth/oidc/oidc-preferences-service'
 
 const pluginName = 'hawtio-oidc'
 const AUTH_METHOD = 'oidc'
@@ -703,16 +711,25 @@ class OidcService implements IOidcService {
     userService.addLogoutHook(AUTH_METHOD, logout)
   }
 
-  private async updateToken(success: (userInfo: UserInfo) => void, failure?: () => void) {
+  private async updateToken(success: (userInfo: UserInfo) => void, failure?: (message: string) => void) {
     const userInfo = await this.userInfo
-    if (!userInfo || this.selectedProvider == -1) {
+    if (!userInfo) {
+      failure?.('No user context information available')
+      return
+    }
+    if (this.selectedProvider == -1) {
+      failure?.('No login provider configured')
       return
     }
     if (userInfo.refresh_token) {
-      const config = (await this.config)[this.selectedProvider]
-      const enabled = await this.enabled
-      const as = await this.oidcMetadata[this.selectedProvider]
+      const [cfg, enabled, as] = await Promise.all([
+        this.config,
+        this.enabled,
+        this.oidcMetadata[this.selectedProvider],
+      ])
+      const config = cfg[this.selectedProvider]
       if (!config || !enabled || !as) {
+        failure?.('No OIDC configuration/metadata available or OIDC is not enabled')
         return
       }
 
@@ -730,21 +747,22 @@ class OidcService implements IOidcService {
         .refreshTokenGrantRequest(as, client, clientAuth, userInfo.refresh_token, options)
         .catch(e => {
           log.error('Problem refreshing token', e)
-          if (failure) {
-            failure()
-          }
         })
       if (!res) {
+        failure?.('No response received for refresh token request')
         return
       }
       const refreshResponse = await oidc.processRefreshTokenResponse(as, client, res).catch(e => {
         log.error('Problem processing refresh token response', e)
       })
       if (!refreshResponse) {
+        failure?.('No JWT refresh token found in the response')
         return
       }
       userInfo.access_token = refreshResponse['access_token'] as string
-      userInfo.refresh_token = refreshResponse['refresh_token'] as string
+      // the response from refreshing a token may not contain new refresh token
+      // because previous one can still be valid.
+      userInfo.refresh_token = (refreshResponse['refresh_token'] as string | undefined) ?? userInfo.refresh_token
       const access_token_decoded = jwtDecode(userInfo.access_token)
       if (access_token_decoded['exp']) {
         userInfo.at_exp = access_token_decoded['exp']
@@ -753,10 +771,16 @@ class OidcService implements IOidcService {
         log.warn('Access token doesn\'t contain "exp" information')
       }
 
-      this.userInfo = Promise.resolve(userInfo)
-      success(userInfo)
+      if (this.isTokenExpiring(userInfo.at_exp)) {
+        failure?.(
+          'The refreshed access token is already expiring/expired. Check OIDC provider configuration - tokens should not be valid for less then ~30 seconds.',
+        )
+      } else {
+        this.userInfo = Promise.resolve(userInfo)
+        success(userInfo)
+      }
     } else {
-      log.error('No refresh token available')
+      failure?.('No refresh token available')
     }
   }
 
@@ -772,29 +796,88 @@ class OidcService implements IOidcService {
       return
     }
 
+    // the wrapped window.fetch() has built-in token refreshing logic and a protection against multiple
+    // async calls attempting to refresh the token
+    let refreshing = false
+    let refreshLock: Promise<unknown> = Promise.resolve(null)
+
     window.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
       const logPrefix = 'Fetch -'
 
       if (userInfo && (!userInfo.access_token || this.isTokenExpiring(userInfo.at_exp!))) {
-        log.debug(logPrefix, 'Refreshing access token')
-        return new Promise((resolve, reject) => {
-          this.updateToken(
-            _userInfo => {
-              if (_userInfo) {
-                userInfo = _userInfo
-                log.debug(logPrefix, 'OIDC token refreshed. Set new value to userService')
-                userService.setToken(userInfo!.access_token!)
+        if (!refreshing) {
+          // the first refresh attempt sets the flag, so other calls will rather await a promise
+          refreshing = true
+          log.debug(logPrefix, 'Refreshing access token')
+
+          let refreshComplete: (value: void | PromiseLike<void>) => void
+          let refreshFailed: (reason: string) => void
+          let loggingOut = false
+          refreshLock = new Promise((resolve, reject) => {
+            refreshComplete = resolve
+            refreshFailed = reject
+          })
+          // append a handler to avoid "uncaught (in promise)"
+          refreshLock.catch(() => null)
+
+          // this promise will be returned from a caller invoking `window.fetch()` - it behaves like fetch()
+          // API, but before delegating to real fetch(), the JWT access token is refreshed
+          return new Promise((resolve, reject) => {
+            // fail callback passed to this.updateToken() and also called if entire this.updateToken() throws
+            // an exception
+            const fail: (msg: string) => void = msg => {
+              log.debug(logPrefix, 'Logging out due to token update failed', msg)
+              refreshFailed(msg)
+              // don't change the "refreshing" flag, so other async fetches await the now rejected lock
+              reject(new Error(msg))
+              // refreshes the browser tab and is effectively end of JavaScript
+              if (!loggingOut) {
+                loggingOut = true
+                userService.logout().catch(() => null)
               }
+            }
+
+            this.updateToken(_userInfo => {
+              userInfo = _userInfo
+              log.debug(logPrefix, 'OIDC token refreshed. Set new value to userService')
+              userService.setToken(userInfo!.access_token!)
+              // this calls refreshLock Promise's resolve() function, so awaiting code can continue calling fetch()
+              // with an refreshed access_token
+              refreshComplete()
+
               log.debug(logPrefix, 'Re-sending request after successfully updating OIDC token:', input)
+              refreshing = false
+
+              // resolve our token-refreshing promise with a result from 2nd-level recursive call to our fetch wrapper
               resolve(fetch(input, init))
-            },
-            () => {
-              log.debug(logPrefix, 'Logging out due to token update failed')
-              userService.logout()
-              reject()
-            },
-          )
-        })
+
+              try {
+                if (oidcPreferencesService.loadOptions().showNotifications ?? false) {
+                  eventService.notify({
+                    type: 'info',
+                    duration: 2000,
+                    message: 'Refreshed JWT Access Token',
+                  })
+                }
+              } catch (e) {
+                const msg = e instanceof Error ? e.message : String(e)
+                log.debug(`Error during notification: ${msg}`)
+              }
+            }, fail).catch(e => {
+              // .catch() for handling any possible exceptions from updateToken - just to be sure
+              fail(e instanceof Error ? e.message : String(e))
+            })
+          })
+        } else {
+          // consecutive calls to fetch when refreshing is pending simply wait for the lock
+          try {
+            await refreshLock
+          } catch (error) {
+            // return rejected promise, as if the fetch() was rejected
+            const msg = error instanceof Error ? error.message : String(error)
+            return Promise.reject(new Error(`OIDC token could not be refreshed: ${msg}`))
+          }
+        }
       }
 
       init = { ...init }
