@@ -47,7 +47,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^26.6.6",
     "commit-and-tag-version": "^13.3.0",
-    "concurrently": "^10.0.5",
+    "concurrently": "^10.0.7",
     "jest": "^30.5.2",
     "ts-jest": "^29.4.15",
     "ts-node": "^10.9.2",
