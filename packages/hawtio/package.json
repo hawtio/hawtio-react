@@ -76,7 +76,7 @@
     "react-split": "^2.0.14",
     "reactflow": "^11.11.4",
     "superstruct": "^2.0.2",
-    "victory": "^37.4.1",
+    "victory": "^38.0.1",
     "xml-formatter": "^3.7.0"
   },
   "devDependencies": {
