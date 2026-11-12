@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.1](https://github.com/hawtio/hawtio-react/compare/v2.4.0...v2.4.1) (2026-11-12)
+
+### Bug Fixes
+
+* **jolokia:** Setup headers when probing Jolokia paths (fixes [#2319](https://github.com/hawtio/hawtio-react/issues/2319)) ([9cef03b](https://github.com/hawtio/hawtio-react/commit/9cef03bd4456d3415ebdf1259078b986aaefaba3))
+* **oidc:** Review the refresh token flow + optional notifications (fixes [#2321](https://github.com/hawtio/hawtio-react/issues/2321)) ([fb99872](https://github.com/hawtio/hawtio-react/commit/fb99872b539ac6b582c4141117c5cc12215b7b9e))
+
 ## [2.4.0](https://github.com/hawtio/hawtio-react/compare/v2.3.0...v2.4.0) (2026-11-06)
 
 ### Features
