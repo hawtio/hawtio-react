@@ -271,19 +271,13 @@ class JolokiaService implements IJolokiaService {
     }
 
     // Initialising Jolokia instance
-    this.jolokia = this.createJolokia(jolokia => {
-      // Checking versions
-      jolokia.version(
-        onVersionSuccessAndError(
-          (version: JolokiaResponseValue) => {
-            log.info('Jolokia version:', {
-              client: jolokia.CLIENT_VERSION,
-              agent: (version as VersionResponseValue).agent,
-            })
-          },
-          error => log.error('Failed to fetch Jolokia version:', error),
-        ),
-      )
+    this.jolokia = this.createJolokia((jolokia, version) => {
+      // Checking versions (the agent version comes from the "version" request sent by createJolokia())
+      if (version) {
+        log.info('Jolokia version:', { client: jolokia.CLIENT_VERSION, agent: version.agent })
+      } else {
+        log.error('Failed to fetch Jolokia version')
+      }
       // Start Jolokia
       const updateRate = this.loadUpdateRate()
       jolokia.start(updateRate)
@@ -478,7 +472,9 @@ class JolokiaService implements IJolokiaService {
     })
   }
 
-  private async createJolokia(postCreate?: (jolokia: IJolokiaSimple) => void): Promise<IJolokiaSimple> {
+  private async createJolokia(
+    postCreate?: (jolokia: IJolokiaSimple, version?: VersionResponseValue) => void,
+  ): Promise<IJolokiaSimple> {
     const jolokiaUrl = await this.getJolokiaUrl()
     if (!jolokiaUrl) {
       return new DummyJolokia()
@@ -495,12 +491,14 @@ class JolokiaService implements IJolokiaService {
     const jolokia = new Jolokia(options)
     jolokia.stop()
 
+    const version = await this.fetchVersion(jolokia)
+
     // let's check if we can call faster jolokia.list()
-    await this.checkListOptimisation(jolokia)
+    await this.checkListOptimisation(jolokia, version)
 
     // Run any post-create processing that should be done before the resolved
     // Jolokia is returned
-    postCreate?.(jolokia)
+    postCreate?.(jolokia, version)
 
     return jolokia
   }
@@ -612,45 +610,58 @@ class JolokiaService implements IJolokiaService {
   }
 
   /**
+   * Sends a `version` request to the Jolokia agent. A failed request is handled like any other failed Jolokia
+   * request.
+   *
+   * @param jolokia Jolokia instance to use
+   * @returns the version of the agent, or `undefined` if it couldn't be fetched
+   */
+  private fetchVersion(jolokia: IJolokiaSimple): Promise<VersionResponseValue | undefined> {
+    // hawtio/hawtio-react#635: we never reject, but we ensure that resolve cb is called
+    return new Promise<VersionResponseValue | undefined>(resolve => {
+      jolokia.version(
+        onVersionSuccessAndError(
+          (value: JolokiaResponseValue) => {
+            if (isObject(value) && 'protocol' in value) {
+              resolve(value as VersionResponseValue)
+            } else {
+              log.debug('Unexpected response to "version" request:', value)
+              resolve(undefined)
+            }
+          },
+          (response: JolokiaErrorResponse) => {
+            log.debug('Operation "version" failed due to:', response.error)
+            resolve(undefined)
+          },
+          { fetchError: this.fetchError(() => resolve(undefined)) },
+        ),
+      )
+    })
+  }
+
+  /**
    * Queries available server-side MBean to check if we can call optimised `jolokia.list()`
    * operation.
    *
    * @param jolokia Jolokia instance to use
+   * @param version version of the Jolokia agent, if known
    */
-  protected async checkListOptimisation(jolokia: IJolokiaSimple): Promise<void> {
+  protected async checkListOptimisation(jolokia: IJolokiaSimple, version?: VersionResponseValue): Promise<void> {
     log.debug('Check if we can call optimised jolokia.list() operation')
-    // hawtio/hawtio-react#635: we pass an executor which accepts only resolve cb - we never call reject cb even
-    // on error, but we ensure that resolve cb is called
 
-    const path = escapeMBeanPath(this.config.mbean)
-    async function checkCapabilities(
-      successFn: SimpleResponseCallback,
-      errorFn: ErrorCallback,
-      options: SimpleRequestOptions,
-    ) {
-      // check for Jolokia version (TODO: use single call)
-      await jolokia.version(onVersionSuccessAndError(successFn, errorFn, options))
-      // check for special MBean
-      await jolokia.list(path, onListSuccessAndError(successFn, errorFn, options))
+    // since protocol version 8.0 we can get optimized response directly
+    if (version && parseFloat(version.protocol) >= 8.0) {
+      this.config.method = JolokiaListMethod.NATIVE
+      log.debug('Jolokia list method:', JolokiaListMethod[this.config.method])
+      return
     }
 
+    // hawtio/hawtio-react#635: we pass an executor which accepts only resolve cb - we never call reject cb even
+    // on error, but we ensure that resolve cb is called
+    const path = escapeMBeanPath(this.config.mbean)
     return new Promise<void>(resolve => {
       const successFn: SimpleResponseCallback = (value: JolokiaResponseValue) => {
-        // check if this is a version response - since protocol version 8.0 we can get optimized response directly
-        if (this.config.method === JolokiaListMethod.NATIVE) {
-          resolve()
-          return
-        }
-        if (value && typeof value === 'object' && 'protocol' in value) {
-          const protocolVersion = value.protocol
-          if (parseFloat(protocolVersion as string) >= 8.0) {
-            this.config.method = JolokiaListMethod.NATIVE
-            log.debug('Jolokia list method:', JolokiaListMethod[this.config.method])
-            resolve()
-          }
-          // return without resolve
-          return
-        } else if (isMBeanInfo(value) && isObject(value.op)) {
+        if (isMBeanInfo(value) && isObject(value.op)) {
           // check if the MBean exists by testing whether the returned value has
           // the 'op' property
           this.config.method = JolokiaListMethod.OPTIMISED
@@ -669,7 +680,8 @@ class JolokiaService implements IJolokiaService {
         resolve() // optimisation not happening
       }
 
-      checkCapabilities(successFn, errorFn, { fetchError: this.fetchError(resolve) })
+      // check for special MBean
+      jolokia.list(path, onListSuccessAndError(successFn, errorFn, { fetchError: this.fetchError(resolve) }))
     })
   }
 

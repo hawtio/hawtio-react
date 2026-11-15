@@ -63,6 +63,7 @@ describe('JolokiaService', () => {
 
   test('getJolokia - optimised (native)', async () => {
     jolokiaService.getJolokiaUrl = jest.fn(async () => '/test')
+    Jolokia.prototype.list = jest.fn()
     Jolokia.prototype.version = jest.fn((opts?: SimpleRequestOptions) => {
       ;(opts!.success! as SimpleResponseCallback)({
         agent: 'test',
@@ -74,6 +75,23 @@ describe('JolokiaService', () => {
 
     await expect(jolokiaService.getJolokia()).resolves.not.toThrow()
     await expect(jolokiaService.getListMethod()).resolves.toEqual(JolokiaListMethod.NATIVE)
+    // the agent supports the native optimised list, so there's no need to check for the RBACRegistry MBean
+    expect(Jolokia.prototype.list).not.toHaveBeenCalled()
+  })
+
+  test('getJolokia - sends a single version request', async () => {
+    jolokiaService.getJolokiaUrl = jest.fn(async () => '/test')
+    Jolokia.prototype.version = jest.fn((opts?: SimpleRequestOptions) => {
+      ;(opts!.success! as SimpleResponseCallback)({
+        agent: 'test',
+        protocol: '8.0',
+        info: {},
+        config: {},
+      })
+    })
+
+    await expect(jolokiaService.getJolokia()).resolves.not.toThrow()
+    expect(Jolokia.prototype.version).toHaveBeenCalledTimes(1)
   })
 
   test('getJolokia - default', async () => {
