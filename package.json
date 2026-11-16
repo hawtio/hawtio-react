@@ -10,11 +10,13 @@
   },
   "workspaces": [
     "packages/*",
-    "app"
+    "app",
+    "embedded"
   ],
   "scripts": {
     "start": "concurrently -n hawtio,app \"yarn build:hawtio:watch\" \"yarn start:app\"",
     "start:app": "yarn build:backend-middleware && yarn workspace app start",
+    "start:embedded": "yarn build:backend-middleware && yarn workspace embedded start",
     "build": "yarn build:hawtio",
     "build:all": "yarn workspaces foreach -v -Aipt --exclude @hawtio/react-root run build",
     "build:all:check": "yarn workspaces foreach -v -Aipt --exclude @hawtio/react-root run build:check",

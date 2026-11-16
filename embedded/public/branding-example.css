@@ -1,0 +1,30 @@
+/* You can add customised styles here. */
+
+.pf-v6-c-background-image {
+  --pf-v6-c-background-image--BackgroundImage: url(img/background.svg) !important;
+  background-size: cover;
+}
+:where(.pf-v6-theme-dark) .pf-v6-c-background-image {
+  --pf-v6-c-background-image--BackgroundImage: url(img/background-darkmode.svg) !important;
+  background-size: cover;
+}
+
+/* Example of global style overrides:
+:root {
+  --pf-t--global--text--color--100: #b21054;
+  --pf-t--global--text--color--200: #b24e78;
+  --pf-t--global--dark--text--color--100: #ff224e;
+  --pf-t--global--dark--text--color--200: #ff9aaf;
+  --pf-t--global--text--color--link--100: #b21054;
+  --pf-t--global--text--color--link--200: #d23678;
+  --pf-t--global--dark--text--color--link--100: #f9d8de;
+  --pf-t--global--dark--text--color--link--200: #ffecf0;
+}
+*/
+
+#hawtio-header-brand {
+  /* adjusted to the width of img/redhat-logo.svg */
+  /*width: 50px;*/
+  /* adjusted to the width of hawtio-logo.svg */
+  width: 152px;
+}

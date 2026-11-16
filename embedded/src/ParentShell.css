@@ -1,0 +1,41 @@
+/* Parent Shell Container */
+.parent-shell {
+  border: 3px solid var(--pf-t--global--color--brand--default);
+  padding: var(--pf-t--global--spacer--md);
+  background-color: var(--pf-t--global--color--surface--primary--default);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Parent Shell Masthead - ensure it doesn't inherit the padding */
+.parent-shell-masthead {
+  margin: calc(-1 * var(--pf-t--global--spacer--md));
+  margin-bottom: var(--pf-t--global--spacer--md);
+  flex-shrink: 0;
+}
+
+/* Parent Body - restricted to 75% of screen height */
+.parent-body {
+  height: 75vh;
+  overflow: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+/* Parent Shell Footer */
+.parent-shell-footer {
+  flex-shrink: 0;
+  padding: var(--pf-t--global--spacer--md);
+  margin: calc(-1 * var(--pf-t--global--spacer--md));
+  margin-top: var(--pf-t--global--spacer--md);
+  background-color: var(--pf-t--global--color--surface--secondary--default);
+  border-top: var(--pf-t--global--border--width--regular) solid var(--pf-t--global--color--border--default);
+  text-align: center;
+  color: var(--pf-t--global--color--text--secondary);
+}
+
+.parent-shell-footer p {
+  margin: 0;
+  font-size: var(--pf-t--global--font--size--body--sm);
+}

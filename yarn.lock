@@ -6197,6 +6197,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"embedded@workspace:embedded":
+  version: 0.0.0-use.local
+  resolution: "embedded@workspace:embedded"
+  dependencies:
+    "@hawtio/backend-middleware": "workspace:*"
+    "@hawtio/react": "workspace:*"
+    "@patternfly/patternfly": "npm:^6.6.1"
+    "@patternfly/react-core": "npm:^6.6.2"
+    "@swc/core": "npm:^1.16.21"
+    body-parser: "npm:^2.4.0"
+    copy-webpack-plugin: "npm:^14.0.0"
+    css-loader: "npm:^7.1.5"
+    html-webpack-plugin: "npm:^5.6.8"
+    monaco-editor: "npm:~0.56.0"
+    monaco-editor-webpack-plugin: "npm:^7.1.1"
+    react: "npm:^18.3.1"
+    react-dom: "npm:^18.3.1"
+    react-router: "npm:^7.18.5"
+    source-map-loader: "npm:^5.0.0"
+    style-loader: "npm:^4.0.0"
+    swc-loader: "npm:^0.2.7"
+    webpack: "npm:^5.112.2"
+    webpack-cli: "npm:^7.3.1"
+    webpack-dev-server: "npm:^6.0.0"
+  languageName: unknown
+  linkType: soft
+
 "emittery@npm:^0.13.1":
   version: 0.13.1
   resolution: "emittery@npm:0.13.1"

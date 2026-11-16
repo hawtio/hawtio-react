@@ -1,0 +1,41 @@
+{
+  "branding": {
+    "appName": "Hawtio Management Console",
+    "showAppName": true,
+    "appLogoUrl": "hawtio-logo.svg",
+    "appLogoDarkModeUrl": "hawtio-logo-darkmode.svg",
+    "css": "",
+    "favicon": "favicon.ico"
+  },
+  "appearance": {
+    "showHeader": true,
+    "showBrand": true,
+    "showUserHeader": true,
+    "showSideBar": true
+  },
+  "login": {
+    "description": "Login page for Hawtio Management Console.",
+    "links": [
+      { "url": "#terms", "text": "Terms of Use" },
+      { "url": "#help", "text": "Help" },
+      { "url": "#privacy", "text": "Privacy Policy" }
+    ]
+  },
+  "about": {
+    "title": "Hawtio Management Console",
+    "description": "A Hawtio reimplementation based on TypeScript + React.",
+    "imgSrc": "hawtio-logo.svg",
+    "imgDarkModeSrc": "hawtio-logo-darkmode.svg",
+    "backgroundImgSrc": "pf-background.svg",
+    "backgroundDarkModeImgSrc": "pf-background-darkmode.svg",
+    "productInfo": [
+      { "name": "ABC", "value": "1.2.3" },
+      { "name": "XYZ", "value": "7.8.9" }
+    ],
+    "copyright": "© Hawtio project",
+    "issueReporting": {
+      "url": "https://github.com/hawtio/hawtio-react/issues/new"
+    }
+  },
+  "disabledRoutes": ["/disabled"]
+}
