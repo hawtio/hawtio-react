@@ -94,9 +94,9 @@ export const HawtioPage: React.FunctionComponent = () => {
         id='hawtio-main-page'
         mainContainerId='hawtio-main-container'
         masthead={headerShown && <HawtioHeader loginMethod={loginMethod} />}
-        sidebar={<HawtioSidebar />}
-        isManagedSidebar={true}
-        defaultManagedSidebarIsOpen={sideBarShown && preferencesService.isShowVerticalNavByDefault()}
+        sidebar={sideBarShown && <HawtioSidebar />}
+        isManagedSidebar={sideBarShown}
+        defaultManagedSidebarIsOpen={preferencesService.isShowVerticalNavByDefault()}
         onClick={keepAlive}
         isContentFilled
       >
