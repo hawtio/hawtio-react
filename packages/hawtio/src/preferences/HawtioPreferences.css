@@ -2,6 +2,8 @@
 #hawtio-preferences-content .pf-v6-c-form {
   --pf-v6-c-form--m-horizontal__group-label--md--GridColumnWidth: 20%;
   --pf-v6-c-form--m-horizontal__group-label--md--PaddingBlockStart: 0;
+  /* Horizontal form labels should not have pointer cursor (switch labels are different) */
+  --pf-v6-c-form__label--hover--Cursor: auto;
 }
 
 #hawtio-preferences-content .pf-v6-c-form__group {
@@ -13,4 +15,14 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+}
+
+#hawtio-preferences-content .complex-group .pf-v6-c-form__group-label {
+  /* for complex groups, label should be near the top, not in the middle */
+  align-items: normal;
+}
+
+#hawtio-preferences-content .pf-v6-c-slider__main {
+  /* Sliders may overflow which breaks <Cards> that may be scrollable */
+  max-width: 97%;
 }

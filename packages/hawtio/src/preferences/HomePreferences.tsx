@@ -185,7 +185,7 @@ const ResetForm: React.FunctionComponent = () => {
 
   return (
     <React.Fragment>
-      <FormGroup label='Reset settings' fieldId='reset-form-reset'>
+      <FormGroup label='Reset settings' fieldId='reset-form-reset' className='complex-group'>
         <Button data-testid='reset-btn' variant='danger' onClick={confirmReset}>
           Reset
         </Button>

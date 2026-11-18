@@ -186,7 +186,7 @@ const JolokiaForm: React.FunctionComponent = () => {
           onChange={(_event, autoRefresh: boolean) => onAutoRefreshChanged(autoRefresh)}
         />
       </FormGroup>
-      <FormGroup fieldId='jolokia-form-apply'>
+      <FormGroup fieldId='jolokia-form-apply' className='complex-group'>
         <Button data-testid='apply-jolokia' onClick={applyJolokia}>
           Apply
         </Button>
@@ -270,7 +270,7 @@ const ResetForm: React.FunctionComponent = () => {
 
   return (
     <HawtioFormSection title='Reset'>
-      <FormGroup label='Clear saved connections' fieldId='reset-form-clear'>
+      <FormGroup label='Clear saved connections' fieldId='reset-form-clear' className='complex-group'>
         <Button data-testid='clear-btn' variant='danger' onClick={confirmClear}>
           Clear
         </Button>
