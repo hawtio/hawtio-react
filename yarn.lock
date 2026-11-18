@@ -958,7 +958,7 @@ __metadata:
     concurrently: "npm:^10.0.7"
     eslint: "npm:^10.11.0"
     eslint-config-prettier: "npm:^10.1.8"
-    eslint-plugin-import-x: "npm:^4.18.0"
+    eslint-plugin-import-x: "npm:^4.18.1"
     eslint-plugin-react-hooks: "npm:^7.1.1"
     eslint-plugin-testing-library: "npm:^7.16.2"
     prettier: "npm:^3.9.9"
@@ -6364,9 +6364,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.18.0":
-  version: 4.18.0
-  resolution: "eslint-plugin-import-x@npm:4.18.0"
+"eslint-plugin-import-x@npm:^4.18.1":
+  version: 4.18.1
+  resolution: "eslint-plugin-import-x@npm:4.18.1"
   dependencies:
     "@typescript-eslint/types": "npm:^8.56.0"
     cjs-module-lexer: "npm:^2.2.1"
@@ -6388,7 +6388,7 @@ __metadata:
       optional: true
     eslint-import-resolver-node:
       optional: true
-  checksum: 10/24fcd19a3dd200e97c4b70adf6342250c4654fc74c82d3483474b6bd7108b5b57b2df9d9cb32a7eda23731c464c2649ccd4fc4c16d1e2c67a3917e2c288d9000
+  checksum: 10/ef9e0254bb18c609ad2f8c87d002ba8a470fc98099dd6bb1f76f8563f84feceeb299229c2c8b75ced419d8890c428282d4e9c99990049ec695137fc13f93197c
   languageName: node
   linkType: hard
 
