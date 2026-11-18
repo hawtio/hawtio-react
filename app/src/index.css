@@ -147,6 +147,18 @@
   margin: var(--pf-t--global--spacer--sm);
 }
 
+/* Customization of forms */
+
+#hawtio-preferences-content .pf-v6-c-slider__main {
+  /* Sliders may overflow which breaks <Cards> that may be scrollable */
+  max-width: 97%;
+}
+
+#hawtio-preferences-content .pf-v6-c-form {
+  /* Horizontal form labels should not have pointer cursor (switch labels are different) */
+  --pf-v6-c-form__label--hover--Cursor: auto;
+}
+
 /* Customization of Hawtio variables */
 
 :root {
