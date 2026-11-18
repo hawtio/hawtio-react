@@ -128,6 +128,7 @@
   --pf-v6-c-about-modal-box__content--MarginBlockEnd: var(--pf-t--global--spacer--md);
   --pf-v6-c-about-modal-box__content--MarginInlineStart: var(--pf-t--global--spacer--xl);
   --pf-v6-c-about-modal-box__content--MarginInlineEnd: var(--pf-t--global--spacer--lg);
+  --pf-v6-c-content--dl--GridTemplateColumns--dt: 25ch;
   --pf-v6-c-content--dl--RowGap: var(--pf-t--global--spacer--sm);
 }
 .pf-v6-c-modal-box.pf-m-lg .pf-v6-c-about-modal-box__close {
@@ -145,18 +146,6 @@
 }
 #hawtio-about-product-info dl {
   margin: var(--pf-t--global--spacer--sm);
-}
-
-/* Customization of forms */
-
-#hawtio-preferences-content .pf-v6-c-slider__main {
-  /* Sliders may overflow which breaks <Cards> that may be scrollable */
-  max-width: 97%;
-}
-
-#hawtio-preferences-content .pf-v6-c-form {
-  /* Horizontal form labels should not have pointer cursor (switch labels are different) */
-  --pf-v6-c-form__label--hover--Cursor: auto;
 }
 
 /* Customization of Hawtio variables */
