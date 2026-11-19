@@ -113,7 +113,10 @@ export function FilteredTable<T>({
 
     // add current searchTerm and filter
     const fs = [...filters, searchTerm]
-    fs.forEach(filter => {
+    const nonFixed = fs.filter(f => !fixedSearchCategories?.find(fsc => fsc.key === f.key))
+    const fixed = fs.filter(f => fixedSearchCategories?.find(fsc => fsc.key === f.key))
+    // filter with AND
+    nonFixed.forEach(filter => {
       const key = filter.key
       if (!key) {
         return
@@ -123,6 +126,13 @@ export function FilteredTable<T>({
         return String(value[key]).toLowerCase().includes(searchTerm.toLowerCase())
       })
     })
+    // now filter by fixed search categories with OR
+    filtered = filtered.filter(v => {
+      return (
+        fixed.length === 0 ||
+        fixed.find(filter => String(v[filter.key!]).toLowerCase() === String(filter.value).toLowerCase())
+      )
+    })
 
     // If user is filtering - refreshing the threads themselves would reset the page count
     if (filtered.length != rows.length) {
@@ -130,7 +140,7 @@ export function FilteredTable<T>({
       setPage(1)
     }
     setFilteredRows([...filtered])
-  }, [rows, searchTerm, attributeMenuItem, filters])
+  }, [rows, searchTerm, attributeMenuItem, filters, fixedSearchCategories])
 
   const getValuesForDisplay = useCallback(
     (item: T): (string | number)[] => {
