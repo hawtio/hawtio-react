@@ -1,7 +1,7 @@
 {
   "name": "@hawtio/react",
-  "version": "2.4.0",
-  "description": "A Hawtio reimplementation based on TypeScript + React.",
+  "version": "2.4.0-react18.memoryrouter.dev.1",
+  "description": "A Hawtio reimplementation based on TypeScript + React. This version uses the memory router for navigation, allowing embedding into another react app.",
   "main": "./dist/index.js",
   "exports": {
     ".": {
