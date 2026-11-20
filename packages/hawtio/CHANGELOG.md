@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.0-react18.memoryrouter.dev.1](https://github.com/hawtio/hawtio-react/compare/v2.4.0...v2.4.0-react18.memoryrouter.dev.1) (2026-11-20)
+
+### Features
+
+* Addition of embedded app to test embedding Hawtio module in a parent shell ([841faf8](https://github.com/hawtio/hawtio-react/commit/841faf88d4f7614048355879b86991320136ea0a))
+* **router:** Replaces the BrowserRouter with the MemoryRouter ([1095190](https://github.com/hawtio/hawtio-react/commit/10951906d1525dc4ee7a1736f4ccebb2fe056313))
+
+### Bug Fixes
+
+* **deps:** Resolve dependencies to match those of openshift console dynamic sdk ([926cb68](https://github.com/hawtio/hawtio-react/commit/926cb6829a894d21b15547843e822fd7ac42356a))
+
 ## [2.4.0](https://github.com/hawtio/hawtio-react/compare/v2.3.0...v2.4.0) (2026-11-06)
 
 ### Features
