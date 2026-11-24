@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.2](https://github.com/hawtio/hawtio-react/compare/v2.4.1...v2.4.2) (2026-11-24)
+
+### Bug Fixes
+
+* **css:** Align labels at the top for non-inline form controls in preferences page (fixes HAWNG-2439) ([a8428e2](https://github.com/hawtio/hawtio-react/commit/a8428e25099412ce9531b410ef8cc43ad529939e))
+* **ui:** filter by fixed categories using OR instead of AND (fixes HAWNG-2437) ([66d79b2](https://github.com/hawtio/hawtio-react/commit/66d79b228b2ff7591a5d76660a214853a1db676e))
+
 ## [2.4.1](https://github.com/hawtio/hawtio-react/compare/v2.4.0...v2.4.1) (2026-11-12)
 
 ### Bug Fixes
