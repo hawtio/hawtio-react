@@ -1019,7 +1019,7 @@ __metadata:
     tsup: "npm:^9.0.0"
     typescript: "npm:^5.9.3"
     victory: "npm:^38.0.1"
-    xml-formatter: "npm:^3.7.0"
+    xml-formatter: "npm:^3.7.1"
   peerDependencies:
     "@patternfly/react-charts": ^8
     "@patternfly/react-code-editor": ^6
@@ -12608,12 +12608,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xml-formatter@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "xml-formatter@npm:3.7.0"
+"xml-formatter@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "xml-formatter@npm:3.7.1"
   dependencies:
     xml-parser-xo: "npm:^4.1.5"
-  checksum: 10/8ddbd08e483d2a93a59c4a6f8b4845230bdea184f0e2d356d1dd11833738d2107cf43fae213f7ab8bb650da388916224887a1e846778bf3afbee9d3bbf05383a
+  checksum: 10/3c1680d4ba561dd0fa76c7f0ef89fce912786eddff0c2b64bc616ffde8590a209cc90540f8b4c307cf5f07fb428219acfd0e6f0214e97c318a3aa73e61f7c832
   languageName: node
   linkType: hard
 
