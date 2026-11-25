@@ -49,6 +49,7 @@ export const DEFAULT_MAX_DEPTH = 7
 export const DEFAULT_MAX_COLLECTION_SIZE = 50000
 const DEFAULT_JOLOKIA_OPTIONS: SimpleRequestOptions = {
   method: 'post',
+  processingParametersInBody: true,
   mimeType: 'application/json',
   maxCollectionSize: DEFAULT_MAX_COLLECTION_SIZE,
   maxDepth: DEFAULT_MAX_DEPTH,
